@@ -28,9 +28,10 @@ Item {
     id: root
 
     property var weatherData: null
+    property var currentDetailsModel: ListModel {}
     property var dayInfo: null
-    property var dayDetailsModel: ListModel {}
-    property var detailsModel: ListModel {}
+    property var singleDayModel: ListModel { }
+    property var forecastDetailsModel: ListModel { }
     property var hourlyChartModel: ListModel {
         ListElement {
                 date: ""
@@ -48,7 +49,7 @@ Item {
                 uvIndex: 0
             }
         }
-    property var plotModel: ListModel {
+    property var dailyChartModel: ListModel {
         ListElement{
                 date: ""
                 iconCode:100
@@ -62,7 +63,68 @@ Item {
                 isDay: false
             }
         }
+    property var dictVals : ({
+        temperature: {
+            name: "Temperature",
+            code: "temperature",
+            icon: "wi-thermometer.svg",
+            unit: Utils.currentTempUnit("", false)
+        },
+        uvIndex: {
+            name: "UV Index",
+            code: "uvIndex",
+            icon: "wi-horizon-alt.svg",
+            unit: ""
+        },
+        pressure: {
+            name: "Pressure",
+            code: "pressure",
+            icon: "wi-barometer.svg",
+            unit: Utils.currentPresUnit("", false)
+        },
+        cloudCover: {
+            name: "Cloud Cover",
+            code: "cloudCover",
+            icon: "wi-cloud.svg",
+            unit: "%"
+        },
+        humidity: {
+            name: "Humidity",
+            code: "humidity",
+            icon: "wi-humidity.svg",
+            unit: "%"
+        },
+        precipitationChance: {
+            name: "Precipitation Chance",
+            code: "precipitationChance",
+            icon: "wi-umbrella.svg",
+            unit: "%"
+        },
+        precipitationRate: {
+            name: "Precipitation Rate",
+            code: "precipitationRate",
+            icon: "wi-rain.svg",
+            unit: Utils.currentPrecipUnit("", true, false)
+        },
+        snowPrecipitationRate: {
+            name: "Snow Precipitation Rate",
+            code: "snowPrecipitationRate",
+            icon: "wi-snow.svg",
+            unit: Utils.currentPrecipUnit("", false, false)
+        },
+        wind: {
+            name: "Wind",
+            code: "wind",
+            icon: "wi-strong-wind.svg",
+            unit: Utils.currentSpeedUnit("", false)
+        }
+    })
 
+    property var textSize: ({
+        normal: plasmoid.configuration.propPointSize,
+        small: plasmoid.configuration.propPointSize - 1,
+        tiny: plasmoid.configuration.propPointSize - 2
+    })
 
     property ListModel forecastModel: ListModel {}
     property string errorStr: ""
@@ -140,8 +202,8 @@ Item {
 
         updatetoolTipSubText()
 
-        plotModel.sync()
-        detailsModel.sync()
+        dailyChartModel.sync()
+        forecastDetailsModel.sync()
         forecastModel.sync()
     }
 
@@ -194,6 +256,7 @@ Item {
         plasmoid.configurationRequiredReason = i18n("Set the weather station to pull data from.")
 
         plasmoid.backgroundHints = PlasmaCore.Types.ConfigurableBackground
+        //forecastDetailsModel.dynamicRoles = true
     }
 
     Timer {

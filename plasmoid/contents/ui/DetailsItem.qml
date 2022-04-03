@@ -236,7 +236,7 @@ GridLayout {
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
             text: i18n("Wind from")
             font {
-                pointSize: plasmoid.configuration.propPointSize - 1
+                pointSize: textSize.small
             }
         }
         PlasmaComponents.Label {
@@ -274,7 +274,7 @@ GridLayout {
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
             text: i18n("WIND & GUST")
             font {
-                pointSize: plasmoid.configuration.propPointSize - 1
+                pointSize: textSize.small
             }
         }
 
@@ -312,7 +312,7 @@ GridLayout {
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
             text: i18n("DEWPOINT")
             font {
-                pointSize: plasmoid.configuration.propPointSize - 1
+                pointSize: textSize.small
             }
         }
 
@@ -350,7 +350,7 @@ GridLayout {
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
             text: i18nc("Precipitation rate", "PRECIP RATE")
             font {
-                pointSize: plasmoid.configuration.propPointSize - 1
+                pointSize: textSize.small
             }
         }
         PlasmaComponents.Label {
@@ -387,7 +387,7 @@ GridLayout {
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
             text: i18n("PRESSURE")
             font {
-                pointSize: plasmoid.configuration.propPointSize - 1
+                pointSize: textSize.small
             }
         }
         PlasmaComponents.Label {
@@ -424,7 +424,7 @@ GridLayout {
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
             text: i18n("HUMIDITY")
             font {
-                pointSize: plasmoid.configuration.propPointSize - 1
+                pointSize: textSize.small
             }
         }
 
@@ -462,7 +462,7 @@ GridLayout {
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
             text: i18nc("Precipitation accumulation", "PRECIP ACCUM")
             font {
-                pointSize: plasmoid.configuration.propPointSize - 1
+                pointSize: textSize.small
             }
         }
         PlasmaComponents.Label {
@@ -499,7 +499,7 @@ GridLayout {
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
             text: i18nc("Ultra Violet", "UV")
             font {
-                pointSize: plasmoid.configuration.propPointSize - 1
+                pointSize: textSize.small
             }
         }
         PlasmaComponents.Label {

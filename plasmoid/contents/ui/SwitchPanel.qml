@@ -50,7 +50,7 @@ ColumnLayout {
 
 
         PlasmaComponents.TabButton {
-            id: weekAheadTabButton
+            id: weekChartTabButton
 
             text: "Week Chart" //todo
         }
@@ -94,8 +94,8 @@ ColumnLayout {
             Layout.alignment: Qt.AlignCenter
         }
 
-        WeekAheadItem {
-            id: weekAheadItem
+        WeekChartItem {
+            id: weekChartItem
 
             Layout.preferredWidth: parent.width
             Layout.preferredHeight: parent.height * 0.75

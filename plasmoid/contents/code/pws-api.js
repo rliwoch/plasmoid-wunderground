@@ -25,34 +25,24 @@
 var modelTemplate = {
 	temperature: {
 		name: "temperature",
-		icon: "wi-thermometer.svg",
 	},
 	cloudCover: {
 		name: "cloudCover",
-		icon: "wi-cloud.svg",
-		units: "%"
 	},
 	humidity: {
 		name: "humidity",
-		icon: "wi-humidity.svg",
-		units: "%"
 	},
 	precipitationChance: {
 		name: "precipitationChance",
-		icon: "wi-umbrella.svg",
-		units: "%"
 	},
 	precipitationRate: {
 		name: "precipitationRate",
-		icon: "wi-rain.svg",
 	},
 	snowPrecipitationRate: {
 		name: "snowPrecipitationRate",
-		icon: "wi-snow.svg",
 	},
 	wind: {
 		name: "wind",
-		icon: "wi-strong-wind.svg",
 	}
 }
 var modelDict = {
@@ -211,8 +201,8 @@ function getForecastData(periodInterval, periodLength) {
 function processDailyForecasts(forecasts) {
 	console.log("------------- PROCESSING DAILY FORECASTS ---------------");
 	forecastModel.clear();
-	detailsModel.clear();
-	plotModel.clear();
+	forecastDetailsModel.clear();
+	dailyChartModel.clear();
 
 	dayInfo = extractGenericInfo(forecasts[0]);
 
@@ -277,8 +267,8 @@ function processDailyForecasts(forecasts) {
 			? day["golf_category"]
 			: "Don't play golf at night.",
 			sunrise: extractTime(forecast["sunrise"], true),
-							 sunset: extractTime(forecast["sunset"], true),
-							 fullForecast: forecast,
+			sunset: extractTime(forecast["sunset"], true),
+			fullForecast: forecast,
 		});
 	}
 
@@ -288,8 +278,8 @@ function processDailyForecasts(forecasts) {
 	currDayLow = forecastModel.get(0).low;
 
 	// Hack to update "on hover" details in the Forecast view when plasmoid is first loaded
-	dayDetailsModel.clear()
-    dayDetailsModel.append(Object.values(detailsModel.get(0)))
+	singleDayModel.clear()
+    singleDayModel.append(Object.values(forecastDetailsModel.get(0)))
 
 	printDebug("[pws-api.js] Got new forecast data");
 
@@ -431,7 +421,7 @@ function addLeadingZeros(integer) {
 }
 
 function handleMissingData(timeOfDay, dataPoint) {
-	return timeOfDay !== undefined ? timeOfDay[dataPoint] : "n/a";
+	return timeOfDay !== undefined ? timeOfDay[dataPoint] : -1000;
 }
 
 function createHourlyDetailModel(forecasts){
@@ -476,13 +466,13 @@ function createDetailModel(forecastElem) {
 
 	console.log("DAILY TEMP MODEL: " + JSON.stringify(newModel));
 
-	createPlotModel(date, newModel, day !== undefined, nightIconCode, dayIconCode);
+	createDailyChartModel(date, newModel, day !== undefined, nightIconCode, dayIconCode);
 
-	detailsModel.append(newModel);
+	forecastDetailsModel.append(newModel);
 
 }
 
-function createPlotModel(date, detailsModel, hasDay, nightIconCode, dayIconCode) {
+function createDailyChartModel(date, forecastDetailsModel, hasDay, nightIconCode, dayIconCode) {
 	var day = {
 		date: addLeadingZeros(date.getDate()) + "/" + (addLeadingZeros(date.getMonth() + 1)),
 		time: "12:00",
@@ -497,7 +487,7 @@ function createPlotModel(date, detailsModel, hasDay, nightIconCode, dayIconCode)
 	};
 
 
-	Object.values(detailsModel).forEach(condition => {
+	Object.values(forecastDetailsModel).forEach(condition => {
 		if(hasDay) {
 			day[condition.name] = condition.dayVal;
 		}
@@ -506,8 +496,8 @@ function createPlotModel(date, detailsModel, hasDay, nightIconCode, dayIconCode)
 
 	if(hasDay){
 		console.log("DAILY MODEL: " + JSON.stringify(day));
-		plotModel.append(day);
+		dailyChartModel.append(day);
 	}
 	console.log("DAILY MODEL: " + JSON.stringify(night));
-	plotModel.append(night);
+	dailyChartModel.append(night);
 }

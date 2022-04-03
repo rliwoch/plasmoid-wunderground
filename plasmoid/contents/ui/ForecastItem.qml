@@ -32,11 +32,11 @@ GridLayout{
     rows: 1
     id: forecastScroller
 
-    property var itemEl: forecastListView.get(1)
+    property int itemEl: 0
     property int cardHeight: 130
     property int cardWidth: 75
 
-    property int detailsValueSize: plasmoid.configuration.propPointSize - 1
+    //property int detailsValueSize: textSize.small
     property var currentDate: new Date()
     property string currentIcon: ""
     property string currentNarrativeType: "day"
@@ -146,8 +146,8 @@ GridLayout{
                                 itemEl = index
                                 currentDate = new Date(forecastModel.get(itemEl).fullForecast["fcst_valid_local"])
 
-                                dayDetailsModel.clear()
-                                dayDetailsModel.append(Object.values(detailsModel.get(index)))
+                                singleDayModel.clear()
+                                singleDayModel.append(Object.values(forecastDetailsModel.get(index)))
 
                                 currentIcon = iconCode
                                 parent.state = "expanded"
@@ -224,7 +224,7 @@ GridLayout{
                 PlasmaComponents.Label {
                     id: dateHeading
                     Layout.preferredWidth: forecastScroller.width / 3 - dayLabel.width
-                    font.pointSize: plasmoid.configuration.propPointSize - 1
+                    font.pointSize: textSize.small
 
                     elide: Text.ElideRight
                     text: Qt.locale().standaloneMonthName(currentDate.getMonth())
@@ -269,7 +269,7 @@ GridLayout{
                             horizontalAlignment: Text.AlignHCenter
                             text: Api.extractTime(forecastModel.get(itemEl).fullForecast.sunrise, false)
                             font {
-                                pointSize: plasmoid.configuration.propPointSize -1
+                                pointSize: textSize.small
                             }
                         }
                     }
@@ -297,7 +297,7 @@ GridLayout{
                             text: Api.extractTime(forecastModel.get(itemEl).fullForecast.sunset, false)
                             font {
                                 //weight: Font.Bold
-                                pointSize: plasmoid.configuration.propPointSize - 1
+                                pointSize: textSize.small
                             }
                         }
                     }
@@ -324,7 +324,7 @@ GridLayout{
                             horizontalAlignment: Text.AlignHCenter
                             text: Api.extractTime(forecastModel.get(itemEl).fullForecast.moonrise, false)
                             font {
-                                pointSize: plasmoid.configuration.propPointSize - 1
+                                pointSize: textSize.small
                             }
                         }
                     }
@@ -351,7 +351,7 @@ GridLayout{
                             horizontalAlignment: Text.AlignHCenter
                             text: Api.extractTime(forecastModel.get(itemEl).fullForecast.moonset, false)
                             font {
-                                pointSize: plasmoid.configuration.propPointSize - 1
+                                pointSize: textSize.small
                             }
                         }
                     }
@@ -384,7 +384,7 @@ GridLayout{
                         text: forecastModel.get(itemEl).fullForecast.lunar_phase
                         font {
                             weight: Font.Bold
-                            pointSize: plasmoid.configuration.propPointSize - 1
+                            pointSize: textSize.small
                         }
                     }
 
@@ -401,17 +401,17 @@ GridLayout{
             Layout.rightMargin: units.gridUnit
 
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-            Layout.minimumHeight: (plasmoid.configuration.propPointSize - 1) * 6
+            Layout.minimumHeight: (plasmoid.configuration.propPointSize) * 5
             id: narrativeLabel
 
-            //todo handle missing day
-            text: "<b>"+ currentNarrativeType.charAt(0).toUpperCase() + currentNarrativeType.slice(1) + ":</b> " + forecastModel.get(itemEl).fullForecast[currentNarrativeType].narrative
+            text: forecastModel.get(itemEl).fullForecast.narrative
             font {
+                weight: Font.Bold
                 italic: false
-                pointSize: plasmoid.configuration.propPointSize - 1
+                pointSize: plasmoid.configuration.propPointSize
             }
             wrapMode: Text.WordWrap
-            verticalAlignment: Text.AlignTop
+            verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
         }
 
@@ -427,7 +427,7 @@ GridLayout{
                 width: parent.width
 
                 orientation: ListView.Horizontal
-                model: dayDetailsModel
+                model: singleDayModel
                 delegate: detailsDelegate
                 section.property: "size"
                 section.criteria: ViewSection.FullString
@@ -440,14 +440,16 @@ GridLayout{
 
             ColumnLayout {
                 id: weatherDelegateLayout
-                width: detailsListView.width/7
+                width: detailsListView.width / 7
+
+                property var unitInterval: (name === "precipitationRate" || name === "snowPrecipitationRate" ? "/12h" : "")
 
                 PlasmaCore.SvgItem {
                     id: detailsIcon
                     Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
                     svg: PlasmaCore.Svg {
                         id: detailsIconSvg
-                        imagePath: plasmoid.file("", "icons/fullRepresentation/" + icon)
+                        imagePath: plasmoid.file("", "icons/fullRepresentation/" + dictVals[name].icon)
                     }
 
                     Layout.preferredWidth: parent.width/3
@@ -459,10 +461,10 @@ GridLayout{
                     Layout.fillWidth: true
                     Layout.fillHeight: true
 
-                    text: Utils.displayUnits(dayVal, units, name)
+                    text: dayVal == -1000 ? "n/a" : `${dayVal} ${dictVals[name].unit}${parent.unitInterval}`
                     font {
                         //weight: Font.Bold
-                        pointSize: detailsValueSize
+                        pointSize: textSize.small
                     }
                 }
                 PlasmaComponents.Label {
@@ -472,9 +474,9 @@ GridLayout{
                     Layout.fillHeight: true
                     opacity: 0.75
 
-                    text: Utils.displayUnits(nightVal, units, name)
+                    text: `${nightVal} ${dictVals[name].unit}${parent.unitInterval}`
                     font {
-                        pointSize: detailsValueSize
+                        pointSize: textSize.small
                     }
                 }
             }

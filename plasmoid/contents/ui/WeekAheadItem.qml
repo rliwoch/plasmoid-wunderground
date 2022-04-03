@@ -38,49 +38,10 @@ import "../code/pws-api.js" as Api
 ColumnLayout{
     id: todayRoot
 
-    property string currentLegendText: "Temperature"
-    property var staticRange: ["wi-cloud.svg","wi-humidity.svg","wi-umbrella.svg"]
+    property string currentLegendText: "temperature"
+    property var staticRange: ["cloudCover","humidity","precipitationChance"]
 
-
-    ListModel {
-        id: iconsModel
-
-        ListElement {
-            name: "Temperature"
-            code: "temperature"
-            icon: "wi-thermometer.svg"
-        }
-        ListElement {
-            name: "Cloud Cover"
-            code: "cloudCover"
-            icon: "wi-cloud.svg"
-        }
-        ListElement {
-            name: "Humidity"
-            code: "humidity"
-            icon: "wi-humidity.svg"
-        }
-        ListElement {
-            name: "Precipitation Chance"
-            code: "precipitationChance"
-            icon: "wi-umbrella.svg"
-        }
-        ListElement {
-            name: "Precipitation Rate"
-            code: "precipitationRate"
-            icon: "wi-rain.svg"
-        }
-        ListElement {
-            name: "Snow Precipitation Rate"
-            code: "snowPrecipitationRate"
-            icon: "wi-snow.svg"
-        }
-        ListElement {
-            name: "Wind"
-            code: "wind"
-            icon: "wi-strong-wind.svg"
-        }
-    }
+    property var availableReadings: [ "temperature", "cloudCover", "humidity", "precipitationChance", "precipitationRate", "snowPrecipitationRate", "wind"]
 
     ColumnLayout {
         Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
@@ -104,16 +65,15 @@ ColumnLayout{
                 smooth: true
 
                 valueSources: [
-                Charts.ModelSource { roleName: "temperature"; model: plotModel }
+                Charts.ModelSource { roleName: "temperature"; model: dailyChartModel }
                 ]
 
 
                 yRange.automatic: true
                 yRange.increment: 5
 
-                colorSource: Charts.SingleValueSource { value: PlasmaCore.Theme.buttonTextColor } //Charts.ArraySource { array: ["white", "grey", "blue"] }
+                colorSource: Charts.SingleValueSource { value: PlasmaCore.Theme.buttonTextColor }
                 fillColorSource: Charts.ColorGradientSource {
-                    //baseColor: PlasmaCore.Theme.complementaryFocusColor
                     baseColor: PlasmaCore.Theme.complementaryFocusColor
                     itemCount: 3
                 }
@@ -139,7 +99,6 @@ ColumnLayout{
                             text: pointItem.Charts.LineChart.value
 
                             horizontalAlignment: Text.AlignHCenter
-                            //font.weight: Font.Light
                             font.pointSize: plasmoid.configuration.propPointSize - 2
                         }
 
@@ -231,8 +190,8 @@ ColumnLayout{
 
 
                     text:
-                    "<b>" + plotModel.get(Charts.AxisLabels.label).date + "</b>"
-                    //+ "<br\>" + plotModel.get(Charts.AxisLabels.label).time
+                    "<b>" + dailyChartModel.get(Charts.AxisLabels.label).date + "</b>"
+                    //+ "<br\>" + dailyChartModel.get(Charts.AxisLabels.label).time
                 }
                 source: Charts.ChartAxisSource {
                     chart: lineChart;
@@ -261,10 +220,7 @@ ColumnLayout{
 
                 delegate:
                 PlasmaCore.SvgItem {
-                    property var weatherElement: plotModel.get(Charts.AxisLabels.label)
-
-
-                    //property var index: Charts.AxisLabels !== undefined ? Charts.AxisLabels.label : 0
+                    property var weatherElement: dailyChartModel.get(Charts.AxisLabels.label)
 
                     opacity: weatherElement.isDay ? 1 : 0.25
                     id: xAxisLabelWeatherDayId
@@ -298,8 +254,10 @@ ColumnLayout{
                     id: legendLabel
                     anchors.centerIn: parent
 
+                    property var unitInterval: (currentLegendText === "precipitationRate" || currentLegendText === "snowPrecipitationRate" ? "/12h" : "")
+
                     Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                    text: currentLegendText + " [" + Utils.getUnitForLabel(currentLegendText,false) + "]";
+                    text: `${dictVals[currentLegendText].name} [${dictVals[currentLegendText].unit}${unitInterval}]`
                     font {
                         weight: Font.Bold
                         pointSize: plasmoid.configuration.propPointSize - 1
@@ -317,7 +275,7 @@ ColumnLayout{
 
                 width: units.gridUnit * 2
                 height: lineChart.height
-                model: iconsModel
+                model: availableReadings
                 highlight: Rectangle {
                     color: PlasmaCore.Theme.complementaryFocusColor
                     Layout.fillWidth:true
@@ -334,7 +292,7 @@ ColumnLayout{
 
                         svg: PlasmaCore.Svg {
                             id: iconSvg
-                            imagePath: plasmoid.file("", "icons/fullRepresentation/" + icon)
+                            imagePath: plasmoid.file("", "icons/fullRepresentation/" + dictVals[availableReadings[index]].icon)
                         }
 
                         Layout.minimumWidth: units.gridUnit * 2
@@ -348,19 +306,18 @@ ColumnLayout{
 
                             onEntered: {
                                 iconsListView.currentIndex = index
-                                //console.log(icon)
                             }
                             onPressed: {
-                                currentLegendText = name
+                                currentLegendText = availableReadings[index]
                                 lineChart.nameSource.value = currentLegendText
-                                if(staticRange.includes(icon)) {
+                                if(staticRange.includes(currentLegendText)) {
                                     lineChart.yRange.automatic = false
                                     lineChart.yRange.from = 0
                                     lineChart.yRange.to = 100
                                 } else {
                                     lineChart.yRange.automatic = true
                                 }
-                                lineChart.valueSources[0].roleName = code
+                                lineChart.valueSources[0].roleName = currentLegendText
                             }
                         }
                     }

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021  Kevin Donnelly
  * Copyright 2022  Rafal Liwoch
  *
  * This program is free software; you can redistribute it and/or
@@ -40,8 +41,7 @@ ColumnLayout{
     property string currentLegendText: "temperature"
     property var staticRange: ["cloudCover","humidity","precipitationChance"]
 
-    property var availableReadings: [ "temperature","uvIndex","pressure","cloudCover","humidity","precipitationChance","precipitationRate","snowPrecipitationRate","wind"]
-
+    property var availableReadings: [ "temperature", "cloudCover", "humidity", "precipitationChance", "precipitationRate", "snowPrecipitationRate", "wind"]
 
     ColumnLayout {
         Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
@@ -65,7 +65,7 @@ ColumnLayout{
                 smooth: true
 
                 valueSources: [
-                Charts.ModelSource { roleName: "temperature"; model: hourlyChartModel }
+                Charts.ModelSource { roleName: "temperature"; model: dailyChartModel }
                 ]
 
 
@@ -85,10 +85,22 @@ ColumnLayout{
                     id: pointItem
                     Rectangle {
                         anchors.centerIn: parent
-                        width: textSize.normal;
+                        width: plasmoid.configuration.propPointSize;
                         height: width
                         radius: width / 2;
                         color: parent.Charts.LineChart.color
+
+
+                        PlasmaComponents.Label {
+                            anchors.right: parent.left
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.rightMargin: (textSize.tiny)/2
+
+                            text: pointItem.Charts.LineChart.value
+
+                            horizontalAlignment: Text.AlignHCenter
+                            font.pointSize: textSize.tiny
+                        }
 
                         MouseArea {
                             id: mouse
@@ -127,7 +139,7 @@ ColumnLayout{
                 chart: lineChart
                 opacity:1
 
-                major.frequency: 3
+                major.frequency: 2
                 major.lineWidth: 1
                 major.color: Qt.rgba(0.8, 0.8, 0.8, 0.3)
 
@@ -178,7 +190,8 @@ ColumnLayout{
 
 
                     text:
-                    "<b>" + hourlyChartModel.get(Charts.AxisLabels.label).time + "</b>"
+                    "<b>" + dailyChartModel.get(Charts.AxisLabels.label).date + "</b>"
+                    //+ "<br\>" + dailyChartModel.get(Charts.AxisLabels.label).time
                 }
                 source: Charts.ChartAxisSource {
                     chart: lineChart;
@@ -195,7 +208,7 @@ ColumnLayout{
                 source: Charts.ChartAxisSource {
                     chart: lineChart;
                     axis: Charts.ChartAxisSource.XAxis;
-                    itemCount: 8
+                    itemCount: 15
                 }
 
                 anchors {
@@ -207,8 +220,9 @@ ColumnLayout{
 
                 delegate:
                 PlasmaCore.SvgItem {
-                    property var weatherElement: hourlyChartModel.get(Charts.AxisLabels.label)
+                    property var weatherElement: dailyChartModel.get(Charts.AxisLabels.label)
 
+                    opacity: weatherElement.isDay ? 1 : 0.25
                     id: xAxisLabelWeatherDayId
 
                     svg: PlasmaCore.Svg {
@@ -240,7 +254,7 @@ ColumnLayout{
                     id: legendLabel
                     anchors.centerIn: parent
 
-                    property var unitInterval: (currentLegendText === "precipitationRate" || currentLegendText === "snowPrecipitationRate" ? "/h" : "")
+                    property var unitInterval: (currentLegendText === "precipitationRate" || currentLegendText === "snowPrecipitationRate" ? "/12h" : "")
 
                     Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
                     text: `${dictVals[currentLegendText].name} [${dictVals[currentLegendText].unit}${unitInterval}]`
@@ -292,21 +306,14 @@ ColumnLayout{
 
                             onEntered: {
                                 iconsListView.currentIndex = index
-                                //console.log(icon)
                             }
                             onPressed: {
-                                currentLegendText = availableReadings[index];
+                                currentLegendText = availableReadings[index]
                                 lineChart.nameSource.value = currentLegendText
-
                                 if(staticRange.includes(currentLegendText)) {
                                     lineChart.yRange.automatic = false
                                     lineChart.yRange.from = 0
                                     lineChart.yRange.to = 100
-                                } else if(currentLegendText == "pressure") {
-                                    var pressureUnit = Utils.currentPresUnit("", false);
-                                    lineChart.yRange.automatic = false
-                                    lineChart.yRange.from = pressureUnit == "hPa" ? 970 : Math.floor(970*0.03)
-                                    lineChart.yRange.to = pressureUnit == "hPa" ? 1040 : Math.floor(1040*0.03)
                                 } else {
                                     lineChart.yRange.automatic = true
                                 }
@@ -318,6 +325,7 @@ ColumnLayout{
             }
         }
     }
+
 }
 
 
