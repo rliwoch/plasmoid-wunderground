@@ -1,5 +1,6 @@
 /*
  * Copyright 2021  Kevin Donnelly
+ * Copyright 2022  Rafal Liwoch
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -36,9 +37,22 @@ ColumnLayout {
         }
 
         PlasmaComponents.TabButton {
+            id: dayChartTabButton
+
+            text: "Day Chart" //todo
+        }
+
+        PlasmaComponents.TabButton {
             id: forecastTabButton
 
             text: i18n("Forecast")
+        }
+
+
+        PlasmaComponents.TabButton {
+            id: weekAheadTabButton
+
+            text: "Week Chart" //todo
         }
     }
 
@@ -62,8 +76,26 @@ ColumnLayout {
             Layout.alignment: Qt.AlignCenter
         }
 
+        DayChartItem {
+            id: dayChartItem
+
+            Layout.preferredWidth: parent.width
+            Layout.preferredHeight: parent.height * 0.75
+
+            Layout.alignment: Qt.AlignCenter
+        }
+
         ForecastItem {
             id: forecastItem
+
+            Layout.preferredWidth: parent.width
+            Layout.preferredHeight: parent.height * 0.75
+
+            Layout.alignment: Qt.AlignCenter
+        }
+
+        WeekAheadItem {
+            id: weekAheadItem
 
             Layout.preferredWidth: parent.width
             Layout.preferredHeight: parent.height * 0.75

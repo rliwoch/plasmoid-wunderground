@@ -1,5 +1,6 @@
 /*
  * Copyright 2021  Kevin Donnelly
+ * Copyright 2022  Rafal Liwoch
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -28,6 +29,45 @@ Item {
 
     property var weatherData: null
     property var dayInfo: null
+    property var dayDetailsModel: ListModel {}
+    property var detailsModel: ListModel {}
+    property var hourlyChartModel: ListModel {
+        Component.onCompleted: {
+            dynamicRoles: true
+            append({
+                date: "",
+                time: "",
+                iconCode:0,
+                temperature: 0,
+                cloudCover: 0,
+                humidity: 0,
+                precipitationChance: 0,
+                precipitationRate: 0,
+                snowPrecipitationRate: 0,
+                wind: 0,
+                golfIndex: 0,
+                pressure: 0,
+                uvIndex: 0
+            })
+        }
+    }
+    property var plotModel: ListModel {
+        Component.onCompleted: {
+            dynamicRoles: true
+            append({
+                date: "",
+                iconCode:0,
+                temperature: 0,
+                cloudCover: 0,
+                humidity: 0,
+                precipitationChance: 0,
+                precipitationRate: 0,
+                snowPrecipitationRate: 0,
+                wind: 0,
+                isDay: false
+            })
+        }
+    }
 
     property ListModel forecastModel: ListModel {}
     property string errorStr: ""
@@ -60,8 +100,10 @@ Item {
     property bool isRain: true
 
     property Component fr: FullRepresentation {
-        Layout.preferredWidth: 600
-        Layout.preferredHeight: 530
+        Layout.minimumWidth: units.gridUnit * 16 *2.6
+        Layout.preferredWidth: units.gridUnit * 16 *2.6
+        Layout.minimumHeight: units.gridUnit * 12 *2.6
+        Layout.preferredHeight: units.gridUnit * 12 *2.6
     }
 
     property Component cr: CompactRepresentation {
@@ -81,7 +123,8 @@ Item {
         printDebug("Getting new weather data")
 
         StationAPI.getCurrentData()
-        StationAPI.getForecastData()
+        StationAPI.getForecastData("daily", 7);
+        StationAPI.getForecastData("hourly", 24)
 
         updatetoolTipSubText()
     }
@@ -97,9 +140,14 @@ Item {
     function updateForecastData() {
         printDebug("Getting new forecast data")
 
-        StationAPI.getForecastData()
+        StationAPI.getForecastData("daily", 7);
+        StationAPI.getForecastData("hourly", 24);
 
         updatetoolTipSubText()
+
+        plotModel.sync()
+        detailsModel.sync()
+        forecastModel.sync()
     }
 
     function updatetoolTipSubText() {

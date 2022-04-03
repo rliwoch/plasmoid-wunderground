@@ -1,5 +1,6 @@
 /*
  * Copyright 2021  Kevin Donnelly
+ * Copyright 2022  Rafal Liwoch
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -403,4 +404,107 @@ function getMoonPhaseIcon(phaseName) {
 	};
 
 	return moonPhasesDict[phaseName];
+}
+
+function displayUnits(data, units, dataPointName) {
+	if(data === undefined) {
+		return "n/a"
+	}
+	if(units === undefined) {
+		switch(dataPointName) {
+			case "temperature":
+				return currentTempUnit(data, true);
+			case "precipitationRate":
+				return currentPrecipUnit(data, true, true) + "/h";
+			case "snowPrecipitationRate":
+				return currentPrecipUnit(data, false, true) + "/h";
+			case "wind":
+				return currentSpeedUnit(data, true);
+			default:
+				return data;
+		}
+	} else {
+		return data + units;
+	}
+}
+
+function createDetailModel(elemIndex) {
+	console.log("forecast index is: " +  elemIndex)
+	var forecastElem = forecastModel.get(itemEl).fullForecast
+
+	console.log("forecast elementis is: " + forecastElem)
+	console.log("temp" + forecastElem["day"].temp)
+	detailsModel = [
+		{
+			name: "temperature",
+			icon: "wi-thermometer.svg",
+			dayVal: forecastElem["day"].temp,
+			nightVal: forecastElem["night"].temp
+		},
+		{
+			name: "cloudCover",
+			icon: "wi-cloud.svg",
+			dayVal: forecastElem["day"].clds,
+			nightVal: forecastElem["night"].clds
+		},
+		{
+			name: "humidity",
+			icon: "wi-humidity.svg",
+			dayVal: forecastElem["day"].rh,
+			nightVal: forecastElem["night"].rh
+		},
+		{
+			name: "precipitationChance",
+			icon: "wi-umbrella.svg",
+			dayVal: forecastElem["day"].pop,
+			nightVal: forecastElem["night"].pop
+		},
+		{
+			name: "precipitationRate",
+			icon: "wi-rain.svg",
+			dayVal: currentPrecipUnit(forecastElem["day"].qpf, true),
+			nightVal: currentPrecipUnit(forecastElem["night"].qpf, true)
+		},
+		{
+			name: "snowPrecipitationRate",
+			icon: "wi-snow.svg",
+			dayVal: currentPrecipUnit(forecastElem["day"].snow_qpf, false),
+			nightVal: currentPrecipUnit(forecastElem["night"].snow_qpf, false)
+		},
+		{
+			name: "wind",
+			icon: "wi-strong-wind.svg",
+			dayVal: currentSpeedUnit(forecastElem["day"].wspd),
+			nightVal: currentSpeedUnit(forecastElem["night"].wspd)
+		}
+	]
+
+}
+
+
+function getUnitForLabel(labelText, isDailyForecast) {
+	switch(labelText) {
+		case "Temperature":
+			return currentTempUnit("", false);
+		case "Cloud Cover":
+			return "%";
+		case "Humidity":
+			return "%";
+		case "Precipitation Chance":
+			return "%";
+		case "Precipitation Rate":
+			var val = currentPrecipUnit("", true, false);
+			val += isDailyForecast? "/h":"/12h";
+			return  val;
+		case "Snow Precipitation Rate":
+			var val = currentPrecipUnit("", false, false);
+			val += isDailyForecast? "/h":"/12h";
+			return val;
+		case "Wind":
+			return currentSpeedUnit("", false);
+		case "Pressure":
+			return currentPresUnit("", false);
+		default:
+			return "";
+	}
 }
