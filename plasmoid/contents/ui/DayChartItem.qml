@@ -261,7 +261,6 @@ ColumnLayout{
                 delegate:
                 PlasmaCore.SvgItem {
                     property var weatherElement: hourlyChartModel.get(Charts.AxisLabels.label)
-                    property var index: Charts.AxisLabels.label
 
                     id: xAxisLabelWeatherDayId
 
@@ -287,7 +286,7 @@ ColumnLayout{
                 width: legendLabel.width * 1.25
                 height: legendLabel.height * 1
 
-                color: PlasmaCore.Theme.buttonHoverColor
+                color: PlasmaCore.Theme.complementaryFocusColor
                 radius: 2
 
                 PlasmaComponents.Label {
@@ -315,7 +314,7 @@ ColumnLayout{
                 height: lineChart.height
                 model: iconsModel
                 highlight: Rectangle {
-                    color: PlasmaCore.Theme.buttonHoverColor
+                    color: PlasmaCore.Theme.complementaryFocusColor
                     Layout.fillWidth:true
                     radius: 2
                 }

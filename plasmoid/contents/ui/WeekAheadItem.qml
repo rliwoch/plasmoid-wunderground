@@ -82,9 +82,6 @@ ColumnLayout{
         }
     }
 
-    Component.onCompleted: {console.log("SHORT: " + JSON.stringify(plotIconCodes))}
-
-
     ColumnLayout {
         Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
         Layout.leftMargin: 3  * units.gridUnit
@@ -94,11 +91,9 @@ ColumnLayout{
 
         Item {
             id: mainChartItem
-            //Layout.fillHeight: true
             Layout.fillWidth: true
 
             Layout.minimumHeight:  units.gridUnit * 7 *2.6
-            //Layout.minimumHeight: 400
 
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
 
@@ -118,7 +113,7 @@ ColumnLayout{
 
                 colorSource: Charts.SingleValueSource { value: PlasmaCore.Theme.buttonTextColor } //Charts.ArraySource { array: ["white", "grey", "blue"] }
                 fillColorSource: Charts.ColorGradientSource {
-                    //baseColor: PlasmaCore.Theme.buttonHoverColor
+                    //baseColor: PlasmaCore.Theme.complementaryFocusColor
                     baseColor: PlasmaCore.Theme.complementaryFocusColor
                     itemCount: 3
                 }
@@ -267,9 +262,10 @@ ColumnLayout{
                 delegate:
                 PlasmaCore.SvgItem {
                     property var weatherElement: plotModel.get(Charts.AxisLabels.label)
-                    property var index: Charts.AxisLabels.label
 
-                    //opacity: Charts.AxisLabels.label % 2 ? 1 : 0
+
+                    //property var index: Charts.AxisLabels !== undefined ? Charts.AxisLabels.label : 0
+
                     opacity: weatherElement.isDay ? 1 : 0.25
                     id: xAxisLabelWeatherDayId
 
@@ -295,7 +291,7 @@ ColumnLayout{
                 width: legendLabel.width * 1.25
                 height: legendLabel.height * 1
 
-                color: PlasmaCore.Theme.buttonHoverColor
+                color: PlasmaCore.Theme.complementaryFocusColor
                 radius: 2
 
                 PlasmaComponents.Label {
@@ -323,7 +319,7 @@ ColumnLayout{
                 height: lineChart.height
                 model: iconsModel
                 highlight: Rectangle {
-                    color: PlasmaCore.Theme.buttonHoverColor
+                    color: PlasmaCore.Theme.complementaryFocusColor
                     Layout.fillWidth:true
                     radius: 2
                 }

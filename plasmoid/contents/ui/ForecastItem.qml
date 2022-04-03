@@ -50,7 +50,6 @@ GridLayout{
         columns: 6
         rows: 4
 
-        //Layout.topMargin: units.medium
         Layout.columnSpan: 8
         Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
         Layout.topMargin: 2  * units.gridUnit
@@ -64,8 +63,6 @@ GridLayout{
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
             Layout.columnSpan: 6
             Layout.fillWidth: true
-            //Layout.fillHeight: true
-
 
             Layout.minimumHeight: 140
 
@@ -80,19 +77,9 @@ GridLayout{
                 model: forecastModel
                 delegate: weatherDelegate
                 highlight: Rectangle {
-                    gradient: Gradient {
-                        GradientStop { position: 0.0; color: PlasmaCore.Theme.backgroundColor }
-                        GradientStop { position: 1.0; color: PlasmaCore.Theme.buttonHoverColor }
-                    }
-                    //color: PlasmaCore.Theme.backgroundColor
-                    //border.color: PlasmaCore.Theme.buttonHoverColor
-                    //border.width: 3
+                    color:PlasmaCore.Theme.complementaryFocusColor
                     Layout.fillWidth:true
                     radius: 5
-                    //Text {
-                    //anchors.centerIn: parent
-                    //color: 'white'
-                    //}
                 }
                 focus: true
             }
@@ -117,7 +104,6 @@ GridLayout{
                 Transition {
                     NumberAnimation {
                         duration: 200;
-                        //properties: "height,width,anchors.rightMargin,anchors.topMargin,opacity,contentY"
                     }
                 }
                 ]
@@ -202,7 +188,7 @@ GridLayout{
 
             Layout.minimumHeight: dateField.height
 
-            color: PlasmaCore.Theme.buttonHoverColor
+            color: PlasmaCore.Theme.complementaryFocusColor
 
             Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
 
@@ -488,7 +474,6 @@ GridLayout{
 
                     text: Utils.displayUnits(nightVal, units, name)
                     font {
-                        //weight: Font.Bold
                         pointSize: detailsValueSize
                     }
                 }

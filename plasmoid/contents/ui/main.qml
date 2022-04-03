@@ -32,42 +32,37 @@ Item {
     property var dayDetailsModel: ListModel {}
     property var detailsModel: ListModel {}
     property var hourlyChartModel: ListModel {
-        Component.onCompleted: {
-            dynamicRoles: true
-            append({
-                date: "",
-                time: "",
-                iconCode:0,
-                temperature: 0,
-                cloudCover: 0,
-                humidity: 0,
-                precipitationChance: 0,
-                precipitationRate: 0,
-                snowPrecipitationRate: 0,
-                wind: 0,
-                golfIndex: 0,
-                pressure: 0,
+        ListElement {
+                date: ""
+                time: ""
+                iconCode:100
+                temperature: 0
+                cloudCover: 0
+                humidity: 0
+                precipitationChance: 0
+                precipitationRate: 0
+                snowPrecipitationRate: 0
+                wind: 0
+                golfIndex: 0
+                pressure: 0
                 uvIndex: 0
-            })
+            }
         }
-    }
     property var plotModel: ListModel {
-        Component.onCompleted: {
-            dynamicRoles: true
-            append({
-                date: "",
-                iconCode:0,
-                temperature: 0,
-                cloudCover: 0,
-                humidity: 0,
-                precipitationChance: 0,
-                precipitationRate: 0,
-                snowPrecipitationRate: 0,
-                wind: 0,
+        ListElement{
+                date: ""
+                iconCode:100
+                temperature: 0
+                cloudCover: 0
+                humidity: 0
+                precipitationChance: 0
+                precipitationRate: 0
+                snowPrecipitationRate: 0
+                wind: 0
                 isDay: false
-            })
+            }
         }
-    }
+
 
     property ListModel forecastModel: ListModel {}
     property string errorStr: ""
@@ -87,8 +82,8 @@ Item {
     // QML does not let you property bind items part of ListModels.
     // The TopPanel shows the high/low values which are items part of forecastModel
     // These are updated in pws-api.js to overcome that limitation
-    property int currDayHigh: null
-    property int currDayLow: null
+    property int currDayHigh: 0
+    property int currDayLow: 0
 
     property bool showForecast: false
 
@@ -124,7 +119,7 @@ Item {
 
         StationAPI.getCurrentData()
         StationAPI.getForecastData("daily", 7);
-        StationAPI.getForecastData("hourly", 24)
+        StationAPI.getForecastData("hourly", 24);
 
         updatetoolTipSubText()
     }

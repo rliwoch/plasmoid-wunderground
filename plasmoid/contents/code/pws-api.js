@@ -209,6 +209,7 @@ function getForecastData(periodInterval, periodLength) {
 }
 
 function processDailyForecasts(forecasts) {
+	console.log("------------- PROCESSING DAILY FORECASTS ---------------");
 	forecastModel.clear();
 	detailsModel.clear();
 	plotModel.clear();
@@ -286,9 +287,14 @@ function processDailyForecasts(forecasts) {
 	currDayHigh = forecastModel.get(0).high;
 	currDayLow = forecastModel.get(0).low;
 
+	// Hack to update "on hover" details in the Forecast view when plasmoid is first loaded
+	dayDetailsModel.clear()
+    dayDetailsModel.append(Object.values(detailsModel.get(0)))
+
 	printDebug("[pws-api.js] Got new forecast data");
 
 	showForecast = true;
+	console.log("------------- DAILY FORECASTS FINISHED ---------------");
 }
 
 function processHourlyForecasts(forecast) {
@@ -468,55 +474,7 @@ function createDetailModel(forecastElem) {
 		newModel[reading.name].nightVal = handleMissingData(night, modelDict[reading.name]);
 	});
 
-	console.log("NEW MODEL: " + JSON.stringify(newModel));
-
-	// 	var model = {
-	// 		temperature: {
-	// 			name: "temperature",
-	// 			icon: "wi-thermometer.svg",
-	// 			dayVal: handleMissingData(day, "temp"),
-	// 			nightVal: handleMissingData(night, "temp")
-	// 		},
-	// 		cloudCover: {
-	// 			name: "cloudCover",
-	// 			icon: "wi-cloud.svg",
-	// 			dayVal: handleMissingData(day, "clds"),
-	// 			nightVal: handleMissingData(night, "clds"),
-	// 			units: "%"
-	// 		},
-	// 		humidity: {
-	// 			name: "humidity",
-	// 			icon: "wi-humidity.svg",
-	// 			dayVal: handleMissingData(day, "rh"),
-	// 			nightVal: handleMissingData(night, "rh"),
-	// 			units: "%"
-	// 		},
-	// 		precipitationChance: {
-	// 			name: "precipitationChance",
-	// 			icon: "wi-umbrella.svg",
-	// 			dayVal: handleMissingData(day, "pop"),
-	// 			nightVal: handleMissingData(night, "pop"),
-	// 			units: "%"
-	// 		},
-	// 		precipitationRate: {
-	// 			name: "precipitationRate",
-	// 			icon: "wi-rain.svg",
-	// 			dayVal: handleMissingData(day, "qpf"),
-	// 			nightVal: handleMissingData(night, "qpf")
-	// 		},
-	// 		snowPrecipitationRate: {
-	// 			name: "snowPrecipitationRate",
-	// 			icon: "wi-snow.svg",
-	// 			dayVal: handleMissingData(day,"snow_qpf"),
-	// 			nightVal: handleMissingData(night,"snow_qpf"),
-	// 		},
-	// 		wind: {
-	// 			name: "wind",
-	// 			icon: "wi-strong-wind.svg",
-	// 			dayVal: handleMissingData(day, "wspd"),
-	// 			nightVal: handleMissingData(night, "wspd")
-	// 		}
-	// 	};
+	console.log("DAILY TEMP MODEL: " + JSON.stringify(newModel));
 
 	createPlotModel(date, newModel, day !== undefined, nightIconCode, dayIconCode);
 
@@ -538,7 +496,6 @@ function createPlotModel(date, detailsModel, hasDay, nightIconCode, dayIconCode)
 		isDay: false
 	};
 
-	console.log("Creating plot model");
 
 	Object.values(detailsModel).forEach(condition => {
 		if(hasDay) {
@@ -548,9 +505,9 @@ function createPlotModel(date, detailsModel, hasDay, nightIconCode, dayIconCode)
 	});
 
 	if(hasDay){
-		console.log(JSON.stringify(day));
+		console.log("DAILY MODEL: " + JSON.stringify(day));
 		plotModel.append(day);
 	}
-	console.log(JSON.stringify(night));
+	console.log("DAILY MODEL: " + JSON.stringify(night));
 	plotModel.append(night);
 }
