@@ -4,7 +4,7 @@ With KDE Frameworks v5.37 and above, translations are bundled with the `*.plasmo
 
 ## Install Translations
 
-Go to `~/.local/share/plasma/plasmoids/com.github.k-donn.plasmoid-wunderground/translate/` and run `sh ./build --restartplasma`.
+Go to `~/.local/share/plasma/plasmoids/com.github.rliwoch.plasmoid-wunderground-extended/translate/` and run `sh ./build --restartplasma`.
 
 ## New Translations
 
@@ -34,4 +34,6 @@ Or if you know how to make a pull request
 
 |  Locale  |  Lines  | % Done|
 |----------|---------|-------|
-| Template |      44 |       |
+| Template |      53 |       |
+| en_GB    |   20/53 |   37% |
+| pl_PL    |   51/53 |   96% |

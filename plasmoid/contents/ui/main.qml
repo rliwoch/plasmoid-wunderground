@@ -1,6 +1,6 @@
 /*
  * Copyright 2021  Kevin Donnelly
- * Copyright 2022  Rafal Liwoch
+ * Copyright 2022  Rafal (Raf) Liwoch
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -27,7 +27,12 @@ import "../code/pws-api.js" as StationAPI
 Item {
     id: root
 
+    //that's a hack to check if we have a translation file for the given Locale
+    property string currentLocale: getDisplayLocale()
+
     property var weatherData: null
+    property var flatWeatherData: {}
+    property string applicationStateText: i18n("All set")
     property var currentDetailsModel: ListModel {}
     property var dayInfo: null
     property var singleDayModel: ListModel { }
@@ -65,59 +70,77 @@ Item {
         }
     property var dictVals : ({
         temperature: {
-            name: "Temperature",
+            name: i18n("Temperature"),
             code: "temperature",
             icon: "wi-thermometer.svg",
             unit: Utils.currentTempUnit("", false)
         },
         uvIndex: {
-            name: "UV Index",
+            name: i18n("UV Index"),
             code: "uvIndex",
             icon: "wi-horizon-alt.svg",
             unit: ""
         },
         pressure: {
-            name: "Pressure",
+            name: i18n("Pressure"),
             code: "pressure",
             icon: "wi-barometer.svg",
             unit: Utils.currentPresUnit("", false)
         },
         cloudCover: {
-            name: "Cloud Cover",
+            name: i18n("Cloud Cover"),
             code: "cloudCover",
             icon: "wi-cloud.svg",
             unit: "%"
         },
         humidity: {
-            name: "Humidity",
+            name: i18n("Humidity"),
             code: "humidity",
             icon: "wi-humidity.svg",
             unit: "%"
         },
         precipitationChance: {
-            name: "Precipitation Chance",
+            name: i18n("Precipitation Chance"),
             code: "precipitationChance",
             icon: "wi-umbrella.svg",
             unit: "%"
         },
         precipitationRate: {
-            name: "Precipitation Rate",
+            name: i18n("Precipitation Rate"),
             code: "precipitationRate",
             icon: "wi-rain.svg",
             unit: Utils.currentPrecipUnit("", true, false)
         },
         snowPrecipitationRate: {
-            name: "Snow Precipitation Rate",
+            name: i18n("Snow Precipitation Rate"),
             code: "snowPrecipitationRate",
             icon: "wi-snow.svg",
             unit: Utils.currentPrecipUnit("", false, false)
         },
         wind: {
-            name: "Wind",
+            name: i18n("Wind / Gust"),
             code: "wind",
             icon: "wi-strong-wind.svg",
             unit: Utils.currentSpeedUnit("", false)
-        }
+        },
+        precipitationAcc: {
+            name: i18n("Precipitation Accumulation"),
+            code: "precipitationAcc",
+            icon: "wi-flood.svg",
+            unit: Utils.currentPrecipUnit("", true, false)
+        },
+        dewPoint: {
+            name: i18n("Dew Point"),
+            code: "dewPoint",
+            icon: "wi-raindrop.svg",
+            unit: Utils.currentTempUnit("", false)
+        },
+        windDirection: {
+            name: i18n("Wind Direction"),
+            code: "windDirection",
+            icon: "wi-storm-warning.svg",
+            unit: ""
+        }                                      
     })
 
     property var textSize: ({
@@ -209,11 +232,8 @@ Item {
 
     function updatetoolTipSubText() {
         var subText = ""
-
-        subText += i18nc("Do not edit HTML tags. 'Temp' means temperature", "<font size='4'>Temp: %1</font><br />", Utils.currentTempUnit(weatherData["details"]["temp"]))
-        subText += i18nc("Do not edit HTML tags.", "<font size='4'>Feels: %1</font><br />", Utils.currentTempUnit(Utils.feelsLike(weatherData["details"]["temp"], weatherData["humidity"], weatherData["details"]["windSpeed"])))
-        subText += i18nc("Do not edit HTML tags. 'Wnd Spd' means Wind Speed", "<font size='4'>Wnd spd: %1</font><br />", Utils.currentSpeedUnit(weatherData["details"]["windSpeed"]))
-        subText += "<font size='4'>" + weatherData["obsTimeLocal"] + "</font>"
+        
+        //todo 
 
         toolTipSubText = subText;
     }
@@ -256,7 +276,6 @@ Item {
         plasmoid.configurationRequiredReason = i18n("Set the weather station to pull data from.")
 
         plasmoid.backgroundHints = PlasmaCore.Types.ConfigurableBackground
-        //forecastDetailsModel.dynamicRoles = true
     }
 
     Timer {
@@ -272,23 +291,52 @@ Item {
         repeat: true
         onTriggered: updateForecastData()
     }
+    
+    Plasmoid.toolTipItem: Loader {
+        id: tooltipLoader
 
-    Plasmoid.toolTipTextFormat: Text.RichText
-    Plasmoid.toolTipMainText: {
+        Layout.minimumWidth: item ? item.width : 0
+        Layout.maximumWidth: item ? item.width : 0
+        Layout.minimumHeight: item ? item.height : 0
+        Layout.maximumHeight: item ? item.height : 0
+
+        source: getTootipTemplate()
+    }
+
+
+    function getTootipTemplate() {
         if (appState == showCONFIG) {
-            return i18n("Please Configure");
-        } else if (appState == showDATA) {
-            return stationID;
+            applicationStateText = i18n("Please Configure");
+            return "TooltipBasic.qml"
         } else if (appState == showLOADING) {
-            return i18n("Loading...");
+            applicationStateText = i18n("Loading...");
+            return "TooltipBasic.qml"
         } else if (appState == showERROR) {
-            return i18n("Error...");
+            applicationStateText = i18n("Error...");
+            return "TooltipBasic.qml"
+        } else if (appState == showDATA) {
+            applicationStateText = i18n("All set");
+            return "Tooltip.qml"            
+        } else {
+            applicationStateText = i18n("Undefined Error...");
+            return "TooltipBasic.qml"
         }
     }
-    Plasmoid.toolTipSubText: toolTipSubText
 
-    // Plasmoid.preferredRepresentation: Plasmoid.compactRepresentation
+    function getDisplayLocale() {
+        var systemLocale = Qt.locale().uiLanguages[0]
+        var testString = i18nc("Please put your language code here","en-US")
+        var hasTranslationForLocale = (testString === systemLocale ? true : false)
+
+        if(hasTranslationForLocale) {
+            return systemLocale;
+        } else {
+            return "en-US";
+        }
+    }
+
     Plasmoid.fullRepresentation: fr
     Plasmoid.compactRepresentation: cr
+
 
 }

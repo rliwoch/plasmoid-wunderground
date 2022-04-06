@@ -1,5 +1,6 @@
 /*
  * Copyright 2021  Kevin Donnelly
+ * Copyright 2022  Rafal (Raf) Liwoch
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -25,9 +26,7 @@ Item {
     id: appearanceConfig
 
     property alias cfg_compactPointSize: compactPointSize.value
-    property alias cfg_propHeadPointSize: propHeadPointSize.value
     property alias cfg_propPointSize: propPointSize.value
-    property alias cfg_tempPointSize: tempPointSize.value
 
     Kirigami.FormLayout {
         anchors.fill: parent
@@ -67,27 +66,11 @@ Item {
         }
 
         SpinBox {
-            id: propHeadPointSize
-
-            editable: true
-
-            Kirigami.FormData.label: i18n("Property header text size")
-        }
-
-        SpinBox {
             id: propPointSize
 
             editable: true
 
             Kirigami.FormData.label: i18n("Property text size")
-        }
-
-        SpinBox {
-            id: tempPointSize
-
-            editable: true
-
-            Kirigami.FormData.label: i18n("Temperature text size")
         }
 
     }

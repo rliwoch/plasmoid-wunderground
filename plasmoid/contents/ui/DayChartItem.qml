@@ -1,5 +1,5 @@
 /*
- * Copyright 2022  Rafal Liwoch
+ * Copyright 2022  Rafal (Raf) Liwoch
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -48,11 +48,12 @@ ColumnLayout{
         Layout.leftMargin: 3  * units.gridUnit
         Layout.rightMargin: 3  * units.gridUnit
         Layout.topMargin: 2  * units.gridUnit
-        Layout.bottomMargin: 2  * units.gridUnit
+        Layout.bottomMargin: 3  * units.gridUnit
 
         Item {
             id: mainChartItem
             Layout.fillWidth: true
+            Layout.fillHeight: true
 
             Layout.minimumHeight:  units.gridUnit * 7 *2.6
 
@@ -163,6 +164,7 @@ ColumnLayout{
             Charts.AxisLabels {
                 id: xAxisLabels
                 constrainToBounds: false
+                Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
                 anchors {
                     left: parent.left
                     right: parent.right
@@ -172,13 +174,9 @@ ColumnLayout{
                 delegate: PlasmaComponents.Label {
                     id: xAxisLabelId
                     rotation: 0
-                    Layout.fillWidth: true
                     font.pointSize: textSize.tiny
-                    horizontalAlignment: Text.AlignHCenter
 
-
-                    text:
-                    "<b>" + hourlyChartModel.get(Charts.AxisLabels.label).time + "</b>"
+                    text: "<b>" + hourlyChartModel.get(Charts.AxisLabels.label).time + "</b>"
                 }
                 source: Charts.ChartAxisSource {
                     chart: lineChart;
@@ -243,7 +241,7 @@ ColumnLayout{
                     property var unitInterval: (currentLegendText === "precipitationRate" || currentLegendText === "snowPrecipitationRate" ? "/h" : "")
 
                     Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                    text: `${dictVals[currentLegendText].name} [${dictVals[currentLegendText].unit}${unitInterval}]`
+                    text: `${dictVals[currentLegendText].name} ${Utils.wrapInBrackets(dictVals[currentLegendText].unit, unitInterval)}`
                     font {
                         weight: Font.Bold
                         pointSize: textSize.small
@@ -268,53 +266,7 @@ ColumnLayout{
                     radius: 2
                 }
                 focus: true
-                delegate: iconsDelegate
-            }
-            Component {
-                id: iconsDelegate
-                Column {
-                    PlasmaCore.SvgItem {
-                        id: iconHolder
-
-                        svg: PlasmaCore.Svg {
-                            id: iconSvg
-                            imagePath: plasmoid.file("", "icons/fullRepresentation/" + dictVals[availableReadings[index]].icon)
-                        }
-
-                        Layout.minimumWidth: units.gridUnit * 2
-                        Layout.minimumHeight: units.gridUnit * 2
-                        width: Layout.minimumWidth
-                        height: Layout.minimumHeight
-
-                        MouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-
-                            onEntered: {
-                                iconsListView.currentIndex = index
-                                //console.log(icon)
-                            }
-                            onPressed: {
-                                currentLegendText = availableReadings[index];
-                                lineChart.nameSource.value = currentLegendText
-
-                                if(staticRange.includes(currentLegendText)) {
-                                    lineChart.yRange.automatic = false
-                                    lineChart.yRange.from = 0
-                                    lineChart.yRange.to = 100
-                                } else if(currentLegendText == "pressure") {
-                                    var pressureUnit = Utils.currentPresUnit("", false);
-                                    lineChart.yRange.automatic = false
-                                    lineChart.yRange.from = pressureUnit == "hPa" ? 970 : Math.floor(970*0.03)
-                                    lineChart.yRange.to = pressureUnit == "hPa" ? 1040 : Math.floor(1040*0.03)
-                                } else {
-                                    lineChart.yRange.automatic = true
-                                }
-                                lineChart.valueSources[0].roleName = currentLegendText
-                            }
-                        }
-                    }
-                }
+                delegate: ChartMetricsSelectionDelegate {}
             }
         }
     }

@@ -1,6 +1,6 @@
 /*
  * Copyright 2021-2022  Kevin Donnelly
- * Copyright 2022  Rafal Liwoch
+ * Copyright 2022  Rafal (Raf) Liwoch
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -62,7 +62,7 @@ function weatherAPIUrl(type, period) {
 
 	var url;
 	var units;
-	var language = "en-US";
+	var language = currentLocale;
 
 	if (unitsChoice === 0) {
 		units = "m";
@@ -79,10 +79,12 @@ function weatherAPIUrl(type, period) {
 		var queryInterval = type === "daily" ? "day": "hour";
 		url = `https://api.weather.com/v1/geocode/${lat}/${long}/forecast/${type}/${period}${queryInterval}.json`;
 		url += `?apiKey=${apiKey}&language=${language}&units=${units}`;
-		console.log(url);
+		printDebug(url);
 	} else {
-		console.log(`Sorry, ${type} not recognised.`);
+		printDebug(`Sorry, ${type} not recognised.`);
 	}
+	printDebug(`Current locale: ${currentLocale}`);
+	printDebug(`Constructed URL: ${url}`);
 
 	return url;
 }
@@ -125,6 +127,17 @@ function getCurrentData() {
 				var tmp = res["observations"][0];
 
 				var details = res["observations"][0][sectionName];
+
+				var flatWeatherDataTmp = res["observations"][0];
+				delete flatWeatherDataTmp[sectionName];
+				Object.entries(details).forEach(entry => {					
+					var [key, value] = entry;
+					flatWeatherDataTmp[key] = value;
+				});
+				flatWeatherData = flatWeatherDataTmp;
+				printDebug(JSON.stringify(flatWeatherDataTmp));
+				
+
 				tmp["details"] = details;
 
 				weatherData = tmp;
@@ -133,6 +146,16 @@ function getCurrentData() {
 				plasmoid.configuration.longitude = weatherData["lon"];
 
 				printDebug("[pws-api.js] Got new current data");
+
+				currentDetailsModel.clear()
+				currentDetailsModel.append({name: "windDirection", val: flatWeatherData["winddir"] , val2: flatWeatherData["windSpeed"]});
+				currentDetailsModel.append({name: "wind", val: flatWeatherData["windSpeed"] , val2: flatWeatherData["windGust"]});
+				currentDetailsModel.append({name: "dewPoint", val: flatWeatherData["dewpt"]});
+				currentDetailsModel.append({name: "precipitationRate", val: flatWeatherData["precipRate"]});
+				currentDetailsModel.append({name: "pressure", val: flatWeatherData["pressure"]});
+				currentDetailsModel.append({name: "humidity", val: flatWeatherData["humidity"]});
+				currentDetailsModel.append({name: "precipitationAcc", val: flatWeatherData["precipTotal"]});
+				currentDetailsModel.append({name: "uvIndex", val: flatWeatherData["uv"]});
 
 				findIconCode();
 
@@ -183,7 +206,7 @@ function getForecastData(periodInterval, periodLength) {
 				} else if (periodInterval === "hourly") {
 					createHourlyDetailModel(forecasts)
 				} else {
-					console.log("Unrecognised period");
+					printDebug("Unrecognised period");
 				}
 			} else {
 				errorStr = "Could not fetch forecast data";
@@ -199,7 +222,7 @@ function getForecastData(periodInterval, periodLength) {
 }
 
 function processDailyForecasts(forecasts) {
-	console.log("------------- PROCESSING DAILY FORECASTS ---------------");
+	printDebug("------------- PROCESSING DAILY FORECASTS ---------------");
 	forecastModel.clear();
 	forecastDetailsModel.clear();
 	dailyChartModel.clear();
@@ -252,12 +275,9 @@ function processDailyForecasts(forecasts) {
 			low: forecast["min_temp"],
 			feelsLike: isDay ? day["hi"] : night["hi"],
 			shortDesc: isDay
-			? day["phrase_12char"]
-			: night["phrase_12char"],
+			? day["phrase_32char"]
+			: night["phrase_32char"],
 			longDesc: isDay ? day["narrative"] : night["narrative"],
-			thunderDesc: isDay
-			? day["thunder_enum_phrase"]
-			: night["thunder_enum_phrase"],
 			winDesc: isDay
 			? day["wind_phrase"]
 			: night["wind_phrase"],
@@ -284,7 +304,7 @@ function processDailyForecasts(forecasts) {
 	printDebug("[pws-api.js] Got new forecast data");
 
 	showForecast = true;
-	console.log("------------- DAILY FORECASTS FINISHED ---------------");
+	printDebug("------------- DAILY FORECASTS FINISHED ---------------");
 }
 
 function processHourlyForecasts(forecast) {
@@ -351,6 +371,8 @@ function findIconCode() {
 
 	url += "&format=json";
 
+	printDebug(url);
+	
 	req.open("GET", url);
 
 	req.setRequestHeader("Accept-Encoding", "gzip");
@@ -425,7 +447,7 @@ function handleMissingData(timeOfDay, dataPoint) {
 }
 
 function createHourlyDetailModel(forecasts){
-	console.log("------------- PROCESSING HOURLY FORECASTS ---------------");
+	printDebug("------------- PROCESSING HOURLY FORECASTS ---------------");
 	hourlyChartModel.clear()
 
 	forecasts.forEach(function (period) {
@@ -443,11 +465,11 @@ function createHourlyDetailModel(forecasts){
 		hourModel.uvIndex = period["uv_index"];
 		hourModel.pressure = period["mslp"];
 
-		console.log("HOURLY MODEL: " + JSON.stringify(hourModel));
+		printDebug("HOURLY MODEL: " + JSON.stringify(hourModel));
 
 		hourlyChartModel.append(hourModel);
 	});
-	console.log("------------- HOURLY FORECASTS FINISHED ---------------");
+	printDebug("------------- HOURLY FORECASTS FINISHED ---------------");
 }
 
 function createDetailModel(forecastElem) {
@@ -464,7 +486,7 @@ function createDetailModel(forecastElem) {
 		newModel[reading.name].nightVal = handleMissingData(night, modelDict[reading.name]);
 	});
 
-	console.log("DAILY TEMP MODEL: " + JSON.stringify(newModel));
+	printDebug("DAILY TEMP MODEL: " + JSON.stringify(newModel));
 
 	createDailyChartModel(date, newModel, day !== undefined, nightIconCode, dayIconCode);
 
@@ -495,9 +517,9 @@ function createDailyChartModel(date, forecastDetailsModel, hasDay, nightIconCode
 	});
 
 	if(hasDay){
-		console.log("DAILY MODEL: " + JSON.stringify(day));
+		printDebug("DAILY MODEL: " + JSON.stringify(day));
 		dailyChartModel.append(day);
 	}
-	console.log("DAILY MODEL: " + JSON.stringify(night));
+	printDebug("DAILY MODEL: " + JSON.stringify(night));
 	dailyChartModel.append(night);
 }

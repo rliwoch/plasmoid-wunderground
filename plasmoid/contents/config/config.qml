@@ -1,5 +1,6 @@
 /*
  * Copyright 2021  Kevin Donnelly
+ * Copyright 2022  Rafal (Raf) Liwoch
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -19,22 +20,22 @@ import org.kde.plasma.configuration 2.0
 
 ConfigModel {
     ConfigCategory {
-        name: "Station"
+        name: i18n("Station")
         icon: "flag"
         source: "config/ConfigStation.qml"
     }
     ConfigCategory {
-        name: "Appearance"
+        name: i18n("Appearance")
         icon: "preferences-desktop-color"
         source: "config/ConfigAppearance.qml"
     }
     ConfigCategory {
-        name: "Units"
+        name: i18n("Units")
         icon: "configuration"
         source: "config/ConfigUnits.qml"
     }
     ConfigCategory {
-        name: "Debug"
+        name: i18n("Debug")
         icon: "preferences-other"
         source: "config/ConfigDebug.qml"
     }

@@ -6,13 +6,23 @@ Wunderground lets you upload data from Smart Ambient Weather stations through th
 You can view the data though wunderground or through Wunderground API. This widget lets
 you input the station ID then view the properties that the station sends up.
 
+You don't need to own a Weather Station yourself - there's a high chance there is already one in your neighbourhood. Feel free to look it up and use the ID of the nearest station.
+
+This is an extended version of Wunderground Plasmoid - originally written by Kevin Donnelly (https://github.com/k-donn/plasmoid-wunderground). Huge thanks for the inspiration and a great base to work on.
+
+This version adds a different view of:
+- current weather conditions 
+- the forecast 
+
+As well as adds two new tabs with charts:
+- 24h
+- 7d
+
 ## Running
 
-Supply the name of the weatherstation (ie. [KGADACUL1](https://www.wunderground.com/dashboard/pws/KGADACUL1)) to the applet by clicking `Configure Wunderground`.
+Supply the name of the weatherstation (ie. [IFRAUN2](https://www.wunderground.com/dashboard/pws/IFRAUN2)) to the applet by clicking `Configure Wunderground`.
 
-Also, input your coordinates and the widget will find the nearest station to you!
-
-Some stations update at different rates so you can set the rate of refresh in config.
+Also, input your coordinates and the widget will find the nearest station for you!
 
 ## Translating
 
@@ -24,18 +34,12 @@ Follow the file in [plasmoid/translate](./plasmoid/translate) for directions.
 
 Big thanks to Meteocons for the free [icons](https://www.alessioatzeni.com/meteocons/).
 
-By [@bluxart](https://twitter.com/bluxart) and [@pyconic](https://twitter.com/pyconic) on Twitter.
-If you are a graphic designer or simply know more about designing/using icons than me (I know little), feel free to contribute advice!
-
-Big thanks to [Zren](https://github.com/Zren) for the files [NoApplyField](./plasmoid/contents/ui/config/NoApplyField.qml), [ClearableField](./plasmoid/contents/ui/config/ClearableField.qml), and the translation scripts.
-
-[CompactRepresentation](./plasmoid/contents/ui/CompactRepresentation.qml) and [IconAndTextItem](./plasmoid/contents/ui/IconAndTextItem.qml) are from `org.kde.plasma.weather`.
+- Kevin Donnelly (https://github.com/k-donn/plasmoid-wunderground) for his original project and work.
+- Erik Flowers for his great weather icons https://erikflowers.github.io/weather-icons/
+- Meteocons for additional weather icons (https://www.alessioatzeni.com/meteocons/)
 
 ## TODO
 
--   [ ] Version 3 updates
-
-## Parking lot
-
--   [ ] Have seperate error page for forecast errors and use bitmapped field for appState
--   [ ] Use Wunderground Plasma Ion (when I finish it).
+- Traslations
+- Fix some display issues when non-English, more translations needed for that
+- any requests welcome

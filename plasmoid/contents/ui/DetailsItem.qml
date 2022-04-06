@@ -1,5 +1,6 @@
 /*
  * Copyright 2021  Kevin Donnelly
+ * Copyright 2022  Rafal (Raf) Liwoch
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -27,7 +28,7 @@ GridLayout {
     id: detailsRoot
 
     columns: 4
-    rows: 4
+    rows: 3
 
     ColumnLayout {
         id: sunRiseSetCol
@@ -115,7 +116,7 @@ GridLayout {
                 Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
                 text: Utils.currentTempUnit(weatherData["details"]["temp"])
                 font {
-                    pointSize: plasmoid.configuration.tempPointSize
+                    pointSize: plasmoid.configuration.propPointSize * 3
                 }
                 color: Utils.heatColor(weatherData["details"]["temp"])
             }
@@ -193,6 +194,8 @@ GridLayout {
         id: narrativeTextRow
         Layout.columnSpan: 4
         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+        Layout.topMargin: 2 * units.gridUnit
+        Layout.bottomMargin: 2 * units.gridUnit
 
         PlasmaComponents.Label {
             id: narrative
@@ -210,20 +213,40 @@ GridLayout {
         }
     }
 
-    ColumnLayout {
-        id: windDirectionCol
-        spacing: 5
+    GridView {
+        Layout.columnSpan:4
+        id: dayDetailsView
+
+        model: currentDetailsModel
         Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+
+        cellWidth: detailsRoot.width/4
+        cellHeight: singleMetricDelegate.height
+        
+        
+        delegate: singleMetricDelegate
+    }
+    Component {
+        id: singleMetricDelegate
+
+
+        
+    ColumnLayout {
+        width: detailsRoot.width/4
+        
+        spacing: 5
 
         PlasmaCore.SvgItem {
             id: windDirectionIcon
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
             svg: PlasmaCore.Svg {
                 id: svg
-                imagePath: plasmoid.file("", "icons/wind-barbs/" + Utils.getWindBarb(weatherData["details"]["windSpeed"]) + ".svg")
+                imagePath: getImage(name, val, val2)
             }
 
-            rotation: weatherData["winddir"] - 270
+            rotation: name === "windDirection" ? val - 270 : 0
 
             Layout.minimumWidth: units.iconSizes.medium
             Layout.minimumHeight: units.iconSizes.medium
@@ -231,285 +254,42 @@ GridLayout {
             Layout.preferredHeight: Layout.minimumHeight
         }
 
-        PlasmaComponents.Label {
+    
+        PlasmaComponents.Label {          
             id: windDirectionLabel1
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-            text: i18n("Wind from")
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            
+            horizontalAlignment: Text.AlignHCenter
+            text: dictVals[name].name 
             font {
                 pointSize: textSize.small
             }
         }
-        PlasmaComponents.Label {
+        PlasmaComponents.Label {                
             id: windDirectionData
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-            text: Utils.windDirToCard(weatherData["winddir"])
+            Layout.fillWidth: true
+            Layout.fillHeight: true            
+            horizontalAlignment: Text.AlignHCenter
+            text: (val2 !== null ? Utils.getValue(name, val, val2) : Utils.getValue(name, val))
             font {
                 weight: Font.Bold
                 pointSize: plasmoid.configuration.propPointSize
             }
         }
-    }
 
-
-    ColumnLayout {
-        id: windCol
-        spacing: 5
-        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-
-        PlasmaCore.SvgItem {
-            id: windIcon
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-            svg: PlasmaCore.Svg {
-                id: windSvg
-                imagePath: plasmoid.file("", "icons/fullRepresentation/wi-strong-wind.svg")
-            }
-
-            Layout.minimumWidth: units.iconSizes.medium
-            Layout.minimumHeight: units.iconSizes.medium
-            Layout.preferredWidth: Layout.minimumWidth
-            Layout.preferredHeight: Layout.minimumHeight
-        }
-        PlasmaComponents.Label {
-            id: windLabel1
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-            text: i18n("WIND & GUST")
-            font {
-                pointSize: textSize.small
+        function getImage(metricName, val, val2)
+        {
+            if(metricName ==="windDirection") {
+                return plasmoid.file("", "icons/wind-barbs/" + Utils.getWindBarb(val2) + ".svg")
+            } else if (metricName === "windSpeed") {
+                return plasmoid.file("", "icons/fullRepresentation/" + dictVals[metricName].icon)
+            } else {
+                return plasmoid.file("", "icons/fullRepresentation/" + dictVals[metricName].icon)
             }
         }
 
-        PlasmaComponents.Label {
-            id: windData
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-            text: weatherData["details"]["windSpeed"] + " / " + Utils.currentSpeedUnit(weatherData["details"]["windGust"])
-            font {
-                weight: Font.Bold
-                pointSize: plasmoid.configuration.propPointSize
-            }
-        }
-    }
-
-    ColumnLayout {
-        id: dewPtCol
-        spacing: 5
-        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-
-        PlasmaCore.SvgItem {
-            id: dewPtIcon
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-            svg: PlasmaCore.Svg {
-                id: dewPtSvg
-                imagePath: plasmoid.file("", "icons/fullRepresentation/wi-raindrop.svg")
-            }
-
-            Layout.minimumWidth: units.iconSizes.medium
-            Layout.minimumHeight: units.iconSizes.medium
-            Layout.preferredWidth: Layout.minimumWidth
-            Layout.preferredHeight: Layout.minimumHeight
-        }
-        PlasmaComponents.Label {
-            id: dewPtLabel1
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-            text: i18n("DEWPOINT")
-            font {
-                pointSize: textSize.small
-            }
-        }
-
-        PlasmaComponents.Label {
-            id: dewPtData
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-            text: Utils.currentTempUnit(weatherData["details"]["dewpt"])
-            font {
-                weight: Font.Bold
-                pointSize: plasmoid.configuration.propPointSize
-            }
-        }
-    }
-
-    ColumnLayout {
-        id: precipRateCol
-        spacing: 5
-        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-
-        PlasmaCore.SvgItem {
-            id: precipRateIcon
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-            svg: PlasmaCore.Svg {
-                id: precipRateSvg
-                imagePath: plasmoid.file("", "icons/fullRepresentation/wi-raindrops.svg")
-            }
-
-            Layout.minimumWidth: units.iconSizes.medium
-            Layout.minimumHeight: units.iconSizes.medium
-            Layout.preferredWidth: Layout.minimumWidth
-            Layout.preferredHeight: Layout.minimumHeight
-        }
-        PlasmaComponents.Label {
-            id: precipRateLabel1
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-            text: i18nc("Precipitation rate", "PRECIP RATE")
-            font {
-                pointSize: textSize.small
-            }
-        }
-        PlasmaComponents.Label {
-            id: precipRateData
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-            text: Utils.currentPrecipUnit(weatherData["details"]["precipRate"], isRain) + "/hr"
-            font {
-                weight: Font.Bold
-                pointSize: plasmoid.configuration.propPointSize
-            }
-        }
-    }
-
-    ColumnLayout {
-        id: pressureCol
-        spacing: 5
-        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-
-        PlasmaCore.SvgItem {
-            id: pressureIcon
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-            svg: PlasmaCore.Svg {
-                id: pressureSvg
-                imagePath: plasmoid.file("", "icons/fullRepresentation/wi-barometer.svg")
-            }
-
-            Layout.minimumWidth: units.iconSizes.medium
-            Layout.minimumHeight: units.iconSizes.medium
-            Layout.preferredWidth: Layout.minimumWidth
-            Layout.preferredHeight: Layout.minimumHeight
-        }
-        PlasmaComponents.Label {
-            id: pressureLabel1
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-            text: i18n("PRESSURE")
-            font {
-                pointSize: textSize.small
-            }
-        }
-        PlasmaComponents.Label {
-            id: pressureData
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-            text: Utils.currentPresUnit(weatherData["details"]["pressure"])
-            font {
-                weight: Font.Bold
-                pointSize: plasmoid.configuration.propPointSize
-            }
-        }
-    }
-
-    ColumnLayout {
-        id: humidityCol
-        spacing: 5
-        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-
-        PlasmaCore.SvgItem {
-            id: humidityIcon
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-            svg: PlasmaCore.Svg {
-                id: humiditySvg
-                imagePath: plasmoid.file("", "icons/fullRepresentation/wi-humidity.svg")
-            }
-
-            Layout.minimumWidth: units.iconSizes.medium
-            Layout.minimumHeight: units.iconSizes.medium
-            Layout.preferredWidth: Layout.minimumWidth
-            Layout.preferredHeight: Layout.minimumHeight
-        }
-        PlasmaComponents.Label {
-            id: humidityLabel1
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-            text: i18n("HUMIDITY")
-            font {
-                pointSize: textSize.small
-            }
-        }
-
-        PlasmaComponents.Label {
-            id: humidityData
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-            text: weatherData["humidity"] + "%"
-            font {
-                weight: Font.Bold
-                pointSize: plasmoid.configuration.propPointSize
-            }
-        }
-    }
-
-    ColumnLayout {
-        id: precipAccCol
-        spacing: 5
-        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-
-        PlasmaCore.SvgItem {
-            id: precipAccIcon
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-            svg: PlasmaCore.Svg {
-                id: precipAccSvg
-                imagePath: plasmoid.file("", "icons/fullRepresentation/wi-flood.svg")
-            }
-
-            Layout.minimumWidth: units.iconSizes.medium
-            Layout.minimumHeight: units.iconSizes.medium
-            Layout.preferredWidth: Layout.minimumWidth
-            Layout.preferredHeight: Layout.minimumHeight
-        }
-        PlasmaComponents.Label {
-            id: precipAccLabel1
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-            text: i18nc("Precipitation accumulation", "PRECIP ACCUM")
-            font {
-                pointSize: textSize.small
-            }
-        }
-        PlasmaComponents.Label {
-            id: precipAccData
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-            text: Utils.currentPrecipUnit(weatherData["details"]["precipTotal"], isRain)
-            font {
-                weight: Font.Bold
-                pointSize: plasmoid.configuration.propPointSize
-            }
-        }
-    }
-
-    ColumnLayout {
-        id: uvCol
-        spacing: 5
-        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-
-        PlasmaCore.SvgItem {
-            id: uvIcon
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-            svg: PlasmaCore.Svg {
-                id: uvSvg
-                imagePath: plasmoid.file("", "icons/fullRepresentation/wi-horizon-alt.svg")
-            }
-
-            Layout.minimumWidth: units.iconSizes.medium
-            Layout.minimumHeight: units.iconSizes.medium
-            Layout.preferredWidth: Layout.minimumWidth
-            Layout.preferredHeight: Layout.minimumHeight
-        }
-        PlasmaComponents.Label {
-            id: uvLabel1
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-            text: i18nc("Ultra Violet", "UV")
-            font {
-                pointSize: textSize.small
-            }
-        }
-        PlasmaComponents.Label {
-            id: uvData
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-            text: weatherData["uv"]
-            font {
-                weight: Font.Bold
-                pointSize: plasmoid.configuration.propPointSize
-            }
-        }
-    }
+    }}
 }

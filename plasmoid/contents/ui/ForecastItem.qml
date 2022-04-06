@@ -1,6 +1,6 @@
 /*
  * Copyright 2021  Kevin Donnelly
- * Copyright 2022  Rafal Liwoch
+ * Copyright 2022  Rafal (Raf) Liwoch
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -79,6 +79,7 @@ GridLayout{
                 highlight: Rectangle {
                     color:PlasmaCore.Theme.complementaryFocusColor
                     Layout.fillWidth:true
+                    opacity: 0.2
                     radius: 5
                 }
                 focus: true
@@ -123,6 +124,14 @@ GridLayout{
                     Layout.fillHeight: true
                     horizontalAlignment: Text.AlignHCenter
                     elide: Text.ElideRight
+                    MouseArea {
+                        id: shortDescMouseHover
+                        anchors.fill: parent
+                        hoverEnabled: true
+                    }
+
+                    ToolTip.visible: shortDescMouseHover.containsMouse
+                    ToolTip.text: shortDesc
                 }
                 PlasmaCore.SvgItem {
                     id: icon
@@ -177,7 +186,7 @@ GridLayout{
             }
         }
 
-        Rectangle {
+        Item {
             id: dateShader
             Layout.columnSpan: 6
             Layout.rowSpan: 1
@@ -188,11 +197,18 @@ GridLayout{
 
             Layout.minimumHeight: dateField.height
 
-            color: PlasmaCore.Theme.complementaryFocusColor
-
+            Rectangle {
+                width: parent.width
+                height: parent.height
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                color: PlasmaCore.Theme.complementaryFocusColor
+                radius: 5
+                opacity: 0.3
+            }
+            
             Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
 
-            radius: 5
 
             GridLayout {
                 id: dateField
@@ -219,7 +235,7 @@ GridLayout{
                     font.pointSize: plasmoid.configuration.propPointSize * 1.2
                     elide: Text.ElideRight
                     font.weight: Font.Bold
-                    text: forecastScroller.dateString("dddd")
+                    text: Qt.locale(currentLocale).dayName(currentDate.getDay())
                 }
                 PlasmaComponents.Label {
                     id: dateHeading
@@ -227,7 +243,7 @@ GridLayout{
                     font.pointSize: textSize.small
 
                     elide: Text.ElideRight
-                    text: Qt.locale().standaloneMonthName(currentDate.getMonth())
+                    text: Qt.locale(currentLocale).standaloneMonthName(currentDate.getMonth())
                     + forecastScroller.dateString(" yyyy")
                 }
 

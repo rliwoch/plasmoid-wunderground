@@ -1,6 +1,6 @@
 /*
  * Copyright 2021  Kevin Donnelly
- * Copyright 2022  Rafal Liwoch
+ * Copyright 2022  Rafal (Raf) Liwoch
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -39,7 +39,7 @@ ColumnLayout {
         PlasmaComponents.TabButton {
             id: dayChartTabButton
 
-            text: "Day Chart" //todo
+            text: i18n("Day Chart")
         }
 
         PlasmaComponents.TabButton {
@@ -52,7 +52,7 @@ ColumnLayout {
         PlasmaComponents.TabButton {
             id: weekChartTabButton
 
-            text: "Week Chart" //todo
+            text: i18n("Week Chart")
         }
     }
 

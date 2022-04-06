@@ -1,6 +1,6 @@
 /*
  * Copyright 2021  Kevin Donnelly
- * Copyright 2022  Rafal Liwoch
+ * Copyright 2022  Rafal (Raf) Liwoch
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -426,4 +426,23 @@ function displayUnits(data, units, dataPointName) {
 	} else {
 		return data + units;
 	}
+}
+
+
+function getValue(metricName, val, val2){
+	if(metricName ==="windDirection") {
+		return Utils.windDirToCard(val)
+	} else if (metricName === "wind") {
+		return `${val}/${val2} ${dictVals[metricName].unit}`
+	} else if(metricName === "precipitationRate") {
+		return `${val} ${dictVals[metricName].unit}/hr`
+	} else if(metricName === "precipitationAcc") {
+		return `${val} ${dictVals[metricName].unit}/day`
+	} else {
+		return `${val} ${dictVals[metricName].unit}`
+	}
+}
+
+function wrapInBrackets(unit, unitInterval) {
+	return unit !== "" ? `[${unit}${unitInterval}]`: unit
 }

@@ -1,6 +1,5 @@
 /*
- * Copyright 2021  Kevin Donnelly
- * Copyright 2022  Rafal Liwoch
+ * Copyright 2022  Rafal (Raf) Liwoch
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -48,11 +47,12 @@ ColumnLayout{
         Layout.leftMargin: 3  * units.gridUnit
         Layout.rightMargin: 3  * units.gridUnit
         Layout.topMargin: 2  * units.gridUnit
-        Layout.bottomMargin: 2  * units.gridUnit
+        Layout.bottomMargin: 3  * units.gridUnit
 
         Item {
             id: mainChartItem
             Layout.fillWidth: true
+            Layout.fillHeight: true
 
             Layout.minimumHeight:  units.gridUnit * 7 *2.6
 
@@ -191,7 +191,6 @@ ColumnLayout{
 
                     text:
                     "<b>" + dailyChartModel.get(Charts.AxisLabels.label).date + "</b>"
-                    //+ "<br\>" + dailyChartModel.get(Charts.AxisLabels.label).time
                 }
                 source: Charts.ChartAxisSource {
                     chart: lineChart;
@@ -257,7 +256,7 @@ ColumnLayout{
                     property var unitInterval: (currentLegendText === "precipitationRate" || currentLegendText === "snowPrecipitationRate" ? "/12h" : "")
 
                     Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                    text: `${dictVals[currentLegendText].name} [${dictVals[currentLegendText].unit}${unitInterval}]`
+                    text: `${dictVals[currentLegendText].name} ${Utils.wrapInBrackets(dictVals[currentLegendText].unit, unitInterval)}`
                     font {
                         weight: Font.Bold
                         pointSize: textSize.small
@@ -282,50 +281,10 @@ ColumnLayout{
                     radius: 2
                 }
                 focus: true
-                delegate: iconsDelegate
-            }
-            Component {
-                id: iconsDelegate
-                Column {
-                    PlasmaCore.SvgItem {
-                        id: iconHolder
-
-                        svg: PlasmaCore.Svg {
-                            id: iconSvg
-                            imagePath: plasmoid.file("", "icons/fullRepresentation/" + dictVals[availableReadings[index]].icon)
-                        }
-
-                        Layout.minimumWidth: units.gridUnit * 2
-                        Layout.minimumHeight: units.gridUnit * 2
-                        width: Layout.minimumWidth
-                        height: Layout.minimumHeight
-
-                        MouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-
-                            onEntered: {
-                                iconsListView.currentIndex = index
-                            }
-                            onPressed: {
-                                currentLegendText = availableReadings[index]
-                                lineChart.nameSource.value = currentLegendText
-                                if(staticRange.includes(currentLegendText)) {
-                                    lineChart.yRange.automatic = false
-                                    lineChart.yRange.from = 0
-                                    lineChart.yRange.to = 100
-                                } else {
-                                    lineChart.yRange.automatic = true
-                                }
-                                lineChart.valueSources[0].roleName = currentLegendText
-                            }
-                        }
-                    }
-                }
+                delegate: ChartMetricsSelectionDelegate {}
             }
         }
     }
-
 }
 
 
