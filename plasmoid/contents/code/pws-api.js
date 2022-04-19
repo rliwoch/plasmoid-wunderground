@@ -74,7 +74,7 @@ function getLocationDetails() {
 		//get ion
 		location.lat = dsLocation.latitude;
 		location.long = dsLocation.longitude;
-		getNearestStation(location.lat, location.long, function (obtainedStation) {
+		getNearestStations(location.lat, location.long, function (obtainedStation) {
 			location.station = obtainedStation;
 			console.log("location object is: " + JSON.stringify(location))
 		})
@@ -83,90 +83,119 @@ function getLocationDetails() {
 
 	}
 }
-
-function getApiUrlForTypeAndPeriod(type, period) {
-	var apiKey = "6532d6454b8aa370768e63d6ba5a832e";
-	//todo decide if local or remote
-	var lat = plasmoid.configuration.latitude;
-	var long = plasmoid.configuration.longitude;
-
-	var url;
-	var units;
-
-	var language = currentLocale;
-
-	if (unitsChoice === 0) {
-		units = "m";
-	} else if (unitsChoice === 1) {
-		units = "e";
+function getCurrentUnitsSettings() {
+	if (plasmoid.configuration.unitsChoice === 0) {
+		return "m";
+	} else if (plasmoid.configuration.unitsChoice === 1) {
+		return "e";
 	} else {
-		units = "h";
+		return "h";
 	}
+}
+function getDefaultParams() {
+	return {
+		station: plasmoid.configuration.stationID,
+		lat: plasmoid.configuration.latitude,
+		long: plasmoid.configuration.longitude,
+		units: getCurrentUnitsSettings(),
+		language: currentLocale,
+	}
+}
+
+function getApiUrlForTypeAndPeriod(type, period, params) {
+	var apiKey = "6532d6454b8aa370768e63d6ba5a832e";
+	var url;
+
+	var effectiveParams = getDefaultParams();
+
+	if (params !== undefined) {
+		printDebug(`Params override exists: ${JSON.stringify(params)}`, "api", "getApiUrlForTypeAndPeriod");
+
+		Object.keys(params).forEach((k, i) => {
+			printDebug(`Overriding parameter: ${k}`, "api", "getApiUrlForTypeAndPeriod");
+			effectiveParams[k] = params[k];
+		});
+	}
+
+	printDebug(`Effective params used for URL ceation: ${JSON.stringify(effectiveParams)}`, "api", "getApiUrlForTypeAndPeriod");
 
 	if (type === "current") {
 		url = 'https://api.weather.com/v2/pws/observations/current'
-		url += `?stationId=${stationID}&format=json&units=${units}&apiKey=${apiKey}&numericPrecision=decimal`;
+		url += `?stationId=${effectiveParams.station}&format=json&units=${effectiveParams.units}&apiKey=${apiKey}&numericPrecision=decimal`;
 	} else if (type === "daily" || type === "hourly") {
 		var queryInterval = type === "daily" ? "day" : "hour";
-		url = `https://api.weather.com/v1/geocode/${lat}/${long}/forecast/${type}/${period}${queryInterval}.json`;
-		url += `?apiKey=${apiKey}&language=${language}&units=${units}`;
-		printDebug(url);
+		url = `https://api.weather.com/v1/geocode/${effectiveParams.lat}/${effectiveParams.long}/forecast/${type}/${period}${queryInterval}.json`;
+		url += `?apiKey=${apiKey}&language=${effectiveParams.language}&units=${effectiveParams.units}`;
+		printDebug(url, "api", "getApiUrlForTypeAndPeriod");
 	} else if (type === "station-near") {
 		var url = "https://api.weather.com/v3/location/near";
-		url += `?geocode=${lat},${long}&product=pws&format=json&apiKey=${apiKey}`;
+		url += `?geocode=${effectiveParams.lat},${effectiveParams.long}&product=pws&format=json&apiKey=${apiKey}`;
 	} else if (type === "current-v3") {
 		var url = "https://api.weather.com/v3/wx/observations/current";
-		url += `?geocode=${lat},${long}&apiKey=${apiKey}&language=${language}&units=${units}&format=json`;
+		url += `?geocode=${effectiveParams.lat},${effectiveParams.long}&apiKey=${apiKey}&language=${effectiveParams.language}&units=${effectiveParams.units}&format=json`;
 	} else {
-		printDebug(`Sorry, ${type} not recognised.`);
+		printDebug(`Sorry, ${type} not recognised.`, "api", "getApiUrlForTypeAndPeriod");
 	}
-	printDebug(`Current locale: ${currentLocale}`);
-	printDebug(`Constructed URL: ${url}`);
 
-	return url;
+	printDebug(`Constructed URL: ${url}`, "api", "getApiUrlForTypeAndPeriod");
+
+	return encodeURI(url);
 }
 
-function getForUrl(url, callback) {
-	printDebug(`[api|getForUrl] URL: ${url}`);
+function getForUrl(url, isAsync, callback) {
+	printDebug(`URL: ${url}`, "api", "getForUrl");
 
 	var req = new XMLHttpRequest();
-	req.open("GET", url);
+	req.open("GET", url, isAsync);
 	req.setRequestHeader("Accept-Encoding", "gzip");
 	req.setRequestHeader("Origin", "https://www.wunderground.com");
 
-	req.onerror = function () {
-		errorStr = "Request couldn't be sent" + req.statusText;
-		appState = showERROR;
-
-		printDebug(`[api|getForUrl] ERROR: ${errorStr}`);
-	};
-
 	req.onreadystatechange = function () {
-		if (req.readyState == 4 && req.status == 200) {
-			printDebug(`[api|getForUrl] RAW RESPONSE: ${req.responseText}`);
-			var res = JSON.parse(req.responseText);
-			if (callback)
-				callback(res, req.status);
-		} else {
-			printDebug(`[api|getForUrl] NOT READY | URL ${url} State: ${req.readyState} Status: ${req.status}`);
+		//printDebug(`PERIODIC - STATE: ${req.readyState} for ${url}`, "api", "getForUrl");
 
-			if (callback)
-				callback(res, req.status);
-			//debug
-			//set state to borked
-			//retry
+		if (req.readyState == 4) {
+			if (req.status == 200) {
+				console.log("------------------------>" + req.status);
+				printDebug(`200 | ${url}`, "api", "getForUrl");
+				var res = JSON.parse(req.responseText);
+
+				printDebug(`FULL RESPONSE | ${url}: ${JSON.stringify(res)}`, "api", "getForUrl");
+
+				if (callback)
+					callback(res, req.status);
+			} else if (req.status == 204) {
+				console.log("------------------------>" + req.status);
+				printDebug(`NOT 200 | URL ${url} State: ${req.readyState} Status: ${req.status}`, "api", "getForUrl");
+
+				if (callback)
+					callback(res, req.status);
+				//debug
+				//set state to borked
+				//retry
+			} else {
+				console.log("------------------------>" + req.status);
+				handleError(url, req);
+			}
 		}
-	};
+	}
+
 	req.send();
+}
+
+function handleError(url, req) {
+	errorStr = `Request to ${url} couldn't be sent ${req.responseText}`;
+	appState = showERROR;
+
+	printDebug(`ERROR: ${errorStr} status: ${req.status}`, "api", "getForUrl");
 }
 
 function getCurrentData() {
 	var url = getApiUrlForTypeAndPeriod("current");
-	printDebug(`[api|getCurrentData] URL: ${url}`);
+	printDebug(`URL: ${url}`, "api", "getCurrentData");
 
 	//todo add second par to callback
-	getForUrl(url, function (res, status) {
-		if(status == 200) {
+	getForUrl(url, true, function (res, status) {
+		if (status == 200) {
 			var sectionName = "";
 
 			//todo
@@ -212,14 +241,14 @@ function getCurrentData() {
 			currentDetailsModel.append({ name: "precipitationAcc", val: flatWeatherData["precipTotal"] });
 			currentDetailsModel.append({ name: "uvIndex", val: flatWeatherData["uv"] });
 
-			printDebug("[api|getCurrentData] Got new current data");
-			printDebug("[api|getCurrentData] Finding Icon...");
+			printDebug("Got new current data", "api", "getCurrentData");
+			printDebug("Finding Icon...", "api", "getCurrentData");
 
 			getCurrentDataV3();
 			appState = showDATA;
 		} else if (status == 204) {
 			errorStr = "Station not found or station not active";
-			printDebug(`[api|getCurrentData] ERROR: ${errorStr}`);
+			printDebug(`ERROR: ${errorStr}`, "api", "getCurrentData");
 		} else {
 			//todo
 		}
@@ -227,14 +256,14 @@ function getCurrentData() {
 }
 
 function getCurrentDataV3() {
-	printDebug(`[api|getCurrentDataV3]: STARTED`);
+	printDebug(`STARTED`, "api", "getCurrentDataV3");
 
 	var url = getApiUrlForTypeAndPeriod("current-v3");
-	printDebug(`[api|getCurrentDataV3]: URL ${url}`);
+	printDebug(`URL ${url}`, "api", "getCurrentDataV3");
 
-	getForUrl(url, function (res, status) {
-		if(status == 200) {
-			printDebug(`[api|getCurrentDataV3] RAW RESPONSE: ${JSON.stringify(res)}`);
+	getForUrl(url, true, function (res, status) {
+		if (status == 200) {
+			printDebug(`RAW RESPONSE: ${JSON.stringify(res)}`, "api", "getCurrentDataV3");
 			iconCode = res["iconCode"];
 			conditionNarrative = res["wxPhraseLong"];
 		}
@@ -251,21 +280,21 @@ function getForecastData(periodInterval, periodLength) {
 	var url = getApiUrlForTypeAndPeriod(periodInterval, periodLength);
 	printDebug(`[api|getForecastData] URL: ${url}`);
 
-	getForUrl(url, function (res, status) {
+	getForUrl(url, true, function (res, status) {
 		if (status == 200) {
 			var forecasts = res["forecasts"];
-			printDebug(`[api|getForecastData] Processing ${periodInterval} forecasts`);
+			printDebug(`Processing ${periodInterval} forecasts`, "api", "getForecastData");
 
 			if (periodInterval === "daily") {
 				processDailyForecasts(forecasts)
 			} else if (periodInterval === "hourly") {
 				createHourlyChartModel(forecasts)
 			} else {
-				printDebug(`[api|getForecastData] Unrecognised period`);
+				printDebug(`Unrecognised period`, "api", "getForecastData");
 			}
 		} else {
 			errorStr = "Could not fetch forecast data";
-			printDebug(`[api|getForecastData] ERROR: ${errorStr}`);
+			printDebug(`ERROR: ${errorStr}`, "api", "getForecastData");
 
 			appState = showERROR;
 		}
@@ -276,43 +305,76 @@ function getForecastData(periodInterval, periodLength) {
 /**
  * Find the nearest PWS with the choosen coordinates.
  */
-function getNearestStation(station, callback) {
+function getNearestStations(callback) {
 	var url = getApiUrlForTypeAndPeriod("station-near");
-	printDebug(`[api|getNearestStation] URL: ${url}`);
+	printDebug(`URL: ${url}`, "api", "getNearestStations");
 
-	getForUrl(url, function (res) {
-		var stations = res["location"]["stationId"];
-		if (stations.length > 0) {
-			var closest = stations[station];
-			stationID.text = closest;
-
-			printDebug(`[api|getNearestStation] NEAREST STATION: ${closest}`);
+	getForUrl(url, true, function (res, status) {
+		if (res["location"]["stationId"].length > 0) {
+			printDebug(`NEAREST STATIONS: ${res["location"]["stationId"]}`, "api", "getNearestStations");
 			if (callback)
-				callback(closest);
+				callback(res["location"]);
 		} else {
 			//todo
 		}
 	});
 }
 
+function getNearestStation() {
+	getNearestStations(function (stationsPayload) {
+		printDebug(`Stations payload: ${JSON.stringify(stationsPayload)}`, "api", "getNearestStation");
+
+		var isStationFound = false;
+		var i = 0;
+		// while (!isStationFound && i != stationsPayload["stationId"].length) {			
+		// 	isStationActive(stationsPayload["stationId"][i], function(stationStatus){				
+		// 		printDebug(`Station processed: ${stationsPayload["stationId"][i]}`, "api", "getNearestStation");
+		// 		isStationFound = stationStatus;
+		// 	});
+		// 	printDebug(`Station ${stationsPayload["stationId"][i]} is marked as ${isStationFound}`, "api", "getNearestStation");
+		// 	i++;
+		// }
+
+	});
+}
+
+function recur(isStationFound, currentElement, stationsCount) {
+	if(isStationFound || currentElement == stationsCount) {
+		return isStationFound;
+	} else {
+		return recur (isStationFound, currentElement++, stationsCount);
+	}
+}
+
+//todo rename
 function getIpInfo() {
 	var url = "https://ipinfo.io/json"
-	printDebug(`[api|getIpInfo] URL: ${url}`);
+	printDebug(`URL: ${url}`, "api", "getIpInfo");
 
-	getForUrl(url, function (res, status) {
+	getForUrl(url, true, function (res, status) {
 		if (status == 200) {
-			printDebug(`[api|getIpInfo] Returned body: ${JSON.stringify(res)}`);
-			
+			printDebug(`Returned body: ${JSON.stringify(res)}`, "api", "getIpInfo");
+
 			var location = res["loc"].split(",")
+			printDebug(`Updating location with LAT: ${location[0]} LONG: ${location[1]}`, "api", "getIpInfo");
 			plasmoid.configuration.latitude = location[0];
 			plasmoid.configuration.longitude = location[1];
 
-			getNearestStation(0, function(closestStation) {
-				printDebug(`[api|getIpInfo] Closest station: ${closestStation}`);
-				stationID = closestStation;
-			})
+			getNearestStation();
 		} else {
 			//todo
+		}
+	});
+}
+
+function isStationActive(stationId, callback) {
+	var url = getApiUrlForTypeAndPeriod("current", null, { station: stationId });
+	printDebug(`URL: ${url}`, "api", "isStationActive");
+
+	getForUrl(url, false, function (res, status) {
+		printDebug(`Station ${stationId} is ${status == 200}`, "api", "isStationActive");
+		if(callback) {
+			callback(status == 200);
 		}
 	});
 }

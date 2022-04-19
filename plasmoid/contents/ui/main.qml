@@ -311,9 +311,9 @@ Item {
 
     Timer {
         id: timer
-        running: false //plasmoid.configuration.isAutoLocation
+        running: plasmoid.configuration.isAutoLocation
         repeat: true
-        interval: 60 * 1000
+        interval: 10 * 1000
         onTriggered: {
             printDebug(`[main|ipinfo|timer] TRIGGER FIRED ${new Date()}`)
             API.getIpInfo()
@@ -431,12 +431,22 @@ Item {
         }
     }
 
-    function printDebug(msg) {
-        if (plasmoid.configuration.logConsole) {console.log("[debug] [main.qml] " + msg)}
+    function printDebug(msg, file, func) {
+        var fileName = (file === undefined ? "n/a" : file);
+        var funcName = (func === undefined ? "n/a" : func);
+
+        if (plasmoid.configuration.logConsole) {
+            console.log(`[debug] [${fileName}|${funcName}]: ${msg}`);
+        };
     }
 
-    function printDebugJSON(json) {
-        if (plasmoid.configuration.logConsole) {console.log("[debug] [main.qml] " + JSON.stringify(json))}
+    function printDebugJSON(json, file, func) {
+        var fileName = (file === undefined ? "n/a" : file);
+        var funcName = (func === undefined ? "n/a" : func);
+
+        if (plasmoid.configuration.logConsole) {
+            console.log(`[debug] [${fileName}|${funcName}]: ${JSON.stringify(json)}`);
+        }
     }
 
     Plasmoid.fullRepresentation: fr
