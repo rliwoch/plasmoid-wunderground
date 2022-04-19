@@ -15,6 +15,9 @@
         <entry name="refreshPeriod" type="Int">
             <default>15</default>
         </entry>
+        <entry name="isAutoLocation" type="Bool">
+            <default>false</default>
+        </entry>        
     </group>
     <group name="Appearance">
         <entry name="compactPointSize" type="Int">
@@ -45,6 +48,10 @@
         <entry name="iconStyleChoice" type="Int">
             <default>5</default>
         </entry>
+        <entry name="pin" type="Bool">
+            <label>Whether the popup should remain open when another window is activated</label>
+            <default>false</default>
+        </entry>        
     </group>
     <group name="Units">
         <entry name="unitsChoice" type="Int">

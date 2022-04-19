@@ -448,7 +448,11 @@ function wrapInBrackets(unit, unitInterval) {
 }
 
 function getIconForCodeAndStyle(iconCode, styleId) {
-	var styleIdPath = `style${styleId + 1}Path`;
-	//console.log(`inbound icon code ${iconCode} and the path is: ${iconLookup[iconCode][styleIdPath]}`)
-	return iconLookup[iconCode][styleIdPath];
+	if(iconCode !== undefined && iconLookup !== undefined && iconLookup[iconCode] !== undefined) {
+		var styleIdPath = `style${styleId + 1}Path`;
+		console.log(`inbound icon code ${iconCode} and the path is: ${iconLookup[iconCode][styleIdPath]}`)
+		return iconLookup[iconCode][styleIdPath];
+	} else {
+		return "icons/wi-na.svg"
+	}
 }

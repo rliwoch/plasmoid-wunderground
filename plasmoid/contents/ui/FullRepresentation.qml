@@ -1,5 +1,6 @@
 /*
  * Copyright 2021  Kevin Donnelly
+ * Copyright 2022 Rafal (Raf) Liwoch
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -89,6 +90,12 @@ ColumnLayout {
         Layout.fillHeight: true
     }
 
+    // Rectangle {
+    //     color: "white"
+    //     Layout.fillWidth: true
+    //     height: 1
+    //     opacity: 0.2
+    // }
     BottomPanel {
         id: bottomPanel
 

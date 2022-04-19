@@ -76,7 +76,7 @@ Item {
                 id: feelsLikeSub
                 Layout.minimumWidth: Math.min(implicitWidth, preferredTextWidth)
                 Layout.maximumWidth: preferredTextWidth
-                text: i18n("Real feel") + ": " + Utils.currentTempUnit(Utils.feelsLike(flatWeatherData.temp, flatWeatherData.humidity, flatWeatherData.windSpeed))
+                text: i18n("Real feel") + ": " + Utils.currentTempUnit(Math.round(Utils.feelsLike(flatWeatherData.temp, flatWeatherData.humidity, flatWeatherData.windSpeed)))
                 opacity: 0.6
             }            
 

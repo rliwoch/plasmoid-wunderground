@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the plasmoid-wunderground package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#: ../contents/ui/TopPanel.qml
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: plasmoid-wunderground\n"
 "Report-Msgid-Bugs-To: https://github.com/rliwoch/plasmoid-wunderground-extended\n"
-"POT-Creation-Date: 2022-04-16 19:48+0200\n"
+"POT-Creation-Date: 2022-04-18 22:39+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Rafal (Raf) Liwoch <rafal.liwoch@gmail.com>\n"
 "Language-Team: ENGLISH (US) <LL@li.org>\n"
@@ -24,6 +25,10 @@ msgstr "Wunderground Extended"
 #: ../metadata.desktop
 msgid "Wunderground PWS extended"
 msgstr "Wunderground PWS extended"
+
+#: ../contents/code/pws-api.js
+msgid "Tonight"
+msgstr ""
 
 #: ../contents/config/config.qml
 msgid "Station"
@@ -188,13 +193,23 @@ msgstr "Time format:"
 msgid "Feels like %1"
 msgstr "Feels like %1"
 
+#: ../contents/ui/DetailsItem.qml ../contents/ui/HorizontalCompactLayout.qml ../contents/ui/main.qml
+msgid "Loading..."
+msgstr "Loading..."
+
+#: ../contents/ui/DetailsItem.qml
+msgctxt "Narrative prefix"
+msgid "Today:"
+msgstr ""
+
+#: ../contents/ui/DetailsItem.qml
+msgctxt "Narrative prefix"
+msgid "Tonight:"
+msgstr ""
+
 #: ../contents/ui/FullRepresentation.qml
 msgid "Loading data..."
 msgstr "Loading data..."
-
-#: ../contents/ui/HorizontalCompactLayout.qml ../contents/ui/main.qml ../contents/ui/TopPanel.qml
-msgid "Loading..."
-msgstr "Loading..."
 
 #: ../contents/ui/main.qml
 msgid "All set"
@@ -292,3 +307,15 @@ msgstr "Real feel"
 #: ../contents/ui/TopPanel.qml
 msgid "High: %1 Low: %2"
 msgstr "High: %1 Low: %2"
+
+#: ../contents/ui/TopPanel.qml
+msgid "\"I'm travelling\" mode. Allows the widget to autodiscover your location based on your public IP address."
+msgstr ""
+
+#: ../contents/ui/TopPanel.qml
+msgid "Info for nerds"
+msgstr ""
+
+#: ../contents/ui/TopPanel.qml
+msgid "Keep Open"
+msgstr ""
