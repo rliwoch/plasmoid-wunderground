@@ -1,0 +1,294 @@
+# Translation of plasmoid-wunderground-extended in French
+# Copyright (C) 2022
+# This file is distributed under the same license as the plasmoid-wunderground-extended package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: plasmoid-wunderground-extended\n"
+"Report-Msgid-Bugs-To: https://github.com/rliwoch/plasmoid-wunderground-extended\n"
+"POT-Creation-Date: 2022-04-16 19:48+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: fr-FR \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../metadata.desktop
+msgid "Wunderground Extended"
+msgstr "Wunderground Extended"
+
+#: ../metadata.desktop
+msgid "Wunderground PWS extended"
+msgstr "Wunderground PWS extended"
+
+#: ../contents/config/config.qml
+msgid "Station"
+msgstr "Station"
+
+#: ../contents/config/config.qml
+msgid "Appearance"
+msgstr "Apparence"
+
+#: ../contents/config/config.qml
+msgid "Units"
+msgstr "Unités"
+
+#: ../contents/config/config.qml
+msgid "Debug"
+msgstr "Débogage"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Compact Representation"
+msgstr "Présentation compacte"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Font"
+msgstr "Police"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Icon size (0 = default)"
+msgstr "Taille de l'icône (0 = défaut)"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Font size (0px=scale to widget)"
+msgstr "Taille de la police (0px = échelle du widget)"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Font styles"
+msgstr "Styles de la police"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Display narrative in taskbar"
+msgstr "Conditions dans la barre des taches"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Full Representation"
+msgstr "Présentation complète"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Property text size"
+msgstr "Taille du texte"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Icon styles"
+msgstr "Styles des icônes"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Icon style"
+msgid "Legacy"
+msgstr "Legacy"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Icon style"
+msgid "WeatherUnderground - White with colour"
+msgstr "WeatherUnderground - Blanc avec couleur"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Icon style"
+msgid "WeatherUnderground - White"
+msgstr "WeatherUnderground - Blanc"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Icon style"
+msgid "WeatherUnderground - Black"
+msgstr "WeatherUnderground - Noir"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Icon style"
+msgid "WeatherUnderground - Black with colour"
+msgstr "WeatherUnderground - Noir avec couleur"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Icon style"
+msgid "DEFAULT monochrome by Erik Flowers"
+msgstr "DÉFAUT monochrome par Erik Flowers"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Icon style"
+msgid "WeatherNOW Colour"
+msgstr "WeatherNOW Couleur"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Select icon style:"
+msgstr "Sélection du style"
+
+#: ../contents/ui/config/ConfigDebug.qml
+msgid "Write to console.log:"
+msgstr "Ecrire dans console.log"
+
+#: ../contents/ui/config/ConfigFontFamily.qml
+msgctxt "Use default font"
+msgid "Default"
+msgstr "Défaut"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Enter Station"
+msgstr "Choix de la station"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Weatherstation ID:"
+msgstr "ID de la station météo"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Get Nearest Station"
+msgstr "Station la plus proche"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Uses WGS84 geocode coordinates"
+msgstr "Système géodésique WGS84"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Longitude:"
+msgstr "Longitude"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Latitude:"
+msgstr "Latitude"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Refresh period (s):"
+msgstr "Période d'actualisation"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Find Station"
+msgstr "Trouver une station"
+
+#: ../contents/ui/config/ConfigUnits.qml
+msgctxt "The unit system"
+msgid "Metric"
+msgstr "Métrique"
+
+#: ../contents/ui/config/ConfigUnits.qml
+msgctxt "The unit system"
+msgid "Imperial"
+msgstr "Impérial"
+
+#: ../contents/ui/config/ConfigUnits.qml
+msgctxt "The unit system"
+msgid "Hybrid (UK)"
+msgstr "Hybride (GB)"
+
+#: ../contents/ui/config/ConfigUnits.qml
+msgid "Choose:"
+msgstr "Sélection"
+
+#: ../contents/ui/config/ConfigUnits.qml
+msgid "Date format:"
+msgstr "Format de la date"
+
+#: ../contents/ui/config/ConfigUnits.qml
+msgid "Time format:"
+msgstr "Format de l'heure"
+
+#: ../contents/ui/DetailsItem.qml
+msgid "Feels like %1"
+msgstr "Ressenti %1"
+
+#: ../contents/ui/FullRepresentation.qml
+msgid "Loading data..."
+msgstr "Chargement des données..."
+
+#: ../contents/ui/HorizontalCompactLayout.qml ../contents/ui/main.qml ../contents/ui/TopPanel.qml
+msgid "Loading..."
+msgstr "Chargement..."
+
+#: ../contents/ui/main.qml
+msgid "All set"
+msgstr "Tous les réglages"
+
+#: ../contents/ui/main.qml
+msgid "Temperature"
+msgstr "Température"
+
+#: ../contents/ui/main.qml
+msgid "UV Index"
+msgstr "Indice UV"
+
+#: ../contents/ui/main.qml
+msgid "Pressure"
+msgstr "Pression"
+
+#: ../contents/ui/main.qml
+msgid "Cloud Cover"
+msgstr "Couverture nuageuse"
+
+#: ../contents/ui/main.qml
+msgid "Humidity"
+msgstr "Humidité"
+
+#: ../contents/ui/main.qml
+msgid "Precipitation Chance"
+msgstr "Probabilité de précipitations"
+
+#: ../contents/ui/main.qml
+msgid "Precipitation Rate"
+msgstr "Taux de précipitations"
+
+#: ../contents/ui/main.qml
+msgid "Snow Precipitation Rate"
+msgstr "Taux d'enneigement"
+
+#: ../contents/ui/main.qml
+msgid "Wind / Gust"
+msgstr "Vitesse du vent"
+
+#: ../contents/ui/main.qml
+msgid "Precipitation Accumulation"
+msgstr "Cumul des précipitations"
+
+#: ../contents/ui/main.qml
+msgid "Dew Point"
+msgstr "Point de rosée"
+
+#: ../contents/ui/main.qml
+msgid "Wind Direction"
+msgstr "Direction du vent"
+
+#: ../contents/ui/main.qml
+msgid "Set the weather station to pull data from."
+msgstr "Station météo d'extraction des données."
+
+#: ../contents/ui/main.qml
+msgid "Please Configure"
+msgstr "Veuillez configurer"
+
+#: ../contents/ui/main.qml
+msgid "Error..."
+msgstr "Erreur..."
+
+#: ../contents/ui/main.qml
+msgid "Undefined Error..."
+msgstr "Erreur indéfinie..."
+
+#: ../contents/ui/main.qml
+msgctxt "Please put your language code here"
+msgid "en-US"
+msgstr "fr-FR"
+
+#: ../contents/ui/SwitchPanel.qml
+msgid "Weather Details"
+msgstr "Conditions actuelles"
+
+#: ../contents/ui/SwitchPanel.qml
+msgid "Day Chart"
+msgstr "Graphes quotidiens"
+
+#: ../contents/ui/SwitchPanel.qml
+msgid "Forecast"
+msgstr "Prévisions"
+
+#: ../contents/ui/SwitchPanel.qml
+msgid "Week Chart"
+msgstr "Graphes hebdomadaires"
+
+#: ../contents/ui/Tooltip.qml
+msgid "Real feel"
+msgstr "Ressenti"
+
+#: ../contents/ui/TopPanel.qml
+msgid "High: %1 Low: %2"
+msgstr "Maximum: %1 Minimum: %2"
