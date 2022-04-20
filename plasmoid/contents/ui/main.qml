@@ -32,17 +32,8 @@ Item {
     //that's a hack to check if we have a translation file for the given Locale
     property string currentLocale: getDisplayLocale()
 
-    property var currentLocation: null
-    
-    //todo refresh locations? how?
-    property var locations: ({
-        home: {
-            lat: plasmoid.configuration.latitude,
-            long: plasmoid.configuration.longitude,
-            station: plasmoid.configuration.stationID
-        },
-        traveling: null
-    })
+    property string currentStationId: plasmoid.configuration.stationID
+    property var currentStationDetails: null
 
     property bool isNarrativeForDay: true
 
@@ -222,7 +213,6 @@ Item {
 
     property ListModel forecastModel: ListModel {}
     property string errorStr: ""
-    property string toolTipSubText: ""
     property string iconCode: "32" // 32 = sunny
     property string conditionNarrative: ""
     property string narrativeText: ""
@@ -263,16 +253,12 @@ Item {
         API.getCurrentData()
         API.getForecastData("daily", 7);
         API.getForecastData("hourly", 24);
-
-        updatetoolTipSubText()
     }
 
     function updateCurrentData() {
         printDebug("Getting new current data")
 
         API.getCurrentData()
-
-        updatetoolTipSubText()
     }
 
     function updateForecastData() {
@@ -281,19 +267,9 @@ Item {
         API.getForecastData("daily", 7);
         API.getForecastData("hourly", 24);
 
-        updatetoolTipSubText()
-
         dailyChartModel.sync()
         forecastDetailsModel.sync()
         forecastModel.sync()
-    }
-
-    function updatetoolTipSubText() {
-        var subText = ""
-        
-        //todo 
-
-        toolTipSubText = subText;
     }
 
     //geolocation datasource is broken and doesn't update on change!
@@ -310,13 +286,24 @@ Item {
     // }
 
     Timer {
+        property int tempInterval: 0
         id: timer
         running: plasmoid.configuration.isAutoLocation
         repeat: true
-        interval: 10 * 1000
+        interval: plasmoid.configuration.locationIntervalRefreshMins * 10 * 1000
+        //interval: 1 * 10 * 1000
         onTriggered: {
-            printDebug(`[main|ipinfo|timer] TRIGGER FIRED ${new Date()}`)
-            API.getIpInfo()
+            API.refreshIPandStation(function(result) {
+                if(result){
+                    API.getStationIdent(API.getDefaultParams().station);
+                    updateWeatherData();
+                    timer.interval = timer.tempInterval
+                } else {
+                    timer.tempInterval = interval
+                    timer.interval = 5000
+                    console.log("changing interval to " + time.interval + " seconds")
+                }
+            });
         }
     }
 
@@ -324,9 +311,13 @@ Item {
         id: networkStatus
 
         onActiveConnectionsChanged: {
-            printDebug("CONN")
-            API.getIpInfo()
-
+            printDebug("Connection changed")
+            API.refreshIPandStation(function(result) {
+                if(result){
+                    API.getStationIdent(API.getDefaultParams().station);
+                    updateWeatherData();
+                }
+            });
         }
     }
 
@@ -337,7 +328,6 @@ Item {
         if (stationID != "") {
             // Show loading screen after units change
             appState = showLOADING;
-
             updateWeatherData();
         }
     }
@@ -357,9 +347,6 @@ Item {
 
     onAppStateChanged: {
         printDebug("State is: " + appState)
-
-        // The state could now be an error, the tooltip displays the error
-        updatetoolTipSubText()
     }
 
     Component.onCompleted: {
@@ -378,10 +365,13 @@ Item {
     }
 
     Timer {
-        interval: 60 * 60 * 1000
+        interval: plasmoid.configuration.forecastIntervalRefreshMins * 60 * 1000
         running: appState != showCONFIG
         repeat: true
-        onTriggered: updateForecastData()
+        onTriggered: {
+            updateForecastData()
+            API.getStationIdent(API.getDefaultParams().station)
+        }
     }
     
     Plasmoid.toolTipItem: Loader {
@@ -436,7 +426,7 @@ Item {
         var funcName = (func === undefined ? "n/a" : func);
 
         if (plasmoid.configuration.logConsole) {
-            console.log(`[debug] [${fileName}|${funcName}]: ${msg}`);
+            console.log(`[${new Date()}] [${fileName}|${funcName}]: ${msg}`);
         };
     }
 

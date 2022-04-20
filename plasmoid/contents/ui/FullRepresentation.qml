@@ -57,6 +57,8 @@ ColumnLayout {
 
         Layout.fillWidth: true
         Layout.fillHeight: true
+
+        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
     }
 
     PlasmaComponents.Label {
@@ -71,12 +73,14 @@ ColumnLayout {
 
         Layout.fillWidth: true
         Layout.fillHeight: true
+
+        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
     }
 
     TopPanel {
         id: topPanel
 
-        visible: appState == showDATA
+        //visible: appState == showDATA
 
         Layout.fillWidth: true
         Layout.alignment: Qt.AlignTop
@@ -90,12 +94,6 @@ ColumnLayout {
         Layout.fillHeight: true
     }
 
-    // Rectangle {
-    //     color: "white"
-    //     Layout.fillWidth: true
-    //     height: 1
-    //     opacity: 0.2
-    // }
     BottomPanel {
         id: bottomPanel
 

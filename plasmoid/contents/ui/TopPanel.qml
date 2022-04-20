@@ -23,13 +23,19 @@ import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 2.0 as PlasmaComponents
 import "../code/utils.js" as Utils
+import "../code/pws-api.js" as API
 
 Item {
     id: topPanelRoot
     height: todayConditionsElement.height
 
+    property var btnSize: Math.round(units.gridUnit * 2)
+
     Item {
         id: todayConditionsElement
+        
+        visible: appState == showDATA
+        
         anchors {
             horizontalCenter: parent.horizontalCenter
             verticalCenter: parent.verticalCenter
@@ -48,6 +54,7 @@ Item {
         PlasmaComponents.Label {
             id: tempOverview
             anchors.centerIn: parent
+            //todo TONIGHT doesn't show
             text: showForecast ? 
                 Qt.locale(currentLocale).dayName((new Date()).getDay()) + " - " + i18n("High: %1 Low: %2", Utils.currentTempUnit(currDayHigh), Utils.currentTempUnit(currDayLow)) : i18n("")
         }
@@ -62,37 +69,81 @@ Item {
         PlasmaComponents.ToolButton {
             anchors.right: infoBtn.left
             anchors.verticalCenter: parent.verticalCenter
-            width: Math.round(units.gridUnit * 2)
+            width: btnSize
             height: width
             checkable: true
             iconSource: "airplane-mode-symbolic"
             checked: plasmoid.configuration.isAutoLocation
-            onCheckedChanged: plasmoid.configuration.isAutoLocation = checked
-            tooltip: i18n("\"I'm travelling\" mode. Allows the widget to autodiscover your location based on your public IP address.")
+            onCheckedChanged: { 
+                plasmoid.configuration.isAutoLocation = checked
+                if(!checked) {
+                    currentStationId = plasmoid.configuration.stationID;
+                    API.getStationIdent(API.getDefaultParams().station);
+                    updateWeatherData();
+                } else {
+                    API.refreshIPandStation(function(result, newStationId) {
+                        if(result){
+                            currentStationId = newStationId;
+                            API.getStationIdent(API.getDefaultParams().station);
+                            updateWeatherData();
+                        }
+                    });
+                }  
+
+                if(checked == false) {
+                    plasmoid.configuration.altLatitude = "";
+                    plasmoid.configuration.altLongitude = "";
+                    plasmoid.configuration.altStationID = "";
+                    plasmoid.configuration.altLocation = "";
+                }
+            }
+            tooltip: i18n("\"I'm travelling\" mode.\n Allows the widget to autodiscover your location based on your public IP address.\n The `Home` station will be ignored when this option is selected.")
         }
 
         PlasmaComponents.ToolButton {
+            visible: false
             id: infoBtn
-            anchors.right: stayOnTopBtn.left
+            anchors.right: refreshBtn.left
             anchors.verticalCenter: parent.verticalCenter
-            width: Math.round(units.gridUnit * 2)
+            width: btnSize
             height: width
             checkable: false
             iconSource: "state-information"
             checked: false
-            onCheckedChanged: {
-                printDebug("INFOINFOINFO")
-                console.log("LOL")
+            onClicked: {
             }
             tooltip: i18n("Info for nerds")
         }
-
+        PlasmaComponents.ToolButton {
+            id: refreshBtn
+            anchors.right: stayOnTopBtn.left
+            anchors.verticalCenter: parent.verticalCenter
+            width: btnSize
+            height: width
+            checkable: false
+            iconSource: "view-refresh"
+            onClicked: {
+                if(plasmoid.configuration.isAutoLocation) {
+                    API.refreshIPandStation(function(result) {
+                        if(result){
+                            API.getStationIdent(API.getDefaultParams().station);
+                            currentStationId = newStationId;
+                            updateWeatherData();
+                        }
+                    });
+                } else {
+                    API.getStationIdent(API.getDefaultParams().station);
+                    updateWeatherData();
+                }
+            }
+            tooltip: i18n("Refresh all data")
+        }
         // Allows the user to keep the plasmoid open for reference
         PlasmaComponents.ToolButton {
             id: stayOnTopBtn
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
-            width: Math.round(units.gridUnit * 2)
+            width: btnSize
             height: width
             checkable: true
             iconSource: "window-pin"

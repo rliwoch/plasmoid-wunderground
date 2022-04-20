@@ -3,6 +3,18 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0 http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
     <kcfgfile name=""/>
     <group name="Station">
+        <entry name="locationIntervalRefreshMins" type="Int">
+            <default>30</default>
+        </entry>
+        <entry name="forecastIntervalRefreshMins" type="Int">
+            <default>30</default>
+        </entry>        
+        <entry name="location" type="String">
+            <default></default>
+        </entry>
+        <entry name="altLocation" type="String">
+            <default></default>
+        </entry>
         <entry name="stationID" type="String">
             <default>IFRAUN2</default>
         </entry>
@@ -12,6 +24,15 @@
         <entry name="latitude" type="String">
             <default>48.349</default>
         </entry>
+        <entry name="altStationID" type="String">
+            <default>IFRAUN2</default>
+        </entry>
+        <entry name="altLongitude" type="String">
+            <default>12.028</default>
+        </entry>
+        <entry name="altLatitude" type="String">
+            <default>48.349</default>
+        </entry>        
         <entry name="refreshPeriod" type="Int">
             <default>15</default>
         </entry>

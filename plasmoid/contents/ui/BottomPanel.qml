@@ -22,6 +22,7 @@ import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 3.0 as PlasmaComponents
 import "../code/utils.js" as Utils
+import "../code/pws-api.js" as API
 
 Item {
     id: bottomPanelRoot
@@ -71,7 +72,7 @@ Item {
                 font {
                     pointSize: textSize.small
                 }
-                text: weatherData["stationID"]   
+                text: API.getDefaultParams().station
             }
             PlasmaComponents.ToolButton {
                 width: units.iconSizes.small
@@ -102,9 +103,16 @@ Item {
         }
 
         width: childrenRect.width
+        height: childrenRect.height
 
         Item {
-            anchors.fill: parent
+            width: childrenRect.width
+            height: childrenRect.height
+
+            anchors {
+                horizontalCenter: parent.horizontalCenter + 2 * units.smallSpacing
+                verticalCenter: parent.top
+            }
 
             PlasmaCore.SvgItem {
                 id: pinIcon
@@ -113,8 +121,7 @@ Item {
                 height: width
 
                 anchors {
-                    right: locationText.left
-                    rightMargin: 2 * units.smallSpacing
+                    left: parent.left
                     verticalCenter: parent.verticalCenter
                 }
 
@@ -128,15 +135,15 @@ Item {
                 id: locationText
 
                 anchors {
-                    //horizontalCenter: parent.horizontalCenter
+                    left: pinIcon.right
+                    leftMargin: 2 * units.smallSpacing
                     verticalCenter: parent.verticalCenter
                 }
 
                 font {
                     pointSize: textSize.small
                 }
-                text: "Reichenkirchen, DE"
-
+                text: !plasmoid.configuration.isAutoLocation ? plasmoid.configuration.location : plasmoid.configuration.altLocation
             }
         }
     }

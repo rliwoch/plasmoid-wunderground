@@ -34,10 +34,9 @@ Item {
     Kirigami.FormLayout {
         anchors.fill: parent
 
-        Kirigami.Heading {
-            Layout.fillWidth: true
-            level: 2
-            text: i18n("Compact Representation")
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: i18n("Compact Representation")
         }
 
         ConfigFontFamily {
@@ -73,12 +72,9 @@ Item {
             Kirigami.FormData.label: i18n("Display narrative in taskbar")
         }
 
-        Kirigami.Separator {}
-
-        Kirigami.Heading {
-            Layout.fillWidth: true
-            level: 2
-            text: i18n("Full Representation")
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: i18n("Full Representation")
         }
 
         SpinBox {
@@ -89,11 +85,9 @@ Item {
             Kirigami.FormData.label: i18n("Property text size")
         }
 
-        Kirigami.Separator {}
-
-        Kirigami.Heading {
-            text: i18n("Icon styles")
-            level: 2
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: i18n("Icon styles")
         }
 
         ComboBox {
