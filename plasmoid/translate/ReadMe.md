@@ -34,8 +34,8 @@ Or if you know how to make a pull request
 
 |  Locale  |  Lines  | % Done|
 |----------|---------|-------|
-| Template |      72 |       |
-| en_GB    |   66/72 |   91% |
-| en_US    |   66/72 |   91% |
-| nl_NL    |   66/72 |   91% |
-| pl_PL    |   66/72 |   91% |
+| Template |      93 |       |
+| en_GB    |   63/93 |   67% |
+| en_US    |   63/93 |   67% |
+| nl_NL    |   63/93 |   67% |
+| pl_PL    |   63/93 |   67% |

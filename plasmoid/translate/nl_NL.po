@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: plasmoid-wunderground-extended\n"
 "Report-Msgid-Bugs-To: https://github.com/rliwoch/plasmoid-wunderground-"
 "extended\n"
-"POT-Creation-Date: 2022-04-18 22:39+0200\n"
+"POT-Creation-Date: 2022-04-21 01:55+0200\n"
 "PO-Revision-Date: 2022-04-16 20:15+0200\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <>\n"
@@ -29,10 +29,30 @@ msgid "Wunderground PWS extended"
 msgstr "Wunderground PWS (uitgebreid)"
 
 #: ../contents/code/pws-api.js
+msgid ""
+"Request to %1 couldn't be sent %2. Manual refresh might help (top right "
+"corner)"
+msgstr ""
+
+#: ../contents/code/pws-api.js
+msgid "Station not found or station not active"
+msgstr ""
+
+#: ../contents/code/pws-api.js
+msgid "Could not fetch forecast data"
+msgstr ""
+
+#: ../contents/code/pws-api.js
+msgid ""
+"No active stations nearby - try selecting a different location in your "
+"proximity."
+msgstr ""
+
+#: ../contents/code/pws-api.js
 msgid "Tonight"
 msgstr ""
 
-#: ../contents/config/config.qml
+#: ../contents/config/config.qml ../contents/ui/config/ConfigStation.qml
 msgid "Station"
 msgstr "Weerstation"
 
@@ -133,6 +153,16 @@ msgid "Default"
 msgstr "Standaard"
 
 #: ../contents/ui/config/ConfigStation.qml
+msgid ""
+"Here you can either manually enter the weather station ID from https://www."
+"wunderground.com/wundermap (search for a city that interests you, then on a "
+"map click on a location bubble and note down the station ID) or use the "
+"lookup tool and dropdowns to discover the weather station.\n"
+" You need to test the station every time you make changes. Some of them may "
+"be offline."
+msgstr ""
+
+#: ../contents/ui/config/ConfigStation.qml
 msgid "Enter Station"
 msgstr "Voer de naam in van een weerstation"
 
@@ -141,28 +171,94 @@ msgid "Weatherstation ID:"
 msgstr "Weerstation-id:"
 
 #: ../contents/ui/config/ConfigStation.qml
+msgid "Test station"
+msgstr ""
+
+#: ../contents/ui/config/ConfigStation.qml
+msgctxt "Text shown until a station is chosen from the dropdown"
+msgid "Pending selection"
+msgstr ""
+
+#: ../contents/ui/config/ConfigStation.qml
+msgctxt "Indicates if the station selected is active or not"
+msgid "Station status:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigStation.qml
 msgid "Get Nearest Station"
 msgstr "Dichtstbijzijnde station gebruiken"
 
 #: ../contents/ui/config/ConfigStation.qml
-msgid "Uses WGS84 geocode coordinates"
-msgstr "Hiervoor worden de WGS84-geocodecoördinaten gebruikt"
+msgid "Look for location:"
+msgstr ""
 
 #: ../contents/ui/config/ConfigStation.qml
-msgid "Longitude:"
-msgstr "Lengtegraad:"
+msgid "Find Station"
+msgstr "Weerstation zoeken"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Select City:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Select Station:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Options"
+msgstr ""
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Current conditions refresh interval (s):"
+msgstr ""
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Forecast refresh interval (minutes):"
+msgstr ""
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Location refresh interval (minutes):"
+msgstr ""
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Summary"
+msgstr ""
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Home Location"
+msgstr ""
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Currently Used"
+msgstr ""
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Latitude:"
 msgstr "Breedtegraad:"
 
 #: ../contents/ui/config/ConfigStation.qml
-msgid "Refresh period (s):"
-msgstr "Periodiek bijwerken (in sec.):"
+msgid "Longitude"
+msgstr ""
 
 #: ../contents/ui/config/ConfigStation.qml
-msgid "Find Station"
-msgstr "Weerstation zoeken"
+msgid "Location"
+msgstr ""
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid ""
+"When `I'm travelling`/tracking mode is enabled, the plasmoid will actively "
+"track your location and pick the nearest station near you. It does not "
+"collect any data about you, however it does use a public service ipinfo.io "
+"to obtain your public IP address and approximate location."
+msgstr ""
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Station %1 is active and can be used"
+msgstr ""
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Station %1 is NOT active. Please select a different station."
+msgstr ""
 
 #: ../contents/ui/config/ConfigUnits.qml
 msgctxt "The unit system"
@@ -313,8 +409,10 @@ msgstr "Hoog: %1 - Laag: %2"
 
 #: ../contents/ui/TopPanel.qml
 msgid ""
-"\"I'm travelling\" mode. Allows the widget to autodiscover your location "
-"based on your public IP address."
+"\"I'm travelling\" mode.\n"
+" Allows the widget to autodiscover your location based on your public IP "
+"address.\n"
+" The `Home` station will be ignored when this option is selected."
 msgstr ""
 
 #: ../contents/ui/TopPanel.qml
@@ -322,5 +420,18 @@ msgid "Info for nerds"
 msgstr ""
 
 #: ../contents/ui/TopPanel.qml
+msgid "Refresh all data"
+msgstr ""
+
+#: ../contents/ui/TopPanel.qml
 msgid "Keep Open"
 msgstr ""
+
+#~ msgid "Uses WGS84 geocode coordinates"
+#~ msgstr "Hiervoor worden de WGS84-geocodecoördinaten gebruikt"
+
+#~ msgid "Longitude:"
+#~ msgstr "Lengtegraad:"
+
+#~ msgid "Refresh period (s):"
+#~ msgstr "Periodiek bijwerken (in sec.):"
