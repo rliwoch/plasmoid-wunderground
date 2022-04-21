@@ -611,13 +611,13 @@ function createDailyDetailModel(forecastElem) {
 
 function createDailyChartModel(date, forecastDetailsModel, hasDay, nightIconCode, dayIconCode) {
 	var day = {
-		date: date,
+		date: date.setHours(12),
 		time: "12:00",
 		iconCode: dayIconCode,
 		isDay: true
 	};
 	var night = {
-		date: date,
+		date: date.setHours(23),
 		time: "00:00",
 		iconCode: nightIconCode,
 		isDay: false
