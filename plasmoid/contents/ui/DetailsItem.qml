@@ -102,7 +102,7 @@ GridLayout {
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
             svg: PlasmaCore.Svg {
                 id: temperatureIconSvg
-                imagePath: plasmoid.file("", "icons/fullRepresentation/wi-thermometer.svg")
+                imagePath: plasmoid.file("", Utils.getIconForCodeAndStyle(iconCode, plasmoid.configuration.iconStyleChoice))//plasmoid.file("", "icons/fullRepresentation/wi-thermometer.svg")
             }
 
             Layout.minimumWidth: units.iconSizes.huge
@@ -111,6 +111,7 @@ GridLayout {
             Layout.preferredHeight: Layout.minimumHeight
         }
         ColumnLayout {
+            Layout.rowSpan:2
             PlasmaComponents.Label {
                 id: temp
                 Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
@@ -125,13 +126,24 @@ GridLayout {
             PlasmaComponents.Label {
                 id: feelsLike
                 Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                text: i18n("Feels like %1", Utils.currentTempUnit(Utils.feelsLike(weatherData["details"]["temp"], weatherData["humidity"], weatherData["details"]["windSpeed"])))
+                text: i18n("Feels like %1", Utils.currentTempUnit(Math.round(Utils.feelsLike(weatherData["details"]["temp"], weatherData["humidity"], weatherData["details"]["windSpeed"]))))
                 font {
                     weight: Font.Bold
                     pointSize: plasmoid.configuration.propPointSize
                 }
             }
-        }
+
+            PlasmaComponents.Label {
+                id: currStation
+                Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                
+                text: conditionNarrative ? conditionNarrative : i18n("Loading...")
+
+                font {
+                    pointSize: plasmoid.configuration.propPointSize
+                }
+            }
+        }   
     }
 
     ColumnLayout {
@@ -199,10 +211,10 @@ GridLayout {
 
         PlasmaComponents.Label {
             id: narrative
-            text: narrativeText
+            text: isNarrativeForDay ? "<b>" + i18nc("Narrative prefix", "Today:") + "</b> " + narrativeText : "<b>" + i18nc("Narrative prefix", "Tonight:") + "</b> " + narrativeText
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             font {
-                italic: true
+                //italic: true
                 pointSize: plasmoid.configuration.propPointSize
             }
             horizontalAlignment: Text.AlignHCenter

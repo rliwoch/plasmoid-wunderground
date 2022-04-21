@@ -1,5 +1,6 @@
 /*
  * Copyright 2021  Kevin Donnelly
+ * Copyright 2022 Rafal (Raf) Liwoch
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -56,6 +57,8 @@ ColumnLayout {
 
         Layout.fillWidth: true
         Layout.fillHeight: true
+
+        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
     }
 
     PlasmaComponents.Label {
@@ -70,12 +73,14 @@ ColumnLayout {
 
         Layout.fillWidth: true
         Layout.fillHeight: true
+
+        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
     }
 
     TopPanel {
         id: topPanel
 
-        visible: appState == showDATA
+        //visible: appState == showDATA
 
         Layout.fillWidth: true
         Layout.alignment: Qt.AlignTop

@@ -1,5 +1,6 @@
 /*
  * Copyright 2021  Kevin Donnelly
+ * Copyright 2022 Rafal (Raf) Liwoch
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -22,44 +23,140 @@ import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 2.0 as PlasmaComponents
 import "../code/utils.js" as Utils
+import "../code/pws-api.js" as API
 
-RowLayout {
+Item {
     id: topPanelRoot
+    height: todayConditionsElement.height
 
-    PlasmaCore.SvgItem {
-        id: topPanelIcon
+    property var btnSize: Math.round(units.gridUnit * 2)
 
-        svg: PlasmaCore.Svg {
-            id: svg
-            imagePath: plasmoid.file("", Utils.getIconForCodeAndStyle(iconCode, plasmoid.configuration.iconStyleChoice))
+    Item {
+        id: todayConditionsElement
+        
+        visible: appState == showDATA
+        
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            verticalCenter: parent.verticalCenter
         }
 
-        Layout.minimumWidth: units.iconSizes.large
-        Layout.minimumHeight: units.iconSizes.large
-        Layout.preferredWidth: Layout.minimumWidth
-        Layout.preferredHeight: Layout.minimumHeight
+        width: childrenRect.width + 4 * units.smallSpacing
+        height: childrenRect.height  
+        
+        Rectangle {
+            anchors.fill: parent
+            radius: 5
+            color: PlasmaCore.Theme.complementaryFocusColor
+            opacity: 0.3
+        }
+
+        PlasmaComponents.Label {
+            id: tempOverview
+            anchors.centerIn: parent
+            //todo TONIGHT doesn't show
+            text: showForecast ? 
+                Qt.locale(currentLocale).dayName((new Date()).getDay()) + " - " + i18n("High: %1 Low: %2", Utils.currentTempUnit(currDayHigh), Utils.currentTempUnit(currDayLow)) : i18n("")
+        }
     }
 
-    PlasmaComponents.Label {
-        id: tempOverview
+    Item {
+        anchors {
+            right: parent.right
+            verticalCenter: parent.verticalCenter
+        }
+        // "I'm Traveling" Mode
+        PlasmaComponents.ToolButton {
+            anchors.right: infoBtn.left
+            anchors.verticalCenter: parent.verticalCenter
+            width: btnSize
+            height: width
+            checkable: true
+            iconSource: "airplane-mode-symbolic"
+            checked: plasmoid.configuration.isAutoLocation
+            onCheckedChanged: { 
+                plasmoid.configuration.isAutoLocation = checked
+                if(!checked) {
+                    currentStationId = plasmoid.configuration.stationID;
+                    API.getStationIdent(API.getDefaultParams().station);
+                    updateWeatherData();
+                } else {
+                    API.refreshIPandStation(function(result, newStationId) {
+                        if(result){
+                            currentStationId = newStationId;
+                            API.getStationIdent(API.getDefaultParams().station);
+                            updateWeatherData();
+                        }
+                    });
+                }  
 
-        text: showForecast ? i18n("High: %1 Low: %2", currDayHigh, currDayLow) : i18n("Loading...")
+                if(checked == false) {
+                    plasmoid.configuration.altLatitude = "";
+                    plasmoid.configuration.altLongitude = "";
+                    plasmoid.configuration.altStationID = "";
+                    plasmoid.configuration.altLocation = "";
+                }
+            }
+            tooltip: i18n("\"I'm travelling\" mode.\n Allows the widget to autodiscover your location based on your public IP address.\n The `Home` station will be ignored when this option is selected.")
+        }
 
-        verticalAlignment: Text.AlignBottom
-        horizontalAlignment: Text.AlignHCenter
+        PlasmaComponents.ToolButton {
+            visible: false
+            id: infoBtn
+            anchors.right: refreshBtn.left
+            anchors.verticalCenter: parent.verticalCenter
+            width: btnSize
+            height: width
+            checkable: false
+            iconSource: "state-information"
+            checked: false
+            onClicked: {
+            }
+            tooltip: i18n("Info for nerds")
+        }
+        PlasmaComponents.ToolButton {
+            id: refreshBtn
+            anchors.right: stayOnTopBtn.left
+            anchors.verticalCenter: parent.verticalCenter
+            width: btnSize
+            height: width
+            checkable: false
+            iconSource: "view-refresh"
+            onClicked: {
+                if(plasmoid.configuration.isAutoLocation) {
+                    API.refreshIPandStation(function(result) {
+                        if(result){
+                            API.getStationIdent(API.getDefaultParams().station);
+                            currentStationId = newStationId;
+                            updateWeatherData();
+                        }
+                    });
+                } else {
+                    API.getStationIdent(API.getDefaultParams().station);
+                    updateWeatherData();
+                }
+            }
+            tooltip: i18n("Refresh all data")
+        }
+        // Allows the user to keep the plasmoid open for reference
+        PlasmaComponents.ToolButton {
+            id: stayOnTopBtn
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
+            width: btnSize
+            height: width
+            checkable: true
+            iconSource: "window-pin"
+            checked: plasmoid.configuration.pin
+            onCheckedChanged: plasmoid.configuration.pin = checked
+            tooltip: i18n("Keep Open")
+        }
 
-        Layout.alignment: Qt.AlignHCenter
-        Layout.fillWidth: true
     }
 
-    PlasmaComponents.Label {
-        id: currStation
-
-        text: conditionNarrative ? conditionNarrative : i18n("Loading...")
-
-        verticalAlignment: Text.AlignBottom
-        horizontalAlignment: Text.AlignRight
-
-        Layout.alignment: Qt.AlignRight
+    Binding {
+        target: plasmoid
+        property: "hideOnWindowDeactivate"
+        value: !plasmoid.configuration.pin
     }
 }
