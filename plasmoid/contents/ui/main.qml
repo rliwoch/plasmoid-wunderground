@@ -311,13 +311,18 @@ Item {
         id: networkStatus
 
         onActiveConnectionsChanged: {
-            printDebug("Connection changed")
-            API.refreshIPandStation(function(result) {
-                if(result){
-                    API.getStationIdent(API.getDefaultParams().station);
-                    updateWeatherData();
-                }
-            });
+            if(plasmoid.configuration.isAutoLocation) {
+                printDebug("Connection changed")
+                API.refreshIPandStation(function(result) {
+                    if(result){
+                        API.getStationIdent(API.getDefaultParams().station);
+                        updateWeatherData();
+                    }
+                });
+            } else {
+                updateWeatherData();
+            }
+
         }
     }
 
