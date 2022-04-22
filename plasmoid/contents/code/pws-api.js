@@ -450,31 +450,35 @@ function getNearestStationsForConfig(coord) {
 }
 /*-----------------------------------------------------*/
 
+
 function processDailyForecasts(forecasts) {
 	printDebug("------------- PROCESSING DAILY FORECASTS ---------------");
 	forecastModel.clear();
 	forecastDetailsModel.clear();
 	dailyChartModel.clear();
 
-	dayInfo = extractGenericInfo(forecasts[0]);
+	forecasts.forEach((f,i) => {
+		createDailyDetailModel(f)
 
-	for (var period = 0; period < forecasts.length; period++) {
-		var forecast = forecasts[period];
-
-		createDailyDetailModel(forecast)
-
-		var day = forecast["day"];
-		var night = forecast["night"];
-
+		var day = f["day"];
+		var night = f["night"];
 		var isDay = day !== undefined;
+		var forecastForDay = new Date(forecasts[i]["fcst_valid_local"]);
+		var now = new Date()
 
-		var fullDateTime = forecast["fcst_valid_local"];
+		if(forecastForDay.getDate() == now.getDate() && forecastForDay.getMonth() == now.getMonth()) {
+			dayInfo = extractGenericInfo(f);
+		}
+
+		//////// REFACTOR
+		var fullDateTime = f["fcst_valid_local"];
+		//todo where is it used?
 		var date = parseInt(
 			fullDateTime.split("T")[0].split("-")[2]
 		);
+		//////// 
 
-
-		if (period == 0) {
+		if (i == 0) {
 			if (!isDay) {
 				isNarrativeForDay = false
 				narrativeText = night["narrative"];
@@ -484,25 +488,12 @@ function processDailyForecasts(forecasts) {
 			}
 		}
 
-		var snowDesc = "";
-		if (isDay) {
-			snowDesc =
-				day["snow_phrase"] === ""
-					? "No snow"
-					: day["snow_phrase"];
-		} else {
-			snowDesc =
-				night["snow_phrase"] === ""
-					? "No snow"
-					: night["snow_phrase"];
-		}
-
 		forecastModel.append({
 			date: date,
-			dayOfWeek: isDay ? forecast["dow"] : i18n("Tonight"),
+			dayOfWeek: isDay ? f["dow"] : i18n("Tonight"),
 			iconCode: isDay ? day["icon_code"] : night["icon_code"],
-			high: isDay ? forecast["max_temp"] : night["hi"],
-			low: forecast["min_temp"],
+			high: isDay ? f["max_temp"] : night["hi"],
+			low: f["min_temp"],
 			feelsLike: isDay ? day["hi"] : night["hi"],
 			shortDesc: isDay
 				? day["phrase_32char"]
@@ -511,16 +502,14 @@ function processDailyForecasts(forecasts) {
 			winDesc: isDay
 				? day["wind_phrase"]
 				: night["wind_phrase"],
-			UVDesc: isDay ? day["uv_desc"] : night["uv_desc"],
-			snowDesc: snowDesc,
 			golfDesc: isDay
 				? day["golf_category"]
 				: "Don't play golf at night.",
-			sunrise: extractTime(forecast["sunrise"], true),
-			sunset: extractTime(forecast["sunset"], true),
-			fullForecast: forecast,
+			sunrise: extractTime(f["sunrise"], true),
+			sunset: extractTime(f["sunset"], true),
+			fullForecast: f,
 		});
-	}
+	});
 
 	// These are placed seperate from forecastModel since items part of ListModels
 	// cannot be property bound
@@ -539,10 +528,10 @@ function processDailyForecasts(forecasts) {
 
 function extractGenericInfo(forecast) {
 	return {
-		"sunrise": extractTime(forecast["sunrise"], true),
-		"sunset": extractTime(forecast["sunset"], true),
-		"moonrise": extractTime(forecast["moonrise"], true),
-		"moonset": extractTime(forecast["moonset"], true),
+		"sunrise": new Date(forecast["sunrise"]),
+		"sunset": new Date(forecast["sunset"]),
+		"moonrise": new Date(forecast["moonrise"]),
+		"moonset": new Date(forecast["moonset"]),
 		"lunarPhaseCode": forecast["lunar_phase_code"],
 		"lunarPhase": forecast["lunar_phase"]
 	}

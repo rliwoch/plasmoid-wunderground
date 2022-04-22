@@ -67,13 +67,16 @@ ColumnLayout {
 
         currentIndex: tabBar.currentIndex
 
-        DetailsItem {
+        Loader {
+            //plasmoid.configuration.detailsStyle
             id: weatherItem
 
             Layout.preferredWidth: parent.width
             Layout.preferredHeight: parent.height * 0.75
 
             Layout.alignment: Qt.AlignCenter
+
+            source: plasmoid.configuration.detailsStyle == 0 ? "DetailsItem.qml" : "DetailsItemAlt.qml"
         }
 
         DayChartItem {

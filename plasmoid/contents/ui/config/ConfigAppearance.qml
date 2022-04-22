@@ -29,6 +29,7 @@ Item {
     property alias cfg_compactIconSize: compactIconSize.value
     property alias cfg_propPointSize: propPointSize.value
     property alias cfg_iconStyleChoice: iconStyleChoice.currentIndex
+    property alias cfg_detailsStyle: detailsDisplayStyleChoice.currentIndex
     property alias cfg_compactShowConditions: compactShowConditions.checked
 
     Kirigami.FormLayout {
@@ -83,6 +84,18 @@ Item {
             editable: true
 
             Kirigami.FormData.label: i18n("Property text size")
+        }
+
+        ComboBox {
+            id: detailsDisplayStyleChoice
+
+            width: 100
+            model: [
+                i18nc("Details display style", "Legacy"), 
+                i18nc("New", "New"),                 
+            ]
+
+            Kirigami.FormData.label: i18n("Select `Weather Details` style:")
         }
 
         Kirigami.Separator {

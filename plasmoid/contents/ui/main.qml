@@ -290,8 +290,8 @@ Item {
         id: timer
         running: plasmoid.configuration.isAutoLocation
         repeat: true
-        interval: plasmoid.configuration.locationIntervalRefreshMins * 10 * 1000
-        //interval: 1 * 10 * 1000
+        interval: plasmoid.configuration.locationIntervalRefreshMins * 60 * 1000
+    
         onTriggered: {
             API.refreshIPandStation(function(result) {
                 if(result){

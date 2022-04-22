@@ -29,7 +29,7 @@ Item {
     id: topPanelRoot
     height: todayConditionsElement.height
 
-    property var btnSize: Math.round(units.gridUnit * 2)
+    property var btnSize: units.iconSizes.medium//Math.round(units.gridUnit * 2)
 
     Item {
         id: todayConditionsElement
