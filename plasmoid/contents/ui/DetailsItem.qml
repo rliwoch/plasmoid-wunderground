@@ -1,5 +1,4 @@
 /*
- * Copyright 2021  Kevin Donnelly
  * Copyright 2022  Rafal (Raf) Liwoch
  *
  * This program is free software; you can redistribute it and/or
@@ -28,270 +27,269 @@ import "../code/utils.js" as Utils
 Item {
     id: detailsRoot
 
+    anchors.centerIn: parent
+    height: childrenRect.height
+
+    //CURRENT SUN/MOON
     Item {
+        id: topRow
+        width: parent.width
+        height: mainTempDisplay.height
 
-        width: childrenRect.width
-        height: childrenRect.height
-    
-        anchors {
-            left: parent.left
-            right: mainTempDisplay.left
-            verticalCenter: mainTempDisplay.verticalCenter
+        Item {
+            id: mainTempDisplay
+
+            width: parent.width / 3
+            height: childrenRect.height
+            
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+                top: parent.top
+            }
+            GridLayout {
+                id: temperatureCol
+                Layout.columnSpan: 2
+                columns: 2
+                rows: 2
+
+                anchors.centerIn: parent
+
+                PlasmaCore.SvgItem {
+                    Layout.rowSpan:2
+                    id: temperatureIcon
+                    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                    svg: PlasmaCore.Svg {
+                        id: temperatureIconSvg
+                        imagePath: plasmoid.file("", Utils.getIconForCodeAndStyle(iconCode, plasmoid.configuration.iconStyleChoice))//plasmoid.file("", "icons/fullRepresentation/wi-thermometer.svg")
+                    }
+
+                    Layout.minimumWidth: units.iconSizes.huge
+                    Layout.minimumHeight: units.iconSizes.huge
+                    Layout.preferredWidth: Layout.minimumWidth
+                    Layout.preferredHeight: Layout.minimumHeight
+                }
+                ColumnLayout {
+                    Layout.rowSpan:2
+                    PlasmaComponents.Label {
+                        id: temp
+                        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                        text: Utils.currentTempUnit(weatherData["details"]["temp"])
+                        font {
+                            pointSize: plasmoid.configuration.propPointSize * 3
+                        }
+                        color: Utils.heatColor(weatherData["details"]["temp"])
+                    }
+
+
+                    PlasmaComponents.Label {
+                        id: feelsLike
+                        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                        text: i18n("Feels like %1", Utils.currentTempUnit(Math.round(Utils.feelsLike(weatherData["details"]["temp"], weatherData["humidity"], weatherData["details"]["windSpeed"]))))
+                        font {
+                            weight: Font.Bold
+                            pointSize: plasmoid.configuration.propPointSize
+                        }
+                    }
+
+                    PlasmaComponents.Label {
+                        id: currStation
+                        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                        
+                        text: conditionNarrative ? conditionNarrative : i18n("Loading...")
+
+                        font {
+                            pointSize: plasmoid.configuration.propPointSize
+                        }
+                    }
+                }   
+            }
         }
-    
-        ColumnLayout {
-            id: sunRiseSetCol
-            anchors.horizontalCenter: parent.horizontalCenter
-    
-            RowLayout {
-                width: childrenRect.width
-                height: childrenRect.height
+        Item {
+            id: sunRiseSetBox
+            width: childrenRect.width
+            height: childrenRect.height
         
-                PlasmaCore.SvgItem {
-                    id: sunRiseIcon
-                    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                    svg: PlasmaCore.Svg {
-                        id: sunRiseSvg
-                        imagePath: plasmoid.file("", "icons/fullRepresentation/wi-sunrise.svg")
-                    }
-    
-                    Layout.minimumWidth: units.iconSizes.smallMedium
-                    Layout.minimumHeight: units.iconSizes.smallMedium
-                    Layout.preferredWidth: Layout.minimumWidth
-                    Layout.preferredHeight: Layout.minimumHeight
-                }
-    
-                PlasmaComponents.Label {
-                    id: sunRiseData
-                    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                    text: Qt.formatDateTime(dayInfo["sunrise"], plasmoid.configuration.timeFormatChoice)
-                    font {
-                        //weight: Font.Bold
-                        pointSize: plasmoid.configuration.propPointSize
-                    }
-                }
+            anchors {
+                left: parent.left
+                right: mainTempDisplay.left
+                verticalCenter: mainTempDisplay.verticalCenter
             }
-            RowLayout {
-                width: childrenRect.width
-                height: childrenRect.height
-                PlasmaCore.SvgItem {
-                    id: sunSetIcon
-                    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                    svg: PlasmaCore.Svg {
-                        id: sunSetSvg
-                        imagePath: plasmoid.file("", "icons/fullRepresentation/wi-sunset.svg")
+        
+            ColumnLayout {
+                id: sunRiseSetCol
+                anchors.horizontalCenter: parent.horizontalCenter
+        
+                RowLayout {
+                    width: childrenRect.width
+                    height: childrenRect.height
+            
+                    PlasmaCore.SvgItem {
+                        id: sunRiseIcon
+                        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                        svg: PlasmaCore.Svg {
+                            id: sunRiseSvg
+                            imagePath: plasmoid.file("", "icons/fullRepresentation/wi-sunrise.svg")
+                        }
+        
+                        Layout.minimumWidth: units.iconSizes.smallMedium
+                        Layout.minimumHeight: units.iconSizes.smallMedium
+                        Layout.preferredWidth: Layout.minimumWidth
+                        Layout.preferredHeight: Layout.minimumHeight
                     }
-    
-                    Layout.minimumWidth: units.iconSizes.smallMedium
-                    Layout.minimumHeight: units.iconSizes.smallMedium
-                    Layout.preferredWidth: Layout.minimumWidth
-                    Layout.preferredHeight: Layout.minimumHeight
-                }
-    
-                PlasmaComponents.Label {
-                    id: sunSetData
-                    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                    text: Qt.formatDateTime(dayInfo["sunset"], plasmoid.configuration.timeFormatChoice)
-                    font {
-                        //weight: Font.Bold
-                        pointSize: plasmoid.configuration.propPointSize
+        
+                    PlasmaComponents.Label {
+                        id: sunRiseData
+                        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                        text: Qt.formatDateTime(dayInfo["sunrise"], plasmoid.configuration.timeFormatChoice)
+                        font {
+                            pointSize: plasmoid.configuration.propPointSize
+                        }
                     }
                 }
-            }
-        }
-    }
-
-Item {
-    id: mainTempDisplay
-
-    width: parent.width / 3//childrenRect.width
-    height: childrenRect.height
-    
-    anchors {
-        horizontalCenter: parent.horizontalCenter
-        top: parent.top
-        topMargin: 5 * units.smallSpacing
-    }
-    GridLayout {
-        id: temperatureCol
-        Layout.columnSpan: 2
-        columns: 2
-        rows: 2
-
-
-        Layout.fillHeight: true
-        Layout.fillWidth: true
-
-        PlasmaCore.SvgItem {
-            Layout.rowSpan:2
-            id: temperatureIcon
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-            svg: PlasmaCore.Svg {
-                id: temperatureIconSvg
-                imagePath: plasmoid.file("", Utils.getIconForCodeAndStyle(iconCode, plasmoid.configuration.iconStyleChoice))//plasmoid.file("", "icons/fullRepresentation/wi-thermometer.svg")
-            }
-
-            Layout.minimumWidth: units.iconSizes.huge
-            Layout.minimumHeight: units.iconSizes.huge
-            Layout.preferredWidth: Layout.minimumWidth
-            Layout.preferredHeight: Layout.minimumHeight
-        }
-        ColumnLayout {
-            Layout.rowSpan:2
-            PlasmaComponents.Label {
-                id: temp
-                Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                text: Utils.currentTempUnit(weatherData["details"]["temp"])
-                font {
-                    pointSize: plasmoid.configuration.propPointSize * 3
-                }
-                color: Utils.heatColor(weatherData["details"]["temp"])
-            }
-
-
-            PlasmaComponents.Label {
-                id: feelsLike
-                Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                text: i18n("Feels like %1", Utils.currentTempUnit(Math.round(Utils.feelsLike(weatherData["details"]["temp"], weatherData["humidity"], weatherData["details"]["windSpeed"]))))
-                font {
-                    weight: Font.Bold
-                    pointSize: plasmoid.configuration.propPointSize
+                RowLayout {
+                    width: childrenRect.width
+                    height: childrenRect.height
+                    PlasmaCore.SvgItem {
+                        id: sunSetIcon
+                        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                        svg: PlasmaCore.Svg {
+                            id: sunSetSvg
+                            imagePath: plasmoid.file("", "icons/fullRepresentation/wi-sunset.svg")
+                        }
+        
+                        Layout.minimumWidth: units.iconSizes.smallMedium
+                        Layout.minimumHeight: units.iconSizes.smallMedium
+                        Layout.preferredWidth: Layout.minimumWidth
+                        Layout.preferredHeight: Layout.minimumHeight
+                    }
+        
+                    PlasmaComponents.Label {
+                        id: sunSetData
+                        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                        text: Qt.formatDateTime(dayInfo["sunset"], plasmoid.configuration.timeFormatChoice)
+                        font {
+                            pointSize: plasmoid.configuration.propPointSize
+                        }
+                    }
                 }
             }
+        }        
+        Item {
 
-            PlasmaComponents.Label {
-                id: currStation
-                Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                
-                text: conditionNarrative ? conditionNarrative : i18n("Loading...")
-
-                font {
-                    pointSize: plasmoid.configuration.propPointSize
-                }
-            }
-        }   
-    }
-}
-Item {
-
-    width: childrenRect.width
-    height: childrenRect.height
-
-    anchors {
-        right: parent.right
-        left: mainTempDisplay.right
-        verticalCenter: mainTempDisplay.verticalCenter
-    }
-
-    ColumnLayout {
-        id: moonRiseSetCol
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        RowLayout {
             width: childrenRect.width
             height: childrenRect.height
-    
-            PlasmaCore.SvgItem {
-                id: moonRiseIcon
-                Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                svg: PlasmaCore.Svg {
-                    id: moonRiseSvg
-                    imagePath: plasmoid.file("", "icons/fullRepresentation/wi-moonrise.svg")
-                }
 
-                Layout.minimumWidth: units.iconSizes.smallMedium
-                Layout.minimumHeight: units.iconSizes.smallMedium
-                Layout.preferredWidth: Layout.minimumWidth
-                Layout.preferredHeight: Layout.minimumHeight
+            anchors {
+                right: parent.right
+                left: mainTempDisplay.right
+                verticalCenter: mainTempDisplay.verticalCenter
             }
 
-            PlasmaComponents.Label {
-                id: moonRiseData
-                Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                text: Qt.formatDateTime(dayInfo["moonrise"], plasmoid.configuration.timeFormatChoice)
-                font {
-                    //weight: Font.Bold
-                    pointSize: plasmoid.configuration.propPointSize
-                }
-            }
-        }
-        RowLayout {
-            width: childrenRect.width
-            height: childrenRect.height
-            PlasmaCore.SvgItem {
-                id: moonSetIcon
-                Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                svg: PlasmaCore.Svg {
-                    id: moonSetSvg
-                    imagePath: plasmoid.file("", "icons/fullRepresentation/wi-moonset.svg")
-                }
+            ColumnLayout {
+                id: moonRiseSetCol
+                anchors.horizontalCenter: parent.horizontalCenter
 
-                Layout.minimumWidth: units.iconSizes.smallMedium
-                Layout.minimumHeight: units.iconSizes.smallMedium
-                Layout.preferredWidth: Layout.minimumWidth
-                Layout.preferredHeight: Layout.minimumHeight
-            }
+                RowLayout {
+                    width: childrenRect.width
+                    height: childrenRect.height
+            
+                    PlasmaCore.SvgItem {
+                        id: moonRiseIcon
+                        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                        svg: PlasmaCore.Svg {
+                            id: moonRiseSvg
+                            imagePath: plasmoid.file("", "icons/fullRepresentation/wi-moonrise.svg")
+                        }
 
-            PlasmaComponents.Label {
-                id: moonSetData
-                Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                text: Qt.formatDateTime(dayInfo["moonset"], plasmoid.configuration.timeFormatChoice)
-                font {
-                    //weight: Font.Bold
-                    pointSize: plasmoid.configuration.propPointSize
+                        Layout.minimumWidth: units.iconSizes.smallMedium
+                        Layout.minimumHeight: units.iconSizes.smallMedium
+                        Layout.preferredWidth: Layout.minimumWidth
+                        Layout.preferredHeight: Layout.minimumHeight
+                    }
+
+                    PlasmaComponents.Label {
+                        id: moonRiseData
+                        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                        text: Qt.formatDateTime(dayInfo["moonrise"], plasmoid.configuration.timeFormatChoice)
+                        font {
+                            pointSize: plasmoid.configuration.propPointSize
+                        }
+                    }
+                }
+                RowLayout {
+                    width: childrenRect.width
+                    height: childrenRect.height
+                    PlasmaCore.SvgItem {
+                        id: moonSetIcon
+                        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                        svg: PlasmaCore.Svg {
+                            id: moonSetSvg
+                            imagePath: plasmoid.file("", "icons/fullRepresentation/wi-moonset.svg")
+                        }
+
+                        Layout.minimumWidth: units.iconSizes.smallMedium
+                        Layout.minimumHeight: units.iconSizes.smallMedium
+                        Layout.preferredWidth: Layout.minimumWidth
+                        Layout.preferredHeight: Layout.minimumHeight
+                    }
+
+                    PlasmaComponents.Label {
+                        id: moonSetData
+                        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                        text: Qt.formatDateTime(dayInfo["moonset"], plasmoid.configuration.timeFormatChoice)
+                        font {
+                            //weight: Font.Bold
+                            pointSize: plasmoid.configuration.propPointSize
+                        }
+                    }
                 }
             }
         }
     }
-}
 
-    Item{
+    //NARRATIVE
+    Item {
         id: narrativeTextRow
 
         width: parent.width
-        height: 4 * plasmoid.configuration.propPointSize
+        height: narrative.height
 
         anchors {
-            top: mainTempDisplay.bottom
-            bottom: dayDetailsView.top
+            top: topRow.bottom
+            topMargin: 2 * units.gridUnit
             horizontalCenter: parent.horizontalCenter
         }
 
 
         PlasmaComponents.Label {
             id: narrative
-            text: isNarrativeForDay ? "<b>" + i18nc("Narrative prefix", "Today:") + "</b> " + narrativeText : "<b>" + i18nc("Narrative prefix", "Tonight:") + "</b> " + narrativeText
+            text: narrativeText
 
             anchors.fill: parent
             font {
-                //italic: true
                 pointSize: plasmoid.configuration.propPointSize
             }
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WordWrap
-
-
         }
     }
 
+    //GRID
     GridView {
-        //Layout.columnSpan:4
         id: dayDetailsView
 
         width: parent.width
         height: childrenRect.height
 
         anchors {
-            bottom: parent.bottom
+            top: narrativeTextRow.bottom
+            topMargin: 2 * units.gridUnit
             horizontalCenter: parent.horizontalCenter
         }
 
         model: currentDetailsModel
-        // Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-        // Layout.fillWidth: true
-        // Layout.fillHeight: true
 
-        cellWidth: detailsRoot.width/4
+        cellWidth: detailsRoot.width / 4
         cellHeight: singleMetricDelegate.height
         
         

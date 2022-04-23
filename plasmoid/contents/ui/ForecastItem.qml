@@ -110,7 +110,7 @@ GridLayout{
                 ]
 
                 PlasmaComponents.Label {
-                    text: dayOfWeek
+                    text: dayPartName
 
                     Layout.fillWidth: true
                     Layout.fillHeight: true
@@ -153,7 +153,7 @@ GridLayout{
                         onEntered: {
                             forecastListView.currentIndex = index
                                 itemEl = index
-                                currentDate = new Date(forecastModel.get(itemEl).fullForecast["fcst_valid_local"])
+                                currentDate = forecastModel.get(itemEl).date
 
                                 singleDayModel.clear()
                                 singleDayModel.append(Object.values(forecastDetailsModel.get(index)))
@@ -335,7 +335,7 @@ GridLayout{
                                 pointSize: textSize.small
                             }
 
-                            text: Api.extractTime(forecastModel.get(itemEl).fullForecast.sunrise, false)
+                            text: Api.extractTime(forecastModel.get(itemEl).fullForecast.sunrise)
                         }
                     }
                     Item {
@@ -384,7 +384,7 @@ GridLayout{
                                 pointSize: textSize.small
                             }
 
-                            text: Api.extractTime(forecastModel.get(itemEl).fullForecast.sunset, false)
+                            text: Api.extractTime(forecastModel.get(itemEl).fullForecast.sunset)
                         }
                     }
                     Item {
@@ -432,7 +432,7 @@ GridLayout{
                             font {
                                 pointSize: textSize.small
                             }
-                            text: Api.extractTime(forecastModel.get(itemEl).fullForecast.moonset, false)
+                            text: Api.extractTime(forecastModel.get(itemEl).fullForecast.moonset)
                         }
                     }
                     Item {

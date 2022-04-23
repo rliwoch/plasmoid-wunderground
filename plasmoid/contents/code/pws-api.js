@@ -43,6 +43,9 @@ var modelTemplate = {
 	},
 	wind: {
 		name: "wind",
+	},
+	num: {
+		name: "num"
 	}
 }
 var modelDict = {
@@ -52,7 +55,8 @@ var modelDict = {
 	precipitationChance: "pop",
 	precipitationRate: "qpf",
 	snowPrecipitationRate: "snow_qpf",
-	wind: "wspd"
+	wind: "wspd",
+	num: "num"
 }
 
 function getCurrentUnitsSettings() {
@@ -463,58 +467,46 @@ function processDailyForecasts(forecasts) {
 		var day = f["day"];
 		var night = f["night"];
 		var isDay = day !== undefined;
-		var forecastForDay = new Date(forecasts[i]["fcst_valid_local"]);
+		var timeOfDay = isDay ? day : night;
+
+		var forecastForDay = new Date(f["fcst_valid_local"]);
 		var now = new Date()
 
 		if(forecastForDay.getDate() == now.getDate() && forecastForDay.getMonth() == now.getMonth()) {
 			dayInfo = extractGenericInfo(f);
 		}
 
-		//////// REFACTOR
-		var fullDateTime = f["fcst_valid_local"];
-		//todo where is it used?
-		var date = parseInt(
-			fullDateTime.split("T")[0].split("-")[2]
-		);
-		//////// 
-
+		var temps = prepTemps(f, isDay);
 		if (i == 0) {
-			if (!isDay) {
-				isNarrativeForDay = false
-				narrativeText = night["narrative"];
-			} else {
-				isNarrativeForDay = true
-				narrativeText = day["narrative"];
-			}
+			// These are placed seperate from forecastModel since items part of ListModels
+			// cannot be property bound
+			currentDayName = timeOfDay["long_daypart_name"];
+			currDayHigh = temps.max;
+			currDayLow = temps.min;
+			narrativeText = `${timeOfDay["alt_daypart_name"]}: ${timeOfDay["narrative"]}`
 		}
+		
 
 		forecastModel.append({
-			date: date,
-			dayOfWeek: isDay ? f["dow"] : i18n("Tonight"),
-			iconCode: isDay ? day["icon_code"] : night["icon_code"],
-			high: isDay ? f["max_temp"] : night["hi"],
-			low: f["min_temp"],
-			feelsLike: isDay ? day["hi"] : night["hi"],
-			shortDesc: isDay
-				? day["phrase_32char"]
-				: night["phrase_32char"],
-			longDesc: isDay ? day["narrative"] : night["narrative"],
-			winDesc: isDay
-				? day["wind_phrase"]
-				: night["wind_phrase"],
-			golfDesc: isDay
-				? day["golf_category"]
-				: "Don't play golf at night.",
-			sunrise: extractTime(f["sunrise"], true),
-			sunset: extractTime(f["sunset"], true),
+			date: forecastForDay,
+			dayPartName: timeOfDay["alt_daypart_name"],
+			dayOfWeek: timeOfDay["long_daypart_name"],
+			iconCode: timeOfDay["icon_code"],
+			narrative: timeOfDay["narrative"],
+			high: temps.max,
+			low: temps.min,
+			//feelsLike: temps.feelsLike,
+			shortDesc: timeOfDay["phrase_32char"],
+			longDesc: timeOfDay["narrative"],
+			winDesc: timeOfDay["wind_phrase"],
+			golfDesc: isDay ? day["golf_category"] : "Don't play golf at night.",
+			sunrise: extractTime(f["sunrise"]),
+			sunset: extractTime(f["sunset"]),
 			fullForecast: f,
 		});
 	});
 
-	// These are placed seperate from forecastModel since items part of ListModels
-	// cannot be property bound
-	currDayHigh = forecastModel.get(0).high;
-	currDayLow = forecastModel.get(0).low;
+
 
 	// Hack to update "on hover" details in the Forecast view when plasmoid is first loaded
 	singleDayModel.clear()
@@ -526,6 +518,22 @@ function processDailyForecasts(forecasts) {
 	printDebug("------------- DAILY FORECASTS FINISHED ---------------");
 }
 
+function prepTemps(f, hasDay) {
+	if(hasDay) {
+		return {
+			max: f["day"]["temp"],
+			min: f["night"]["temp"],
+			feelsLike: f["hi"]
+		}
+	} else {
+		return {
+			max: f["night"]["hi"],
+			min: f["night"]["temp"],
+			feelsLike: f["hi"]
+		}
+	}
+}
+
 function extractGenericInfo(forecast) {
 	return {
 		"sunrise": new Date(forecast["sunrise"]),
@@ -533,11 +541,12 @@ function extractGenericInfo(forecast) {
 		"moonrise": new Date(forecast["moonrise"]),
 		"moonset": new Date(forecast["moonset"]),
 		"lunarPhaseCode": forecast["lunar_phase_code"],
+		"lunarPhaseDay": forecast["lunar_phase_day"],
 		"lunarPhase": forecast["lunar_phase"]
 	}
 }
 
-function extractTime(date, includeSeconds) {
+function extractTime(date) {
 	if (!date) {
 		return "n/a";
 	}
@@ -554,24 +563,30 @@ function createHourlyChartModel(forecasts) {
 	printDebug("------------- PROCESSING HOURLY FORECASTS ---------------");
 	hourlyChartModel.clear()
 
-	forecasts.forEach(function (period) {
-		var date = new Date(period.fcst_valid_local);
-		var hourModel = {
-			date: date,
-			time: date, //todo remove
-			iconCode: period["icon_code"]
-		};
-		Object.values(modelTemplate).forEach(reading => {
-			hourModel[reading.name] = period[modelDict[reading.name]];
-		});
+	var forecastsCount = forecasts.length
 
-		hourModel.golfIndex = period["golf_index"] !== null ? period["golf_index"] : 0;
-		hourModel.uvIndex = period["uv_index"];
-		hourModel.pressure = period["mslp"];
+	forecasts.forEach((period,index) => {
+		console.log("PERIOD PROC " + period.num)
+		if(!(period.num == 23 || period.num == 24)) {
+			console.log("PERIOD IF " + period.num)
+			var date = new Date(period.fcst_valid_local);
+			var hourModel = {
+				date: date,
+				time: date, //todo remove
+				iconCode: period["icon_code"]
+			};
+			Object.values(modelTemplate).forEach(reading => {
+				hourModel[reading.name] = period[modelDict[reading.name]];
+			});
 
-		printDebug("HOURLY MODEL: " + JSON.stringify(hourModel));
+			hourModel.golfIndex = period["golf_index"] !== null ? period["golf_index"] : 0;
+			hourModel.uvIndex = period["uv_index"];
+			hourModel.pressure = period["mslp"];
 
-		hourlyChartModel.append(hourModel);
+			printDebug("HOURLY MODEL: " + JSON.stringify(hourModel));
+
+			hourlyChartModel.append(hourModel);
+		}
 	});
 	printDebug("------------- HOURLY FORECASTS FINISHED ---------------");
 }
@@ -594,6 +609,9 @@ function createDailyDetailModel(forecastElem) {
 
 	createDailyChartModel(date, newModel, day !== undefined, nightIconCode, dayIconCode);
 
+	//num only needed in creatDailyChartModel
+	delete newModel.num
+
 	forecastDetailsModel.append(newModel);
 
 }
@@ -612,7 +630,6 @@ function createDailyChartModel(date, forecastDetailsModel, hasDay, nightIconCode
 		isDay: false
 	};
 
-
 	Object.values(forecastDetailsModel).forEach(condition => {
 		if (hasDay) {
 			day[condition.name] = condition.dayVal;
@@ -620,10 +637,12 @@ function createDailyChartModel(date, forecastDetailsModel, hasDay, nightIconCode
 		night[condition.name] = condition.nightVal;
 	});
 
-	//excluding today's day - as we have a 24h chart for that
-	if (hasDay && !isToday(date)) {
-		printDebug("DAILY MODEL: " + JSON.stringify(day));
-		dailyChartModel.append(day);
+	//excluding today's day - as we have a 24h chart for that. Ultimately we need 15 elements for the chart.
+	if(hasDay) {
+		if(day["num"] != 1) {
+			printDebug("DAILY MODEL: " + JSON.stringify(day));
+			dailyChartModel.append(day);	
+		}
 	}
 	printDebug("DAILY MODEL: " + JSON.stringify(night));
 	dailyChartModel.append(night);

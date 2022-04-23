@@ -225,9 +225,19 @@ Item {
 
     property int appState: showCONFIG
 
+    // property int fontSize: plasmoid.configuration.propPointSize
+    // property int widgetStyle: plasmoid.configuration.detailsStyle
+
+    // onFontSizeChanged: {
+    //     console.log("STYYYYLE")
+    //     Plasmoid.fullRepresentation = null
+    //     Plasmoid.fullRepresentation = fr
+    // }
+
     // QML does not let you property bind items part of ListModels.
     // The TopPanel shows the high/low values which are items part of forecastModel
     // These are updated in pws-api.js to overcome that limitation
+    property string currentDayName: ""
     property int currDayHigh: 0
     property int currDayLow: 0
 

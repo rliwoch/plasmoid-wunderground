@@ -68,7 +68,6 @@ ColumnLayout {
         currentIndex: tabBar.currentIndex
 
         Loader {
-            //plasmoid.configuration.detailsStyle
             id: weatherItem
 
             Layout.preferredWidth: parent.width

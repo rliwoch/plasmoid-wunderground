@@ -510,11 +510,11 @@ function remainingUntilSinceDaylight() {
 	console.log(`Rise ${rise}, Set: ${set}, Now: ${now}`)
 
 	if(now.getTime() < rise.getTime()) {
-		timeSunlight = i18n("Until sunrise") + ": " 
+		timeSunlight = i18n("To sunrise") + ": " 
 				+ Utils.calculateTimeDifference(now,rise,false);
 		isDaylight = false;
 	} else if (now.getTime() >= rise.getTime() && now.getTime() <+ set.getTime()) {
-		timeSunlight = i18n("Remianing") + ": " 
+		timeSunlight = i18n("Remaining") + ": " 
 				+ Utils.calculateTimeDifference(now,set,false);
 		isDaylight = true;
 	} else if (now.getTime() > set.getTime()) {
