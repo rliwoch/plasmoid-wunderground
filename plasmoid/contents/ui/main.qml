@@ -225,9 +225,19 @@ Item {
 
     property int appState: showCONFIG
 
+    // property int fontSize: plasmoid.configuration.propPointSize
+    // property int widgetStyle: plasmoid.configuration.detailsStyle
+
+    // onFontSizeChanged: {
+    //     console.log("STYYYYLE")
+    //     Plasmoid.fullRepresentation = null
+    //     Plasmoid.fullRepresentation = fr
+    // }
+
     // QML does not let you property bind items part of ListModels.
     // The TopPanel shows the high/low values which are items part of forecastModel
     // These are updated in pws-api.js to overcome that limitation
+    property string currentDayName: ""
     property int currDayHigh: 0
     property int currDayLow: 0
 
@@ -290,8 +300,8 @@ Item {
         id: timer
         running: plasmoid.configuration.isAutoLocation
         repeat: true
-        interval: plasmoid.configuration.locationIntervalRefreshMins * 10 * 1000
-        //interval: 1 * 10 * 1000
+        interval: plasmoid.configuration.locationIntervalRefreshMins * 60 * 1000
+    
         onTriggered: {
             API.refreshIPandStation(function(result) {
                 if(result){
@@ -311,13 +321,18 @@ Item {
         id: networkStatus
 
         onActiveConnectionsChanged: {
-            printDebug("Connection changed")
-            API.refreshIPandStation(function(result) {
-                if(result){
-                    API.getStationIdent(API.getDefaultParams().station);
-                    updateWeatherData();
-                }
-            });
+            if(plasmoid.configuration.isAutoLocation) {
+                printDebug("Connection changed")
+                API.refreshIPandStation(function(result) {
+                    if(result){
+                        API.getStationIdent(API.getDefaultParams().station);
+                        updateWeatherData();
+                    }
+                });
+            } else {
+                updateWeatherData();
+            }
+
         }
     }
 

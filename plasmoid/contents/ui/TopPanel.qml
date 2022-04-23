@@ -29,7 +29,7 @@ Item {
     id: topPanelRoot
     height: todayConditionsElement.height
 
-    property var btnSize: Math.round(units.gridUnit * 2)
+    property var btnSize: units.iconSizes.medium//Math.round(units.gridUnit * 2)
 
     Item {
         id: todayConditionsElement
@@ -54,9 +54,7 @@ Item {
         PlasmaComponents.Label {
             id: tempOverview
             anchors.centerIn: parent
-            //todo TONIGHT doesn't show
-            text: showForecast ? 
-                Qt.locale(currentLocale).dayName((new Date()).getDay()) + " - " + i18n("High: %1 Low: %2", Utils.currentTempUnit(currDayHigh), Utils.currentTempUnit(currDayLow)) : i18n("")
+            text: showForecast ? currentDayName + " - " + i18n("High: %1 Low: %2", Utils.currentTempUnit(currDayHigh), Utils.currentTempUnit(currDayLow)) : i18n("")
         }
     }
 
@@ -124,7 +122,7 @@ Item {
             iconSource: "view-refresh"
             onClicked: {
                 if(plasmoid.configuration.isAutoLocation) {
-                    API.refreshIPandStation(function(result) {
+                    API.refreshIPandStation(function(result, newStationId) {
                         if(result){
                             API.getStationIdent(API.getDefaultParams().station);
                             currentStationId = newStationId;

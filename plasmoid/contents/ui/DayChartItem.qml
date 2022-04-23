@@ -230,7 +230,7 @@ ColumnLayout{
                     horizontalCenter: lineChart.horizontalCenter
                 }
 
-                property var unitInterval: (currentLegendText === "precipitationRate" || currentLegendText === "snowPrecipitationRate" ? "/12h" : "")
+                property var unitInterval: (currentLegendText === "precipitationRate" || currentLegendText === "snowPrecipitationRate" ? i18nc("per 12 hours, please keep it short", "/12h") : "")
 
                 Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
                 text: `${dictVals[currentLegendText].name} ${Utils.wrapInBrackets(dictVals[currentLegendText].unit, unitInterval)}`

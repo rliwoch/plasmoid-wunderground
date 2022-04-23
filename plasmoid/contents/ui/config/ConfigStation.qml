@@ -58,7 +58,7 @@ Item {
 
         width: parent.width
         wrapMode: Text.Wrap
-        text: i18n("Here you can either manually enter the weather station ID from https://www.wunderground.com/wundermap (search for a city that interests you, then on a map click on a location bubble and note down the station ID) or use the lookup tool and dropdowns to discover the weather station.\n You need to test the station every time you make changes. Some of them may be offline.")
+        text: i18n("Here you can either manually enter the weather station ID from https://www.wunderground.com/wundermap (search for a city that interests you, then on a map click on a location bubble and note down the station ID) or use the lookup tool and dropdowns to discover the weather station.\nYou need to test the station every time you make changes. Some of them may be offline.")
     }
     Kirigami.FormLayout {
         id: form
