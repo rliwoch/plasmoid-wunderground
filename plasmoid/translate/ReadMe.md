@@ -37,5 +37,6 @@ Or if you know how to make a pull request
 | Template |     100 |       |
 | en_GB    | 100/100 |  100% |
 | en_US    | 100/100 |  100% |
+| fr_FR    | 100/100 |  100% |
 | nl_NL    |  63/100 |   63% |
 | pl_PL    | 100/100 |  100% |
