@@ -21,14 +21,21 @@ import QtQuick.Layouts 1.0
 import QtQuick.Controls 2.0
 import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
+import org.kde.plasma.networkmanagement 0.2 as PlasmaNM
+
 import "../code/utils.js" as Utils
-import "../code/pws-api.js" as StationAPI
+import "../code/pws-api.js" as API
 
 Item {
     id: root
 
     //that's a hack to check if we have a translation file for the given Locale
     property string currentLocale: getDisplayLocale()
+
+    property string currentStationId: plasmoid.configuration.stationID
+    property var currentStationDetails: null
+
+    property bool isNarrativeForDay: true
 
     property var weatherData: null
     property var flatWeatherData: {}
@@ -206,7 +213,6 @@ Item {
 
     property ListModel forecastModel: ListModel {}
     property string errorStr: ""
-    property string toolTipSubText: ""
     property string iconCode: "32" // 32 = sunny
     property string conditionNarrative: ""
     property string narrativeText: ""
@@ -219,9 +225,19 @@ Item {
 
     property int appState: showCONFIG
 
+    // property int fontSize: plasmoid.configuration.propPointSize
+    // property int widgetStyle: plasmoid.configuration.detailsStyle
+
+    // onFontSizeChanged: {
+    //     console.log("STYYYYLE")
+    //     Plasmoid.fullRepresentation = null
+    //     Plasmoid.fullRepresentation = fr
+    // }
+
     // QML does not let you property bind items part of ListModels.
     // The TopPanel shows the high/low values which are items part of forecastModel
     // These are updated in pws-api.js to overcome that limitation
+    property string currentDayName: ""
     property int currDayHigh: 0
     property int currDayLow: 0
 
@@ -231,8 +247,6 @@ Item {
     property int unitsChoice: plasmoid.configuration.unitsChoice
 
     property bool inTray: false
-    // Metric units change based on precipitation type
-    property bool isRain: true
 
     property Component fr: FullRepresentation {
         Layout.minimumWidth: units.gridUnit * 16 *2.6
@@ -243,51 +257,83 @@ Item {
 
     property Component cr: CompactRepresentation {}
 
-    function printDebug(msg) {
-        if (plasmoid.configuration.logConsole) {console.log("[debug] [main.qml] " + msg)}
-    }
-
-    function printDebugJSON(json) {
-        if (plasmoid.configuration.logConsole) {console.log("[debug] [main.qml] " + JSON.stringify(json))}
-    }
-
     function updateWeatherData() {
         printDebug("Getting new weather data")
 
-        StationAPI.getCurrentData()
-        StationAPI.getForecastData("daily", 7);
-        StationAPI.getForecastData("hourly", 24);
-
-        updatetoolTipSubText()
+        API.getCurrentData()
+        API.getForecastData("daily", 7);
+        API.getForecastData("hourly", 24);
     }
 
     function updateCurrentData() {
         printDebug("Getting new current data")
 
-        StationAPI.getCurrentData()
-
-        updatetoolTipSubText()
+        API.getCurrentData()
     }
 
     function updateForecastData() {
         printDebug("Getting new forecast data")
 
-        StationAPI.getForecastData("daily", 7);
-        StationAPI.getForecastData("hourly", 24);
-
-        updatetoolTipSubText()
+        API.getForecastData("daily", 7);
+        API.getForecastData("hourly", 24);
 
         dailyChartModel.sync()
         forecastDetailsModel.sync()
         forecastModel.sync()
     }
 
-    function updatetoolTipSubText() {
-        var subText = ""
-        
-        //todo 
+    //geolocation datasource is broken and doesn't update on change!
 
-        toolTipSubText = subText;
+    // PlasmaCore.DataSource {
+    //     id: geolocationDataSource
+    //     engine: "geolocation"
+    //     connectedSources: "location"
+    //     interval: 1000
+
+    //     onNewData:{
+    //         printDebug(data.DateTime)
+    //     }
+    // }
+
+    Timer {
+        property int tempInterval: 0
+        id: timer
+        running: plasmoid.configuration.isAutoLocation
+        repeat: true
+        interval: plasmoid.configuration.locationIntervalRefreshMins * 60 * 1000
+    
+        onTriggered: {
+            API.refreshIPandStation(function(result) {
+                if(result){
+                    API.getStationIdent(API.getDefaultParams().station);
+                    updateWeatherData();
+                    timer.interval = timer.tempInterval
+                } else {
+                    timer.tempInterval = interval
+                    timer.interval = 5000
+                    console.log("changing interval to " + time.interval + " seconds")
+                }
+            });
+        }
+    }
+
+    PlasmaNM.NetworkStatus {
+        id: networkStatus
+
+        onActiveConnectionsChanged: {
+            if(plasmoid.configuration.isAutoLocation) {
+                printDebug("Connection changed")
+                API.refreshIPandStation(function(result) {
+                    if(result){
+                        API.getStationIdent(API.getDefaultParams().station);
+                        updateWeatherData();
+                    }
+                });
+            } else {
+                updateWeatherData();
+            }
+
+        }
     }
 
     onUnitsChoiceChanged: {
@@ -297,7 +343,6 @@ Item {
         if (stationID != "") {
             // Show loading screen after units change
             appState = showLOADING;
-
             updateWeatherData();
         }
     }
@@ -317,9 +362,6 @@ Item {
 
     onAppStateChanged: {
         printDebug("State is: " + appState)
-
-        // The state could now be an error, the tooltip displays the error
-        updatetoolTipSubText()
     }
 
     Component.onCompleted: {
@@ -338,10 +380,13 @@ Item {
     }
 
     Timer {
-        interval: 60 * 60 * 1000
+        interval: plasmoid.configuration.forecastIntervalRefreshMins * 60 * 1000
         running: appState != showCONFIG
         repeat: true
-        onTriggered: updateForecastData()
+        onTriggered: {
+            updateForecastData()
+            API.getStationIdent(API.getDefaultParams().station)
+        }
     }
     
     Plasmoid.toolTipItem: Loader {
@@ -376,14 +421,36 @@ Item {
     }
 
     function getDisplayLocale() {
+        printDebug(`[main|getDisplayLocale] START`)
         var systemLocale = Qt.locale().uiLanguages[0]
         var testString = i18nc("Please put your language code here","en-US")
+
+        printDebug(`[main|getDisplayLocale] systemLocale: ${systemLocale}, testString: ${testString}`)
+        
         var hasTranslationForLocale = (testString === systemLocale ? true : false)
 
         if(hasTranslationForLocale) {
             return systemLocale;
         } else {
             return "en-US";
+        }
+    }
+
+    function printDebug(msg, file, func) {
+        var fileName = (file === undefined ? "n/a" : file);
+        var funcName = (func === undefined ? "n/a" : func);
+
+        if (plasmoid.configuration.logConsole) {
+            console.log(`[${new Date()}] [${fileName}|${funcName}]: ${msg}`);
+        };
+    }
+
+    function printDebugJSON(json, file, func) {
+        var fileName = (file === undefined ? "n/a" : file);
+        var funcName = (func === undefined ? "n/a" : func);
+
+        if (plasmoid.configuration.logConsole) {
+            console.log(`[debug] [${fileName}|${funcName}]: ${JSON.stringify(json)}`);
         }
     }
 

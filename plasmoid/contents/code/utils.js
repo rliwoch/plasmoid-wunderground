@@ -415,9 +415,9 @@ function displayUnits(data, units, dataPointName) {
 			case "temperature":
 				return currentTempUnit(data, true);
 			case "precipitationRate":
-				return currentPrecipUnit(data, true, true) + "/h";
+				return currentPrecipUnit(data, true, true) + i18nc("per hour, e.g. it will become mm/h. KEEP SHORT", "h");
 			case "snowPrecipitationRate":
-				return currentPrecipUnit(data, false, true) + "/h";
+				return currentPrecipUnit(data, false, true) + i18nc("per hour, e.g. it will become mm/h. KEEP SHORT", "h");
 			case "wind":
 				return currentSpeedUnit(data, true);
 			default:
@@ -435,9 +435,9 @@ function getValue(metricName, val, val2){
 	} else if (metricName === "wind") {
 		return `${val}/${val2} ${dictVals[metricName].unit}`
 	} else if(metricName === "precipitationRate") {
-		return `${val} ${dictVals[metricName].unit}/hr`
+		return `${val} ${dictVals[metricName].unit}/${i18nc("per hour, e.g. it will become mm/h. KEEP SHORT", "h")}`
 	} else if(metricName === "precipitationAcc") {
-		return `${val} ${dictVals[metricName].unit}/day`
+		return `${val} ${dictVals[metricName].unit}/${i18nc("per day, e.g. it will become mm/day. KEEP SHORT", "day")}`
 	} else {
 		return `${val} ${dictVals[metricName].unit}`
 	}
@@ -448,7 +448,80 @@ function wrapInBrackets(unit, unitInterval) {
 }
 
 function getIconForCodeAndStyle(iconCode, styleId) {
-	var styleIdPath = `style${styleId + 1}Path`;
-	//console.log(`inbound icon code ${iconCode} and the path is: ${iconLookup[iconCode][styleIdPath]}`)
-	return iconLookup[iconCode][styleIdPath];
+	if(iconCode !== undefined && iconLookup !== undefined && iconLookup[iconCode] !== undefined) {
+		var styleIdPath = `style${styleId + 1}Path`;
+		console.log(`inbound icon code ${iconCode} and the path is: ${iconLookup[iconCode][styleIdPath]}`)
+		return iconLookup[iconCode][styleIdPath];
+	} else {
+		return "icons/wi-na.svg"
+	}
+}
+
+
+function calculateTimeDifference(startDate, endDate, isShowSeconds) {
+	var diff = endDate.getTime() - startDate.getTime(); 
+	var diff_as_date = new Date(diff);
+	console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> START: " + startDate + " END: "+ endDate)
+	console.log("DIFF: " + diff_as_date)
+	if(isShowSeconds) {
+		return `${diff_as_date.getUTCHours()}h ${diff_as_date.getUTCMinutes()}m ${diff_as_date.getUTCSeconds()}s`;
+	} else {
+		return `${diff_as_date.getUTCHours()}h ${diff_as_date.getUTCMinutes()}m`;
+	}
+	
+}
+
+function calculateNeedlePosition(startDate, endDate) {
+	console.log("CALCULATE!!!!")
+	var startTs = startDate.getTime();
+	var endTs = endDate.getTime();
+	var nowTs = (new Date()).getTime();
+
+	if(nowTs < startDate || nowTs > endDate) {
+		return 0;
+	}
+
+	var diff = endTs - startTs;
+
+	var nowDiff = endTs - nowTs;
+
+	var result = Math.round((nowDiff * 100)/diff);
+
+	console.log(`Start ${startTs}, End: ${endTs}, diff: ${diff}, nowDiff: ${nowDiff}, effective needle: ${result}`)
+
+	return 100 - result;
+}
+
+function getDayLength() {
+	var rise = dayInfo["sunrise"];
+	var set = dayInfo["sunset"];
+	var dayLength = Utils.calculateTimeDifference(rise,set,true);
+
+	return dayLength;
+}
+
+function remainingUntilSinceDaylight() {
+	var rise = dayInfo["sunrise"];
+	var set = dayInfo["sunset"];
+	var now = new Date();
+	var dayLength = Utils.calculateTimeDifference(rise,set,true);
+	var timeSunlight = "";
+
+	console.log(`Rise ${rise}, Set: ${set}, Now: ${now}`)
+
+	if(now.getTime() < rise.getTime()) {
+		timeSunlight = i18n("To sunrise") + ": " 
+				+ Utils.calculateTimeDifference(now,rise,false);
+		isDaylight = false;
+	} else if (now.getTime() >= rise.getTime() && now.getTime() <+ set.getTime()) {
+		timeSunlight = i18nc("Daylight remaining time, keep short","Remaining") + ": " 
+				+ Utils.calculateTimeDifference(now,set,false);
+		isDaylight = true;
+	} else if (now.getTime() > set.getTime()) {
+		timeSunlight = i18n("Since sunset") + ": " 
+		+ Utils.calculateTimeDifference(set,now,false);
+		isDaylight = false;
+	}
+	
+	return timeSunlight;
 }

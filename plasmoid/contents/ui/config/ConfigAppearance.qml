@@ -29,15 +29,15 @@ Item {
     property alias cfg_compactIconSize: compactIconSize.value
     property alias cfg_propPointSize: propPointSize.value
     property alias cfg_iconStyleChoice: iconStyleChoice.currentIndex
+    property alias cfg_detailsStyle: detailsDisplayStyleChoice.currentIndex
     property alias cfg_compactShowConditions: compactShowConditions.checked
 
     Kirigami.FormLayout {
         anchors.fill: parent
 
-        Kirigami.Heading {
-            Layout.fillWidth: true
-            level: 2
-            text: i18n("Compact Representation")
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: i18n("Compact Representation")
         }
 
         ConfigFontFamily {
@@ -73,12 +73,9 @@ Item {
             Kirigami.FormData.label: i18n("Display narrative in taskbar")
         }
 
-        Kirigami.Separator {}
-
-        Kirigami.Heading {
-            Layout.fillWidth: true
-            level: 2
-            text: i18n("Full Representation")
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: i18n("Full Representation")
         }
 
         SpinBox {
@@ -89,11 +86,21 @@ Item {
             Kirigami.FormData.label: i18n("Property text size")
         }
 
-        Kirigami.Separator {}
+        ComboBox {
+            id: detailsDisplayStyleChoice
 
-        Kirigami.Heading {
-            text: i18n("Icon styles")
-            level: 2
+            width: 100
+            model: [
+                i18nc("Details display style", "Standard"), 
+                i18nc("Details display style", "Alternative"),                 
+            ]
+
+            Kirigami.FormData.label: i18n("Select `Weather Details` style:")
+        }
+
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: i18n("Icon styles")
         }
 
         ComboBox {

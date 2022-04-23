@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the plasmoid-wunderground package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#: ../contents/ui/TopPanel.qml
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: plasmoid-wunderground\n"
 "Report-Msgid-Bugs-To: https://github.com/rliwoch/plasmoid-wunderground-extended\n"
-"POT-Creation-Date: 2022-04-16 19:48+0200\n"
+"POT-Creation-Date: 2022-04-23 14:28+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Rafal (Raf) Liwoch <rafal.liwoch@gmail.com>\n"
 "Language-Team: ENGLISH (GB) <LL@li.org>\n"
@@ -25,7 +26,51 @@ msgstr "Wunderground Extended"
 msgid "Wunderground PWS extended"
 msgstr "Wunderground PWS extended"
 
-#: ../contents/config/config.qml
+#: ../contents/code/pws-api.js
+msgid "Request to %1 couldn't be sent %2. Manual refresh might help (top right corner)"
+msgstr "Request to %1 couldn't be sent %2. Manual refresh might help (top right corner)"
+
+#: ../contents/code/pws-api.js
+msgid "Station not found or station not active"
+msgstr "Station not found or station not active"
+
+#: ../contents/code/pws-api.js
+msgid "Could not fetch forecast data"
+msgstr "Could not fetch forecast data"
+
+#: ../contents/code/pws-api.js
+msgid "No active stations nearby - try selecting a different location in your proximity."
+msgstr "No active stations nearby - try selecting a different location in your proximity."
+
+#: ../contents/code/pws-api.js
+msgctxt "not applicable. KEEP SHORT"
+msgid "n/a"
+msgstr "n/a"
+
+#: ../contents/code/utils.js
+msgctxt "per hour, e.g. it will become mm/h. KEEP SHORT"
+msgid "h"
+msgstr "h"
+
+#: ../contents/code/utils.js
+msgctxt "per day, e.g. it will become mm/day. KEEP SHORT"
+msgid "day"
+msgstr "day"
+
+#: ../contents/code/utils.js
+msgid "To sunrise"
+msgstr "To sunrise"
+
+#: ../contents/code/utils.js
+msgctxt "Daylight remaining time, keep short"
+msgid "Remaining"
+msgstr "Remaining"
+
+#: ../contents/code/utils.js
+msgid "Since sunset"
+msgstr "Since sunset"
+
+#: ../contents/config/config.qml ../contents/ui/config/ConfigStation.qml
 msgid "Station"
 msgstr "Station ID"
 
@@ -72,6 +117,20 @@ msgstr "Full Representation"
 #: ../contents/ui/config/ConfigAppearance.qml
 msgid "Property text size"
 msgstr "Base text size"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Details display style"
+msgid "Standard"
+msgstr "Standard"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Details display style"
+msgid "Alternative"
+msgstr "Alternative"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Select `Weather Details` style:"
+msgstr "Select `Weather Details` style:"
 
 #: ../contents/ui/config/ConfigAppearance.qml
 msgid "Icon styles"
@@ -126,6 +185,14 @@ msgid "Default"
 msgstr "Use default font"
 
 #: ../contents/ui/config/ConfigStation.qml
+msgid ""
+"Here you can either manually enter the weather station ID from https://www.wunderground.com/wundermap (search for a city that interests you, then on a map click on a location bubble and note down the station ID) or use the lookup tool and dropdowns to discover the weather station.\n"
+"You need to test the station every time you make changes. Some of them may be offline."
+msgstr ""
+"Here you can either manually enter the weather station ID from https://www.wunderground.com/wundermap (search for a city that interests you, then on a map click on a location bubble and note down the station ID) or use the lookup tool and dropdowns to discover the weather station.\n"
+"You need to test the station every time you make changes. Some of them may be offline."
+
+#: ../contents/ui/config/ConfigStation.qml
 msgid "Enter Station"
 msgstr "Enter Station"
 
@@ -134,28 +201,90 @@ msgid "Weatherstation ID:"
 msgstr "Weatherstation ID:"
 
 #: ../contents/ui/config/ConfigStation.qml
+msgid "Test station"
+msgstr "Test station"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgctxt "Text shown until a station is chosen from the dropdown"
+msgid "Pending selection"
+msgstr "Pending selection"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgctxt "Indicates if the station selected is active or not"
+msgid "Station status:"
+msgstr "Station status:"
+
+#: ../contents/ui/config/ConfigStation.qml
 msgid "Get Nearest Station"
 msgstr "Get Nearest Station"
 
 #: ../contents/ui/config/ConfigStation.qml
-msgid "Uses WGS84 geocode coordinates"
-msgstr "Uses WGS84 geocode coordinates"
+msgid "Look for location:"
+msgstr "Look for location:"
 
 #: ../contents/ui/config/ConfigStation.qml
-msgid "Longitude:"
-msgstr "Longitude:"
+msgid "Find Station"
+msgstr "Find Station"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Select City:"
+msgstr "Select City:"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Select Station:"
+msgstr "Select Station:"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Options"
+msgstr "Options"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Current conditions refresh interval (s):"
+msgstr "Current conditions refresh interval (s):"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Forecast refresh interval (minutes):"
+msgstr "Forecast refresh interval (minutes):"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Location refresh interval (minutes):"
+msgstr "Location refresh interval (minutes):"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Summary"
+msgstr "Summary"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Home Location"
+msgstr "Home Location"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Currently Used"
+msgstr "Currently Used"
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Latitude:"
 msgstr "Latitude"
 
 #: ../contents/ui/config/ConfigStation.qml
-msgid "Refresh period (s):"
-msgstr "Refresh period (s):"
+msgid "Longitude"
+msgstr "Longitude"
 
 #: ../contents/ui/config/ConfigStation.qml
-msgid "Find Station"
-msgstr "Find Station"
+msgid "Location"
+msgstr "Location"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "When `I'm travelling`/tracking mode is enabled, the plasmoid will actively track your location and pick the nearest station near you. It does not collect any data about you, however it does use a public service ipinfo.io to obtain your public IP address and approximate location."
+msgstr "When `I'm travelling`/tracking mode is enabled, the plasmoid will actively track your location and pick the nearest station near you. It does not collect any data about you, however it does use a public service ipinfo.io to obtain your public IP address and approximate location."
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Station %1 is active and can be used"
+msgstr "Station %1 is active and can be used"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Station %1 is NOT active. Please select a different station."
+msgstr "Station %1 is NOT active. Please select a different station."
 
 #: ../contents/ui/config/ConfigUnits.qml
 msgctxt "The unit system"
@@ -184,17 +313,22 @@ msgstr "Date format:"
 msgid "Time format:"
 msgstr "Time format:"
 
-#: ../contents/ui/DetailsItem.qml
+#: ../contents/ui/DayChartItem.qml ../contents/ui/WeekChartItem.qml
+msgctxt "per 12 hours, please keep it short"
+msgid "/12h"
+msgstr "/12h"
+
+#: ../contents/ui/DetailsItemAlt.qml ../contents/ui/DetailsItem.qml
 msgid "Feels like %1"
 msgstr "Feels like %1"
+
+#: ../contents/ui/DetailsItemAlt.qml ../contents/ui/DetailsItem.qml ../contents/ui/HorizontalCompactLayout.qml ../contents/ui/main.qml
+msgid "Loading..."
+msgstr "Loading..."
 
 #: ../contents/ui/FullRepresentation.qml
 msgid "Loading data..."
 msgstr "Loading data..."
-
-#: ../contents/ui/HorizontalCompactLayout.qml ../contents/ui/main.qml ../contents/ui/TopPanel.qml
-msgid "Loading..."
-msgstr "Loading..."
 
 #: ../contents/ui/main.qml
 msgid "All set"
@@ -292,3 +426,34 @@ msgstr "Real feel"
 #: ../contents/ui/TopPanel.qml
 msgid "High: %1 Low: %2"
 msgstr "High: %1 Low: %2"
+
+#: ../contents/ui/TopPanel.qml
+msgid ""
+"\"I'm travelling\" mode.\n"
+" Allows the widget to autodiscover your location based on your public IP address.\n"
+" The `Home` station will be ignored when this option is selected."
+msgstr ""
+"\"I'm travelling\" mode.\n"
+" Allows the widget to autodiscover your location based on your public IP address.\n"
+" The `Home` station will be ignored when this option is selected."
+
+#: ../contents/ui/TopPanel.qml
+msgid "Info for nerds"
+msgstr "Info for nerds"
+
+#: ../contents/ui/TopPanel.qml
+msgid "Refresh all data"
+msgstr "Refresh all data"
+
+#: ../contents/ui/TopPanel.qml
+msgid "Keep Open"
+msgstr "Keep Open"
+
+#~ msgid "Uses WGS84 geocode coordinates"
+#~ msgstr "Uses WGS84 geocode coordinates"
+
+#~ msgid "Longitude:"
+#~ msgstr "Longitude:"
+
+#~ msgid "Refresh period (s):"
+#~ msgstr "Refresh period (s):"
