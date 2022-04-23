@@ -191,8 +191,6 @@ Item {
                     pointSize: textSize.small
                 }
                 text: Utils.currentElevUnit(weatherData["details"]["elev"])
-
-                //weatherData["stationID"] + "   " +
             }
         }
     }

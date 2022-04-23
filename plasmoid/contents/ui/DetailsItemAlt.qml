@@ -103,7 +103,7 @@ Item {
                     Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
                     svg: PlasmaCore.Svg {
                         id: temperatureIconSvg
-                        imagePath: plasmoid.file("", Utils.getIconForCodeAndStyle(iconCode, plasmoid.configuration.iconStyleChoice))//plasmoid.file("", "icons/fullRepresentation/wi-thermometer.svg")
+                        imagePath: plasmoid.file("", Utils.getIconForCodeAndStyle(iconCode, plasmoid.configuration.iconStyleChoice))
                     }
         
                     Layout.minimumWidth: units.iconSizes.huge
@@ -220,7 +220,7 @@ Item {
 
                     handleColor: "#FDBE3B"
                     trackColor: "grey"
-                    progressColor: "#FDBE3B"//PlasmaCore.Theme.complementaryFocusColor
+                    progressColor: "#FDBE3B"
 
                     hideTrack: false
                     hideProgress:!isDaylight
@@ -322,7 +322,6 @@ Item {
 
                 anchors {
                     bottom: parent.bottom
-                    //bottomMargin: units.smallSpacing
                     horizontalCenter: parent.horizontalCenter
                 }
 
@@ -342,7 +341,6 @@ Item {
 
             anchors {
                 right: parent.right
-                //left: sunRiseSetCol.right
                 left: mainTempDisplay.right
                 verticalCenter: mainTempDisplay.verticalCenter
             }
@@ -354,8 +352,6 @@ Item {
                         right: moonIcon.left
                         rightMargin: units.gridUnit
                         verticalCenter: parent.verticalCenter
-                        // bottom: moonLabel.top
-                        // bottomMargin: 2 * units.smallSpacing
                     }
                     width: childrenRect.width
                     height: childrenRect.height
@@ -414,8 +410,6 @@ Item {
                         
                         left: moonIcon.right
                         leftMargin: units.gridUnit
-                        //bottom: moonLabel.top
-                        //bottomMargin: 2 * units.smallSpacing
                         verticalCenter: parent.verticalCenter
                     }
                     

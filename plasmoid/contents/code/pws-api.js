@@ -548,7 +548,7 @@ function extractGenericInfo(forecast) {
 
 function extractTime(date) {
 	if (!date) {
-		return "n/a";
+		return i18nc("not applicable. KEEP SHORT", "n/a");
 	}
 	var date = new Date(date);
 

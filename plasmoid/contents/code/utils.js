@@ -415,9 +415,9 @@ function displayUnits(data, units, dataPointName) {
 			case "temperature":
 				return currentTempUnit(data, true);
 			case "precipitationRate":
-				return currentPrecipUnit(data, true, true) + "/h";
+				return currentPrecipUnit(data, true, true) + i18nc("per hour, e.g. it will become mm/h. KEEP SHORT", "h");
 			case "snowPrecipitationRate":
-				return currentPrecipUnit(data, false, true) + "/h";
+				return currentPrecipUnit(data, false, true) + i18nc("per hour, e.g. it will become mm/h. KEEP SHORT", "h");
 			case "wind":
 				return currentSpeedUnit(data, true);
 			default:
@@ -435,9 +435,9 @@ function getValue(metricName, val, val2){
 	} else if (metricName === "wind") {
 		return `${val}/${val2} ${dictVals[metricName].unit}`
 	} else if(metricName === "precipitationRate") {
-		return `${val} ${dictVals[metricName].unit}/hr`
+		return `${val} ${dictVals[metricName].unit}/${i18nc("per hour, e.g. it will become mm/h. KEEP SHORT", "h")}`
 	} else if(metricName === "precipitationAcc") {
-		return `${val} ${dictVals[metricName].unit}/day`
+		return `${val} ${dictVals[metricName].unit}/${i18nc("per day, e.g. it will become mm/day. KEEP SHORT", "day")}`
 	} else {
 		return `${val} ${dictVals[metricName].unit}`
 	}
@@ -514,7 +514,7 @@ function remainingUntilSinceDaylight() {
 				+ Utils.calculateTimeDifference(now,rise,false);
 		isDaylight = false;
 	} else if (now.getTime() >= rise.getTime() && now.getTime() <+ set.getTime()) {
-		timeSunlight = i18n("Remaining") + ": " 
+		timeSunlight = i18nc("Daylight remaining time, keep short","Remaining") + ": " 
 				+ Utils.calculateTimeDifference(now,set,false);
 		isDaylight = true;
 	} else if (now.getTime() > set.getTime()) {

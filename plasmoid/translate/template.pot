@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plasmoid-wunderground-extended\n"
 "Report-Msgid-Bugs-To: https://github.com/rliwoch/plasmoid-wunderground-extended\n"
-"POT-Creation-Date: 2022-04-21 01:55+0200\n"
+"POT-Creation-Date: 2022-04-23 14:28+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,7 +43,31 @@ msgid "No active stations nearby - try selecting a different location in your pr
 msgstr ""
 
 #: ../contents/code/pws-api.js
-msgid "Tonight"
+msgctxt "not applicable. KEEP SHORT"
+msgid "n/a"
+msgstr ""
+
+#: ../contents/code/utils.js
+msgctxt "per hour, e.g. it will become mm/h. KEEP SHORT"
+msgid "h"
+msgstr ""
+
+#: ../contents/code/utils.js
+msgctxt "per day, e.g. it will become mm/day. KEEP SHORT"
+msgid "day"
+msgstr ""
+
+#: ../contents/code/utils.js
+msgid "To sunrise"
+msgstr ""
+
+#: ../contents/code/utils.js
+msgctxt "Daylight remaining time, keep short"
+msgid "Remaining"
+msgstr ""
+
+#: ../contents/code/utils.js
+msgid "Since sunset"
 msgstr ""
 
 #: ../contents/config/config.qml ../contents/ui/config/ConfigStation.qml
@@ -92,6 +116,20 @@ msgstr ""
 
 #: ../contents/ui/config/ConfigAppearance.qml
 msgid "Property text size"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Details display style"
+msgid "Standard"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Details display style"
+msgid "Alternative"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Select `Weather Details` style:"
 msgstr ""
 
 #: ../contents/ui/config/ConfigAppearance.qml
@@ -150,7 +188,7 @@ msgstr ""
 msgid ""
 "Here you can either manually enter the weather station ID from https://www.wunderground.com/wundermap (search for a city that interests you, then on a map click on a location bubble and note down "
 "the station ID) or use the lookup tool and dropdowns to discover the weather station.\n"
-" You need to test the station every time you make changes. Some of them may be offline."
+"You need to test the station every time you make changes. Some of them may be offline."
 msgstr ""
 
 #: ../contents/ui/config/ConfigStation.qml
@@ -276,22 +314,17 @@ msgstr ""
 msgid "Time format:"
 msgstr ""
 
-#: ../contents/ui/DetailsItem.qml
+#: ../contents/ui/DayChartItem.qml ../contents/ui/WeekChartItem.qml
+msgctxt "per 12 hours, please keep it short"
+msgid "/12h"
+msgstr ""
+
+#: ../contents/ui/DetailsItemAlt.qml ../contents/ui/DetailsItem.qml
 msgid "Feels like %1"
 msgstr ""
 
-#: ../contents/ui/DetailsItem.qml ../contents/ui/HorizontalCompactLayout.qml ../contents/ui/main.qml
+#: ../contents/ui/DetailsItemAlt.qml ../contents/ui/DetailsItem.qml ../contents/ui/HorizontalCompactLayout.qml ../contents/ui/main.qml
 msgid "Loading..."
-msgstr ""
-
-#: ../contents/ui/DetailsItem.qml
-msgctxt "Narrative prefix"
-msgid "Today:"
-msgstr ""
-
-#: ../contents/ui/DetailsItem.qml
-msgctxt "Narrative prefix"
-msgid "Tonight:"
 msgstr ""
 
 #: ../contents/ui/FullRepresentation.qml

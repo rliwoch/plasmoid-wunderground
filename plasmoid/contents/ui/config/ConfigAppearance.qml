@@ -91,8 +91,8 @@ Item {
 
             width: 100
             model: [
-                i18nc("Details display style", "Legacy"), 
-                i18nc("New", "New"),                 
+                i18nc("Details display style", "Standard"), 
+                i18nc("Details display style", "Alternative"),                 
             ]
 
             Kirigami.FormData.label: i18n("Select `Weather Details` style:")
