@@ -3,20 +3,13 @@
 # This file is distributed under the same license as the plasmoid-wunderground-extended package.
 # Adam Adrian <4.adam.adrian@gmail.com>, 2022.
 #
-<<<<<<< HEAD
 #: ../contents/ui/TopPanel.qml
-=======
->>>>>>> a3f6f48e0710ea7aced410ba419fca5609d4ead3
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: plasmoid-wunderground-extended\n"
 "Report-Msgid-Bugs-To: https://github.com/rliwoch/plasmoid-wunderground-extended\n"
-<<<<<<< HEAD
 "POT-Creation-Date: 2022-04-23 14:28+0200\n"
-=======
-"POT-Creation-Date: 2022-04-16 19:48+0200\n"
->>>>>>> a3f6f48e0710ea7aced410ba419fca5609d4ead3
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Adam Adrian <4.adam.adrian@gmail.com>\n"
 "Language-Team: Indonesia <>\n"
@@ -33,7 +26,6 @@ msgstr "Wunderground Extended"
 msgid "Wunderground PWS extended"
 msgstr "Wunderground PWS extended"
 
-<<<<<<< HEAD
 #: ../contents/code/pws-api.js
 msgid "Request to %1 couldn't be sent %2. Manual refresh might help (top right corner)"
 msgstr ""
@@ -79,9 +71,6 @@ msgid "Since sunset"
 msgstr ""
 
 #: ../contents/config/config.qml ../contents/ui/config/ConfigStation.qml
-=======
-#: ../contents/config/config.qml
->>>>>>> a3f6f48e0710ea7aced410ba419fca5609d4ead3
 msgid "Station"
 msgstr "Stasiun Cuaca"
 
@@ -130,7 +119,6 @@ msgid "Property text size"
 msgstr "Ukuran teks dasar"
 
 #: ../contents/ui/config/ConfigAppearance.qml
-<<<<<<< HEAD
 msgctxt "Details display style"
 msgid "Standard"
 msgstr ""
@@ -145,8 +133,6 @@ msgid "Select `Weather Details` style:"
 msgstr ""
 
 #: ../contents/ui/config/ConfigAppearance.qml
-=======
->>>>>>> a3f6f48e0710ea7aced410ba419fca5609d4ead3
 msgid "Icon styles"
 msgstr "Gaya Ikon"
 
@@ -199,15 +185,12 @@ msgid "Default"
 msgstr "Default"
 
 #: ../contents/ui/config/ConfigStation.qml
-<<<<<<< HEAD
 msgid ""
 "Here you can either manually enter the weather station ID from https://www.wunderground.com/wundermap (search for a city that interests you, then on a map click on a location bubble and note down the station ID) or use the lookup tool and dropdowns to discover the weather station.\n"
 "You need to test the station every time you make changes. Some of them may be offline."
 msgstr ""
 
 #: ../contents/ui/config/ConfigStation.qml
-=======
->>>>>>> a3f6f48e0710ea7aced410ba419fca5609d4ead3
 msgid "Enter Station"
 msgstr "Masukkan ID Stasiun"
 
@@ -216,7 +199,6 @@ msgid "Weatherstation ID:"
 msgstr "ID Stasiun Cuaca:"
 
 #: ../contents/ui/config/ConfigStation.qml
-<<<<<<< HEAD
 msgid "Test station"
 msgstr ""
 
@@ -231,13 +213,10 @@ msgid "Station status:"
 msgstr ""
 
 #: ../contents/ui/config/ConfigStation.qml
-=======
->>>>>>> a3f6f48e0710ea7aced410ba419fca5609d4ead3
 msgid "Get Nearest Station"
 msgstr "Cari Stasiun Terdekat"
 
 #: ../contents/ui/config/ConfigStation.qml
-<<<<<<< HEAD
 msgid "Look for location:"
 msgstr ""
 
@@ -280,21 +259,12 @@ msgstr ""
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Currently Used"
 msgstr ""
-=======
-msgid "Uses WGS84 geocode coordinates"
-msgstr "Gunakan koordinat WGS84 geocode"
-
-#: ../contents/ui/config/ConfigStation.qml
-msgid "Longitude:"
-msgstr "Garis Bujur:"
->>>>>>> a3f6f48e0710ea7aced410ba419fca5609d4ead3
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Latitude:"
 msgstr "Garis Lintang:"
 
 #: ../contents/ui/config/ConfigStation.qml
-<<<<<<< HEAD
 msgid "Longitude"
 msgstr ""
 
@@ -313,14 +283,6 @@ msgstr ""
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Station %1 is NOT active. Please select a different station."
 msgstr ""
-=======
-msgid "Refresh period (s):"
-msgstr "Periode penyegaran (detik):"
-
-#: ../contents/ui/config/ConfigStation.qml
-msgid "Find Station"
-msgstr "Temukan Stasiun"
->>>>>>> a3f6f48e0710ea7aced410ba419fca5609d4ead3
 
 #: ../contents/ui/config/ConfigUnits.qml
 msgctxt "The unit system"
@@ -349,7 +311,6 @@ msgstr "Format tanggal:"
 msgid "Time format:"
 msgstr "Format waktu"
 
-<<<<<<< HEAD
 #: ../contents/ui/DayChartItem.qml ../contents/ui/WeekChartItem.qml
 msgctxt "per 12 hours, please keep it short"
 msgid "/12h"
@@ -363,23 +324,10 @@ msgstr "Terasa Seperti %1"
 msgid "Loading..."
 msgstr "Memuat..."
 
-=======
-#: ../contents/ui/DetailsItem.qml
-msgid "Feels like %1"
-msgstr "Terasa Seperti %1"
-
->>>>>>> a3f6f48e0710ea7aced410ba419fca5609d4ead3
 #: ../contents/ui/FullRepresentation.qml
 msgid "Loading data..."
 msgstr "Memuat data..."
 
-<<<<<<< HEAD
-=======
-#: ../contents/ui/HorizontalCompactLayout.qml ../contents/ui/main.qml ../contents/ui/TopPanel.qml
-msgid "Loading..."
-msgstr "Memuat..."
-
->>>>>>> a3f6f48e0710ea7aced410ba419fca5609d4ead3
 #: ../contents/ui/main.qml
 msgid "All set"
 msgstr "Semua beres!"
@@ -476,7 +424,6 @@ msgstr "Terasa Seperti"
 #: ../contents/ui/TopPanel.qml
 msgid "High: %1 Low: %2"
 msgstr "Tertinggi: %1 Terendah: %2"
-<<<<<<< HEAD
 
 #: ../contents/ui/TopPanel.qml
 msgid ""
@@ -505,5 +452,3 @@ msgstr ""
 
 #~ msgid "Refresh period (s):"
 #~ msgstr "Periode penyegaran (detik):"
-=======
->>>>>>> a3f6f48e0710ea7aced410ba419fca5609d4ead3
