@@ -134,7 +134,6 @@ function getForUrl(url, isAsync, callback) {
 	req.setRequestHeader("Origin", "https://www.wunderground.com");
 
 	req.onreadystatechange = function () {
-
 		if (req.readyState == 4) {
 			if (req.status == 200) {
 				//console.log("------------------------>" + req.status);
@@ -161,8 +160,8 @@ function getForUrl(url, isAsync, callback) {
 	}
 	req.onerror = function () {
 		//let's hope for the best and retry
-		printDebug("------------------------> RETRY", "api", "getForUrl");
-		getForUrl(url, isAsync, callback);
+		//printDebug("------------------------> RETRY", "api", "getForUrl");
+		//getForUrl(url, isAsync, callback);
 	}
 
 	req.send();
@@ -371,7 +370,7 @@ function findFirstActiveStation(id, stationsArr, callback) {
 	}
 }
 
-function getStationIdent(tempStationId) {
+function getStationIdent(tempStationId, callback) {
 	var url = getApiUrlForTypeAndPeriod("identity", null, { station: tempStationId });
 	printDebug(`URL: ${url}`, "api", "getStationIdent");
 
@@ -382,7 +381,8 @@ function getStationIdent(tempStationId) {
 			} else if (tempStationId === plasmoid.configuration.altStationID) {
 				plasmoid.configuration.altLocation = buildLocationText(res)
 			} else {
-				//todo
+				//just return
+				if(callback) {callback(buildLocationText(res))};
 			}
 		} else {
 			//todo

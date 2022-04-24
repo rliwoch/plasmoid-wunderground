@@ -42,6 +42,8 @@ Item {
     }
 
     property alias cfg_stationID: stationID.text
+    // property alias cfg_longitude: hiddenLongitude.text
+    // property alias cfg_latitude: hiddenLatitude.text
     property alias cfg_refreshPeriod: refreshPeriod.value
     property int cfg_locationIntervalRefreshMins: 30
     property int cfg_forecastIntervalRefreshMins: 30
@@ -49,6 +51,17 @@ Item {
     function printDebug(msg) {
         if (plasmoid.configuration.logConsole) {console.log("[debug] [ConfigStation.qml] " + msg)}
     }
+
+    // Text {
+    //     id: hiddenLongitude
+    //     text: ""
+    //     visible: false
+    // }
+    // Text {
+    //     id: hiddenLatitude
+    //     text: ""
+    //     visible: false
+    // }
 
     PlasmaComponents.Label {
         id: infoSettings
@@ -76,6 +89,7 @@ Item {
 
         ClearableField {
             id: stationID
+
             placeholderText: i18nc("placeholder text alternatively 'example: IFRAUN2'", "e.g. IFRAUN2")
 
             Kirigami.FormData.label: i18n("Weatherstation ID:")
@@ -83,12 +97,13 @@ Item {
         Button {
             text: i18n("Test station")
             onClicked: {
-                validateWeatherStation(stationID.text, manualStationStatus, function(result){
+                validateWeatherStation(stationID.text, manualStationStatus, function(result, retrunedStationId){
                     locationsModel.clear();
                     stationsModel.clear();
                     cityLookup.text = "";
-                    stationStatus = "";
-                    getStationIdent(stationID.text)
+                    stationStatus.placeholderText = "";
+                    stationID.text = retrunedStationId;
+                    //API.getStationIdent(stationID.text)
 
                 });
             }
@@ -117,7 +132,8 @@ Item {
         Button {
             text: i18n("Find Station")
             onClicked: {
-                console.log(cityLookup.text)
+                stationID.text = ""
+                manualStationStatus.placeholderText = ""
                 API.getLocations(cityLookup.text);
                 
             }
@@ -132,6 +148,7 @@ Item {
             Kirigami.FormData.label: i18n("Select City:")
 
             function doOnSelect(currentIndex) {
+                stationID.text = ""
                 var currentObj = locationsModel.get(currentIndex)
                 if(currentObj != null && currentObj["latitude"] != undefined) {
                     console.log(JSON.stringify({lat: currentObj["latitude"], long: currentObj["longitude"]}, null, 2))
@@ -154,8 +171,8 @@ Item {
 
                     validateWeatherStation(currentObj["stationId"], stationStatus, function(result){
                         stationID.text = currentObj["stationId"];
-                        getStationIdent(stationID.text)
-                        manualStationStatus.text = "";
+                        //API.getStationIdent(stationID.text)
+                        manualStationStatus.placeholderText = "";
                     });
                 }
             }
@@ -202,7 +219,7 @@ Item {
             Component.onCompleted: {
                 for (var i = 0; i < model.length; i++) {
                     if (model[i]["val"] == plasmoid.configuration.forecastIntervalRefreshMins) {
-                        forecastIntervalRefreshMins.currentIndex = i;
+                        forecastRefresh.currentIndex = i;
                     }
                 }
             }
@@ -349,28 +366,52 @@ Item {
         text: "Version 0.6.0"
     }
 
+    PlasmaComponents.Label {
+        anchors {
+            top: infoLocation.bottom
+            topMargin: 4 * units.smallSpacing
+            horizontalCenter: form.horizontalCenter
+        }
+        text: "Version 0.6.0"
+    }
     function validateWeatherStation(stationId, placeholderToUpdate, callback){
         
         API.isStationActive(stationId, function(isActive, stationId, fullDetails){
 
             if(isActive) {
-                console.log("field: " + fullDetails.ID)
-                plasmoid.configuration.stationID = fullDetails.stationID;
+                console.log("field: " + fullDetails.stationID)
+                //plasmoid.configuration.stationID = fullDetails.stationID;
+
+                //we need to set it up here, otherwise some weird hack would be required. 
                 plasmoid.configuration.latitude = fullDetails.lat;
                 plasmoid.configuration.longitude = fullDetails.lon;
+                
+                API.getStationIdent(fullDetails.stationID, function(location) {
+                    plasmoid.configuration.location = location
+                });
 
-                API.getStationIdent(fullDetails.stationID);
+                // hiddenLatitude.text = fullDetails.lat;
+                // hiddenLongitude.text = fullDetails.lon;
 
-                placeholderToUpdate.placeholderText = i18n("Station %1 is active and can be used", stationId);
+
+                placeholderToUpdate.placeholderText = `${i18n("Station %1 is active and can be used", stationId)}\n ${i18n("Latitude:")} ${fullDetails.lat}, ${i18n("Longitude")}: ${fullDetails.lon}`;
                 placeholderToUpdate.placeholderTextColor = "green";
 
-                if(callback) {callback(true)};
+                if(callback) {callback(true, fullDetails.stationID)};
             } else {
                 placeholderToUpdate.placeholderText = i18n("Station %1 is NOT active. Please select a different station.", stationId);
                 placeholderToUpdate.placeholderTextColor = "red";
                 
-                if(callback) {callback(true)};
+                if(callback) {callback(false)};
             }
         })
+    }
+
+    Component.onCompleted: {
+        if(plasmoid.configuration.stationID === "") {
+            plasmoid.configuration.latitude = "";
+            plasmoid.configuration.longitude = "";
+            plasmoid.configuration.location = "";
+        }
     }
 }
