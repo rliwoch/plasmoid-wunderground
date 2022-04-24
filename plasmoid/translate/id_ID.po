@@ -28,7 +28,7 @@ msgstr "Wunderground PWS extended"
 
 #: ../contents/code/pws-api.js
 msgid "Request to %1 couldn't be sent %2. Manual refresh might help (top right corner)"
-msgstr "Permintaan ke %1 tidak dapat dikirim %2. Penyegaran manual mungkin membantu (pojok kanan atas)"
+msgstr "Permintaan ke %1 tidak dapat dikirim. Penyegaran manual mungkin membantu (pojok kanan atas)"
 
 #: ../contents/code/pws-api.js
 msgid "Station not found or station not active"
