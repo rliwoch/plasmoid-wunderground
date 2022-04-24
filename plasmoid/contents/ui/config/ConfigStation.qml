@@ -76,7 +76,7 @@ Item {
 
         ClearableField {
             id: stationID
-            placeholderText: "e.g. IFRAUN2"
+            placeholderText: i18nc("placeholder text alternatively 'example: IFRAUN2'", "e.g. IFRAUN2")
 
             Kirigami.FormData.label: i18n("Weatherstation ID:")
         }
@@ -110,7 +110,7 @@ Item {
 
         ClearableField {
             id: cityLookup
-            placeholderText: "e.g. London"
+            placeholderText: i18nc("plaseholder text, example London", "e.g. London")
 
             Kirigami.FormData.label: i18n("Look for location:")
         }
@@ -134,7 +134,7 @@ Item {
             function doOnSelect(currentIndex) {
                 var currentObj = locationsModel.get(currentIndex)
                 if(currentObj != null && currentObj["latitude"] != undefined) {
-                    console.log(JSON.stringify({lat: currentObj["latitude"], long: currentObj["longitude"]}))
+                    console.log(JSON.stringify({lat: currentObj["latitude"], long: currentObj["longitude"]}, null, 2))
                     API.getNearestStationsForConfig({lat: currentObj["latitude"], long: currentObj["longitude"]});
                 }
             }

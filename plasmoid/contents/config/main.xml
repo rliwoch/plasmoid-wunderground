@@ -16,22 +16,22 @@
             <default></default>
         </entry>
         <entry name="stationID" type="String">
-            <default>IFRAUN2</default>
+            <default></default>
         </entry>
         <entry name="longitude" type="String">
-            <default>12.028</default>
+            <default></default>
         </entry>
         <entry name="latitude" type="String">
-            <default>48.349</default>
+            <default></default>
         </entry>
         <entry name="altStationID" type="String">
-            <default>IFRAUN2</default>
+            <default></default>
         </entry>
         <entry name="altLongitude" type="String">
-            <default>12.028</default>
+            <default></default>
         </entry>
         <entry name="altLatitude" type="String">
-            <default>48.349</default>
+            <default></default>
         </entry>        
         <entry name="refreshPeriod" type="Int">
             <default>15</default>

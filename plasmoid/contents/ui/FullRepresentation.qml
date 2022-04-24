@@ -32,10 +32,6 @@ ColumnLayout {
 
     spacing: units.smallSpacing
 
-    function printDebug(msg) {
-        if (plasmoid.configuration.logConsole) {console.log("[debug] [FullRep.qml] " + msg)};
-    }
-
     ConfigBtn {
         id: configBtn
 

@@ -31,10 +31,6 @@ ColumnLayout {
 
     anchors.centerIn: parent
 
-    function printDebug(msg) {
-        if (plasmoid.configuration.logConsole) {console.log("[debug] [IconText.qml] " + msg)}
-    }
-
     PlasmaCore.SvgItem {
         id: icon
 

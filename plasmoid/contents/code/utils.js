@@ -450,7 +450,7 @@ function wrapInBrackets(unit, unitInterval) {
 function getIconForCodeAndStyle(iconCode, styleId) {
 	if(iconCode !== undefined && iconLookup !== undefined && iconLookup[iconCode] !== undefined) {
 		var styleIdPath = `style${styleId + 1}Path`;
-		console.log(`inbound icon code ${iconCode} and the path is: ${iconLookup[iconCode][styleIdPath]}`)
+		printDebug(`inbound icon code ${iconCode} and the path is: ${iconLookup[iconCode][styleIdPath]}`, "utils", "getIconForCodeAndStyle")
 		return iconLookup[iconCode][styleIdPath];
 	} else {
 		return "icons/wi-na.svg"
@@ -459,10 +459,12 @@ function getIconForCodeAndStyle(iconCode, styleId) {
 
 
 function calculateTimeDifference(startDate, endDate, isShowSeconds) {
+	printDebug(`Calculating time difference between ${startDate} and ${endDate}`, "utils", "calculateTimeDifference")
 	var diff = endDate.getTime() - startDate.getTime(); 
 	var diff_as_date = new Date(diff);
-	console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> START: " + startDate + " END: "+ endDate)
-	console.log("DIFF: " + diff_as_date)
+	
+	
+	printDebug(`Time difference reported as: ${diff_as_date}`, "utils", "calculateTimeDifference")
 	if(isShowSeconds) {
 		return `${diff_as_date.getUTCHours()}h ${diff_as_date.getUTCMinutes()}m ${diff_as_date.getUTCSeconds()}s`;
 	} else {
@@ -472,7 +474,7 @@ function calculateTimeDifference(startDate, endDate, isShowSeconds) {
 }
 
 function calculateNeedlePosition(startDate, endDate) {
-	console.log("CALCULATE!!!!")
+	printDebug("Calculating needle position", "api", "calculateNeedlePosition")
 	var startTs = startDate.getTime();
 	var endTs = endDate.getTime();
 	var nowTs = (new Date()).getTime();
@@ -487,7 +489,7 @@ function calculateNeedlePosition(startDate, endDate) {
 
 	var result = Math.round((nowDiff * 100)/diff);
 
-	console.log(`Start ${startTs}, End: ${endTs}, diff: ${diff}, nowDiff: ${nowDiff}, effective needle: ${result}`)
+	printDebug(`Start ${startTs}, End: ${endTs}, diff: ${diff}, nowDiff: ${nowDiff}, effective needle: ${100 - result}`, "api", "calculateNeedlePosition")
 
 	return 100 - result;
 }
@@ -507,20 +509,24 @@ function remainingUntilSinceDaylight() {
 	var dayLength = Utils.calculateTimeDifference(rise,set,true);
 	var timeSunlight = "";
 
-	console.log(`Rise ${rise}, Set: ${set}, Now: ${now}`)
+	printDebug(`Rise ${rise}, Set: ${set}, Now: ${now}`, "utils", "remainingUntilSinceDaylight")
 
 	if(now.getTime() < rise.getTime()) {
 		timeSunlight = i18n("To sunrise") + ": " 
 				+ Utils.calculateTimeDifference(now,rise,false);
 		isDaylight = false;
+
+		printDebug(`Is daylight? ${isDaylight}. ${timeSunlight}`, "utils", "remainingUntilSinceDaylight")
 	} else if (now.getTime() >= rise.getTime() && now.getTime() <+ set.getTime()) {
 		timeSunlight = i18nc("Daylight remaining time, keep short","Remaining") + ": " 
 				+ Utils.calculateTimeDifference(now,set,false);
 		isDaylight = true;
+		printDebug(`Is daylight? ${isDaylight}. ${timeSunlight}`, "utils", "remainingUntilSinceDaylight")
 	} else if (now.getTime() > set.getTime()) {
 		timeSunlight = i18n("Since sunset") + ": " 
 		+ Utils.calculateTimeDifference(set,now,false);
 		isDaylight = false;
+		printDebug(`Is daylight? ${isDaylight}. ${timeSunlight}`, "utils", "remainingUntilSinceDaylight")
 	}
 	
 	return timeSunlight;

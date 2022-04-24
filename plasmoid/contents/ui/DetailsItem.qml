@@ -46,6 +46,7 @@ Item {
                 horizontalCenter: parent.horizontalCenter
                 top: parent.top
             }
+
             GridLayout {
                 id: temperatureCol
                 Layout.columnSpan: 2
@@ -60,7 +61,7 @@ Item {
                     Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
                     svg: PlasmaCore.Svg {
                         id: temperatureIconSvg
-                        imagePath: plasmoid.file("", Utils.getIconForCodeAndStyle(iconCode, plasmoid.configuration.iconStyleChoice))//plasmoid.file("", "icons/fullRepresentation/wi-thermometer.svg")
+                        imagePath: plasmoid.file("", Utils.getIconForCodeAndStyle(iconCode, plasmoid.configuration.iconStyleChoice))
                     }
 
                     Layout.minimumWidth: units.iconSizes.huge
@@ -238,7 +239,6 @@ Item {
                         Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
                         text: Qt.formatDateTime(dayInfo["moonset"], plasmoid.configuration.timeFormatChoice)
                         font {
-                            //weight: Font.Bold
                             pointSize: plasmoid.configuration.propPointSize
                         }
                     }
