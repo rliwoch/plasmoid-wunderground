@@ -363,7 +363,7 @@ Item {
             topMargin: 4 * units.smallSpacing
             horizontalCenter: form.horizontalCenter
         }
-        text: "Version 0.6.0"
+        text: "Version 0.7.0"
     }
 
     PlasmaComponents.Label {
@@ -372,7 +372,7 @@ Item {
             topMargin: 4 * units.smallSpacing
             horizontalCenter: form.horizontalCenter
         }
-        text: "Version 0.6.0"
+        text: "Version 0.7.0"
     }
     function validateWeatherStation(stationId, placeholderToUpdate, callback){
         
