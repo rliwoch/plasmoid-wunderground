@@ -1,0 +1,459 @@
+# Translation of plasmoid-wunderground-extended in id_ID
+# Copyright (C) 2022
+# This file is distributed under the same license as the plasmoid-wunderground-extended package.
+# Adam Adrian <4.adam.adrian@gmail.com>, 2022.
+#
+#: ../contents/ui/TopPanel.qml
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: plasmoid-wunderground-extended\n"
+"Report-Msgid-Bugs-To: https://github.com/rliwoch/plasmoid-wunderground-extended\n"
+"POT-Creation-Date: 2022-04-23 14:28+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Adam Adrian <4.adam.adrian@gmail.com>\n"
+"Language-Team: Indonesia <>\n"
+"Language: id_ID\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../metadata.desktop
+msgid "Wunderground Extended"
+msgstr "Wunderground Extended"
+
+#: ../metadata.desktop
+msgid "Wunderground PWS extended"
+msgstr "Wunderground PWS extended"
+
+#: ../contents/code/pws-api.js
+msgid "Request to %1 couldn't be sent %2. Manual refresh might help (top right corner)"
+msgstr "Permintaan ke %1 tidak dapat dikirim. Penyegaran manual mungkin membantu (pojok kanan atas)"
+
+#: ../contents/code/pws-api.js
+msgid "Station not found or station not active"
+msgstr "Stasiun tidak ditemukan atau stasiun tidak aktif"
+
+#: ../contents/code/pws-api.js
+msgid "Could not fetch forecast data"
+msgstr "Tidak dapat mengambil data prakiraan cuaca"
+
+#: ../contents/code/pws-api.js
+msgid "No active stations nearby - try selecting a different location in your proximity."
+msgstr "Tidak ada stasiun aktif di sekitar Anda - coba pilih lokasi lain di dekat Anda."
+
+#: ../contents/code/pws-api.js
+msgctxt "not applicable. KEEP SHORT"
+msgid "n/a"
+msgstr "n/a"
+
+#: ../contents/code/utils.js
+msgctxt "per hour, e.g. it will become mm/h. KEEP SHORT"
+msgid "h"
+msgstr "jam"
+
+#: ../contents/code/utils.js
+msgctxt "per day, e.g. it will become mm/day. KEEP SHORT"
+msgid "day"
+msgstr "hari"
+
+#: ../contents/code/utils.js
+msgid "To sunrise"
+msgstr "Menuju matahari terbit"
+
+#: ../contents/code/utils.js
+msgctxt "Daylight remaining time, keep short"
+msgid "Remaining"
+msgstr "Tersisa"
+
+#: ../contents/code/utils.js
+msgid "Since sunset"
+msgstr "Sejak matahari terbenam"
+
+#: ../contents/config/config.qml ../contents/ui/config/ConfigStation.qml
+msgid "Station"
+msgstr "Stasiun Cuaca"
+
+#: ../contents/config/config.qml
+msgid "Appearance"
+msgstr "Tampilan"
+
+#: ../contents/config/config.qml
+msgid "Units"
+msgstr "Unit"
+
+#: ../contents/config/config.qml
+msgid "Debug"
+msgstr "Debug"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Compact Representation"
+msgstr "Representasi Ringkas"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Font"
+msgstr "Font"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Icon size (0 = default)"
+msgstr "Ukuran ikon (0 = default)"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Font size (0px=scale to widget)"
+msgstr "Ukuran font (0px = Paskan ke widget)"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Font styles"
+msgstr "Gaya font"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Display narrative in taskbar"
+msgstr "Tampilkan narasi di taskbar"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Full Representation"
+msgstr "Representasi Penuh"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Property text size"
+msgstr "Ukuran teks dasar"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Details display style"
+msgid "Standard"
+msgstr "Standar"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Details display style"
+msgid "Alternative"
+msgstr "Alternatif"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Select `Weather Details` style:"
+msgstr "Pilih gaya `Detail Cuaca`:"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Icon styles"
+msgstr "Gaya Ikon"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Icon style"
+msgid "Legacy"
+msgstr "Bawaan"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Icon style"
+msgid "WeatherUnderground - White with colour"
+msgstr "WeatherUnderground - Putih berwarna"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Icon style"
+msgid "WeatherUnderground - White"
+msgstr "WeatherUnderground - Putih"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Icon style"
+msgid "WeatherUnderground - Black"
+msgstr "WeatherUnderground - Hitam"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Icon style"
+msgid "WeatherUnderground - Black with colour"
+msgstr "WeatherUnderground - Hitam berwarna"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Icon style"
+msgid "DEFAULT monochrome by Erik Flowers"
+msgstr "DEFAULT monokrom oleh Erik Flowers"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Icon style"
+msgid "WeatherNOW Colour"
+msgstr "WeatherNOW Berwarna"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Select icon style:"
+msgstr "Pilih gaya ikon:"
+
+#: ../contents/ui/config/ConfigDebug.qml
+msgid "Write to console.log:"
+msgstr "Tulis info debug ke console.log:"
+
+#: ../contents/ui/config/ConfigFontFamily.qml
+msgctxt "Use default font"
+msgid "Default"
+msgstr "Default"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid ""
+"Here you can either manually enter the weather station ID from https://www.wunderground.com/wundermap (search for a city that interests you, then on a map click on a location bubble and note down the station ID) or use the lookup tool and dropdowns to discover the weather station.\n"
+"You need to test the station every time you make changes. Some of them may be offline."
+msgstr ""
+"Di sini Anda dapat memasukkan ID stasiun cuaca secara manual dari https://www.wunderground.com/wundermap (cari kota yang Anda minati, lalu klik peta pada gelembung lokasi dan catat ID stasiun) atau gunakan alat pencarian dan dropdown untuk menemukan stasiun cuaca.\n"
+"Anda perlu menguji stasiun setiap kali Anda membuat perubahan. Beberapa di antaranya mungkin offline."
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Enter Station"
+msgstr "Masukkan ID Stasiun"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Weatherstation ID:"
+msgstr "ID Stasiun Cuaca:"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Test station"
+msgstr "Tes stasiun"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgctxt "Text shown until a station is chosen from the dropdown"
+msgid "Pending selection"
+msgstr "Pilih Stasiun"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgctxt "Indicates if the station selected is active or not"
+msgid "Station status:"
+msgstr "Status stasiun:"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Get Nearest Station"
+msgstr "Cari Stasiun Terdekat"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Look for location:"
+msgstr "Cari untuk lokasi:"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Find Station"
+msgstr "Temukan Stasiun"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Select City:"
+msgstr "Pilih Kota:"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Select Station:"
+msgstr "Pilih Stasiun:"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Options"
+msgstr "Opsi"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Current conditions refresh interval (s):"
+msgstr "Interval penyegaran kondisi saat ini (detik):"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Forecast refresh interval (minutes):"
+msgstr "Interval penyegaran prakiraan (menit):"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Location refresh interval (minutes):"
+msgstr "Interval penyegaran lokasi (menit):"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Summary"
+msgstr "Ringkasan"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Home Location"
+msgstr "Lokasi Rumah"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Currently Used"
+msgstr "Digunakan Saat Ini"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Latitude:"
+msgstr "Garis Lintang (Latitude):"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Longitude"
+msgstr "Garis Bujur (Longtitude)"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Location"
+msgstr "Lokasi"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "When `I'm travelling`/tracking mode is enabled, the plasmoid will actively track your location and pick the nearest station near you. It does not collect any data about you, however it does use a public service ipinfo.io to obtain your public IP address and approximate location."
+msgstr "Saat mode \"Mudik\" diaktifkan, plasmoid akan secara aktif melacak lokasi Anda dan memilih stasiun terdekat di dekat Anda. Itu tidak mengumpulkan data apa pun tentang Anda, namun menggunakan layanan publik ipinfo.io untuk mendapatkan alamat IP publik dan perkiraan lokasi Anda."
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Station %1 is active and can be used"
+msgstr "Stasiun %1 aktif dan dapat digunakan"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Station %1 is NOT active. Please select a different station."
+msgstr "Stasiun %1 TIDAK AKTIF. Silahkan pilih stasiun lain."
+
+#: ../contents/ui/config/ConfigUnits.qml
+msgctxt "The unit system"
+msgid "Metric"
+msgstr "Metrik"
+
+#: ../contents/ui/config/ConfigUnits.qml
+msgctxt "The unit system"
+msgid "Imperial"
+msgstr "Imperial"
+
+#: ../contents/ui/config/ConfigUnits.qml
+msgctxt "The unit system"
+msgid "Hybrid (UK)"
+msgstr "Hybrid (UK)"
+
+#: ../contents/ui/config/ConfigUnits.qml
+msgid "Choose:"
+msgstr "Pilih:"
+
+#: ../contents/ui/config/ConfigUnits.qml
+msgid "Date format:"
+msgstr "Format tanggal:"
+
+#: ../contents/ui/config/ConfigUnits.qml
+msgid "Time format:"
+msgstr "Format waktu"
+
+#: ../contents/ui/DayChartItem.qml ../contents/ui/WeekChartItem.qml
+msgctxt "per 12 hours, please keep it short"
+msgid "/12h"
+msgstr "/12j"
+
+#: ../contents/ui/DetailsItemAlt.qml ../contents/ui/DetailsItem.qml
+msgid "Feels like %1"
+msgstr "Terasa Seperti %1"
+
+#: ../contents/ui/DetailsItemAlt.qml ../contents/ui/DetailsItem.qml ../contents/ui/HorizontalCompactLayout.qml ../contents/ui/main.qml
+msgid "Loading..."
+msgstr "Memuat..."
+
+#: ../contents/ui/FullRepresentation.qml
+msgid "Loading data..."
+msgstr "Memuat data..."
+
+#: ../contents/ui/main.qml
+msgid "All set"
+msgstr "Semua beres!"
+
+#: ../contents/ui/main.qml
+msgid "Temperature"
+msgstr "Suhu"
+
+#: ../contents/ui/main.qml
+msgid "UV Index"
+msgstr "Indeks UV"
+
+#: ../contents/ui/main.qml
+msgid "Pressure"
+msgstr "Tekanan Udara"
+
+#: ../contents/ui/main.qml
+msgid "Cloud Cover"
+msgstr "Lapisan Awan"
+
+#: ../contents/ui/main.qml
+msgid "Humidity"
+msgstr "Kelembapan"
+
+#: ../contents/ui/main.qml
+msgid "Precipitation Chance"
+msgstr "Peluang Curah Hujan"
+
+#: ../contents/ui/main.qml
+msgid "Precipitation Rate"
+msgstr "Tingkat Curah Hujan"
+
+#: ../contents/ui/main.qml
+msgid "Snow Precipitation Rate"
+msgstr "Tingkat Curah Hujan Salju"
+
+#: ../contents/ui/main.qml
+msgid "Wind / Gust"
+msgstr "Angin"
+
+#: ../contents/ui/main.qml
+msgid "Precipitation Accumulation"
+msgstr "Akumulasi Curah Hujan"
+
+#: ../contents/ui/main.qml
+msgid "Dew Point"
+msgstr "Titik Embun"
+
+#: ../contents/ui/main.qml
+msgid "Wind Direction"
+msgstr "Arah Angin"
+
+#: ../contents/ui/main.qml
+msgid "Set the weather station to pull data from."
+msgstr "Atur stasiun cuaca untuk mendapatkan data."
+
+#: ../contents/ui/main.qml
+msgid "Please Configure"
+msgstr "Silakan Konfigurasi"
+
+#: ../contents/ui/main.qml
+msgid "Error..."
+msgstr "Lagi Error..."
+
+#: ../contents/ui/main.qml
+msgid "Undefined Error..."
+msgstr "Undefined Error..."
+
+#: ../contents/ui/main.qml
+msgctxt "Please put your language code here"
+msgid "en-US"
+msgstr "id-ID"
+
+#: ../contents/ui/SwitchPanel.qml
+msgid "Weather Details"
+msgstr "Detail Cuaca"
+
+#: ../contents/ui/SwitchPanel.qml
+msgid "Day Chart"
+msgstr "Grafik Harian"
+
+#: ../contents/ui/SwitchPanel.qml
+msgid "Forecast"
+msgstr "Ramalan Cuaca"
+
+#: ../contents/ui/SwitchPanel.qml
+msgid "Week Chart"
+msgstr "Grafik Pekanan"
+
+#: ../contents/ui/Tooltip.qml
+msgid "Real feel"
+msgstr "Terasa Seperti"
+
+#: ../contents/ui/TopPanel.qml
+msgid "High: %1 Low: %2"
+msgstr "Tertinggi: %1 Terendah: %2"
+
+#: ../contents/ui/TopPanel.qml
+msgid ""
+"\"I'm travelling\" mode.\n"
+" Allows the widget to autodiscover your location based on your public IP address.\n"
+" The `Home` station will be ignored when this option is selected."
+msgstr ""
+"Mode \"Mudik\".\n"
+" Memungkinkan widget menemukan lokasi Anda secara otomatis berdasarkan alamat IP publik Anda.\n"
+" Stasiun `Rumah` akan diabaikan bila opsi ini dipilih."
+
+#: ../contents/ui/TopPanel.qml
+msgid "Info for nerds"
+msgstr "Info untuk ahli"
+
+#: ../contents/ui/TopPanel.qml
+msgid "Refresh all data"
+msgstr "Segarkan Semua Data"
+
+#: ../contents/ui/TopPanel.qml
+msgid "Keep Open"
+msgstr "Biarkan Terbuka"
+
+#~ msgid "Uses WGS84 geocode coordinates"
+#~ msgstr "Gunakan koordinat WGS84 geocode"
+
+#~ msgid "Longitude:"
+#~ msgstr "Garis Bujur (Longtitude):"
+
+#~ msgid "Refresh period (s):"
+#~ msgstr "Periode penyegaran (detik):"
