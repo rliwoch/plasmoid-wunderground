@@ -228,12 +228,6 @@ Item {
     // property int fontSize: plasmoid.configuration.propPointSize
     // property int widgetStyle: plasmoid.configuration.detailsStyle
 
-    // onFontSizeChanged: {
-    //     console.log("STYYYYLE")
-    //     Plasmoid.fullRepresentation = null
-    //     Plasmoid.fullRepresentation = fr
-    // }
-
     // QML does not let you property bind items part of ListModels.
     // The TopPanel shows the high/low values which are items part of forecastModel
     // These are updated in pws-api.js to overcome that limitation
@@ -276,10 +270,6 @@ Item {
 
         API.getForecastData("daily", 7);
         API.getForecastData("hourly", 24);
-
-        dailyChartModel.sync()
-        forecastDetailsModel.sync()
-        forecastModel.sync()
     }
 
     //geolocation datasource is broken and doesn't update on change!
@@ -372,11 +362,23 @@ Item {
         plasmoid.backgroundHints = PlasmaCore.Types.ConfigurableBackground
     }
 
+    //run only once on widget start
+    Timer {
+        interval: 3000
+        repeat: false
+        onTriggered: updateCurrentData()
+    }
+
     Timer {
         interval: plasmoid.configuration.refreshPeriod * 1000
         running: appState != showCONFIG
         repeat: true
-        onTriggered: updateCurrentData()
+        onTriggered: {
+            printDebug("Init grab location", "main", "timerGetStationIdent")
+            if(currentStationId !== "") {
+                API.getStationIdent(currentStationId);
+            }
+        }
     }
 
     Timer {
@@ -450,7 +452,7 @@ Item {
         var funcName = (func === undefined ? "n/a" : func);
 
         if (plasmoid.configuration.logConsole) {
-            console.log(`[debug] [${fileName}|${funcName}]: ${JSON.stringify(json)}`);
+            console.log(`[debug] [${fileName}|${funcName}]: ${JSON.stringify(json, null, 2)}`);
         }
     }
 

@@ -86,7 +86,7 @@ function getApiUrlForTypeAndPeriod(type, period, params) {
 	var effectiveParams = getDefaultParams();
 
 	if (params !== undefined) {
-		printDebug(`Params override exists: ${JSON.stringify(params)}`, "api", "getApiUrlForTypeAndPeriod");
+		printDebug(`Params override exists: ${JSON.stringify(params, null, 2)}`, "api", "getApiUrlForTypeAndPeriod");
 
 		Object.keys(params).forEach((k, i) => {
 			printDebug(`Overriding parameter: ${k}`, "api", "getApiUrlForTypeAndPeriod");
@@ -94,7 +94,7 @@ function getApiUrlForTypeAndPeriod(type, period, params) {
 		});
 	}
 
-	printDebug(`Effective params used for URL ceation: ${JSON.stringify(effectiveParams)}`, "api", "getApiUrlForTypeAndPeriod");
+	printDebug(`Effective params used for URL ceation: ${JSON.stringify(effectiveParams, null, 2)}`, "api", "getApiUrlForTypeAndPeriod");
 
 	if (type === "current") {
 		url = 'https://api.weather.com/v2/pws/observations/current'
@@ -137,22 +137,23 @@ function getForUrl(url, isAsync, callback) {
 
 		if (req.readyState == 4) {
 			if (req.status == 200) {
-				console.log("------------------------>" + req.status);
+				//console.log("------------------------>" + req.status);
 				printDebug(`200 | ${url}`, "api", "getForUrl");
 				var res = JSON.parse(req.responseText);
 
-				printDebug(`FULL RESPONSE | ${url}: ${JSON.stringify(res)}`, "api", "getForUrl");
+				//todo enable on tickbox in settings - that's very chatty
+				//printDebug(`FULL RESPONSE | ${url}: ${JSON.stringify(res, null, 2)}`, "api", "getForUrl");
 
 				if (callback)
 					callback(res, req.status);
 			} else if (req.status == 204) {
-				console.log("------------------------>" + req.status);
+				//console.log("------------------------>" + req.status);
 				printDebug(`NOT 200 | URL ${url} State: ${req.readyState} Status: ${req.status}`, "api", "getForUrl");
 
 				if (callback)
 					callback(res, req.status);
 			} else {
-				console.log("------------------------>" + req.status);
+				//console.log("------------------------>" + req.status);
 				//implement retry
 				handleError(url, req);
 			}
@@ -160,7 +161,7 @@ function getForUrl(url, isAsync, callback) {
 	}
 	req.onerror = function () {
 		//let's hope for the best and retry
-		console.log("------------------------> RETRY");
+		printDebug("------------------------> RETRY", "api", "getForUrl");
 		getForUrl(url, isAsync, callback);
 	}
 
@@ -205,7 +206,7 @@ function getCurrentData() {
 				flatWeatherDataTmp[key] = value;
 			});
 			flatWeatherData = flatWeatherDataTmp;
-			printDebug(JSON.stringify(flatWeatherDataTmp));
+			printDebug(JSON.stringify(flatWeatherDataTmp, null, 2), "api", "getCurrentData");
 
 
 			tmp["details"] = details;
@@ -243,7 +244,6 @@ function getCurrentDataV3() {
 
 	getForUrl(url, true, function (res, status) {
 		if (status == 200) {
-			printDebug(`RAW RESPONSE: ${JSON.stringify(res)}`, "api", "getCurrentDataV3");
 			iconCode = res["iconCode"];
 			conditionNarrative = res["wxPhraseLong"];
 		}
@@ -258,7 +258,6 @@ function getCurrentDataV3() {
  */
 function getForecastData(periodInterval, periodLength) {
 	var url = getApiUrlForTypeAndPeriod(periodInterval, periodLength);
-	printDebug(`[api|getForecastData] URL: ${url}`);
 
 	getForUrl(url, true, function (res, status) {
 		if (status == 200) {
@@ -303,7 +302,7 @@ function getNearestStations(coord, callback) {
 function getNearestStation(coord, callback) {
 	getNearestStations(coord, function (stationsPayload) {
 
-		printDebug(`Stations payload: ${JSON.stringify(stationsPayload)}`, "api", "getNearestStation");
+		printDebug(`Stations payload: ${JSON.stringify(stationsPayload, null, 2)}`, "api", "getNearestStation");
 		findFirstActiveStation(0, stationsPayload["stationId"], function (isActiveFound, foundId) {
 			if (isActiveFound) {
 				printDebug(`Active station found: ${isActiveFound}, index: ${foundId}`, "api", "getNearestStation");
@@ -342,7 +341,7 @@ function refreshIPandStation(callback) {
 
 	getForUrl(url, true, function (res, status) {
 		if (status == 200) {
-			printDebug(`Returned body: ${JSON.stringify(res)}`, "api", "refreshIPandStation");
+			printDebug(`Returned body: ${JSON.stringify(res, null, 2)}`, "api", "refreshIPandStation");
 
 			var location = res["loc"].split(",")
 
@@ -378,7 +377,6 @@ function getStationIdent(tempStationId) {
 
 	getForUrl(url, true, function (res, status) {
 		if (status == 200) {
-			printDebug(`RESPONSE: ${JSON.stringify(res)}`, "api", "getStationIdent");
 			if (tempStationId === plasmoid.configuration.stationID) {
 				plasmoid.configuration.location = buildLocationText(res)
 			} else if (tempStationId === plasmoid.configuration.altStationID) {
@@ -466,8 +464,8 @@ function processDailyForecasts(forecasts) {
 
 		var day = f["day"];
 		var night = f["night"];
-		var isDay = day !== undefined;
-		var timeOfDay = isDay ? day : night;
+		var hasDay = day !== undefined;
+		var timeOfDay = hasDay ? day : night;
 
 		var forecastForDay = new Date(f["fcst_valid_local"]);
 		var now = new Date()
@@ -476,7 +474,7 @@ function processDailyForecasts(forecasts) {
 			dayInfo = extractGenericInfo(f);
 		}
 
-		var temps = prepTemps(f, isDay);
+		var temps = prepTemps(f, hasDay);
 		if (i == 0) {
 			// These are placed seperate from forecastModel since items part of ListModels
 			// cannot be property bound
@@ -499,7 +497,7 @@ function processDailyForecasts(forecasts) {
 			shortDesc: timeOfDay["phrase_32char"],
 			longDesc: timeOfDay["narrative"],
 			winDesc: timeOfDay["wind_phrase"],
-			golfDesc: isDay ? day["golf_category"] : "Don't play golf at night.",
+			golfDesc: hasDay ? day["golf_category"] : "Don't play golf at night.",
 			sunrise: extractTime(f["sunrise"]),
 			sunset: extractTime(f["sunset"]),
 			fullForecast: f,
@@ -560,15 +558,14 @@ function handleMissingData(timeOfDay, dataPoint) {
 }
 
 function createHourlyChartModel(forecasts) {
-	printDebug("------------- PROCESSING HOURLY FORECASTS ---------------");
+	printDebug("------------- PROCESSING HOURLY FORECASTS ---------------", "api", "createHourlyChartModel");
 	hourlyChartModel.clear()
 
 	var forecastsCount = forecasts.length
 
 	forecasts.forEach((period,index) => {
-		console.log("PERIOD PROC " + period.num)
+		//limiting the number of results to fit nicely on the chart
 		if(!(period.num == 23 || period.num == 24)) {
-			console.log("PERIOD IF " + period.num)
 			var date = new Date(period.fcst_valid_local);
 			var hourModel = {
 				date: date,
@@ -583,12 +580,12 @@ function createHourlyChartModel(forecasts) {
 			hourModel.uvIndex = period["uv_index"];
 			hourModel.pressure = period["mslp"];
 
-			printDebug("HOURLY MODEL: " + JSON.stringify(hourModel));
+			printDebug("HOURLY MODEL: " + JSON.stringify(hourModel, null, 2), "api", "createHourlyChartModel");
 
 			hourlyChartModel.append(hourModel);
 		}
 	});
-	printDebug("------------- HOURLY FORECASTS FINISHED ---------------");
+	printDebug("------------- HOURLY FORECASTS FINISHED ---------------", "api", "createHourlyChartModel");
 }
 
 function createDailyDetailModel(forecastElem) {
@@ -605,7 +602,7 @@ function createDailyDetailModel(forecastElem) {
 		newModel[reading.name].nightVal = handleMissingData(night, modelDict[reading.name]);
 	});
 
-	printDebug("DAILY TEMP MODEL: " + JSON.stringify(newModel));
+	printDebug("DAILY TEMP MODEL: " + JSON.stringify(newModel, null, 2), "api", "createDailyDetailModel");
 
 	createDailyChartModel(date, newModel, day !== undefined, nightIconCode, dayIconCode);
 
@@ -640,11 +637,11 @@ function createDailyChartModel(date, forecastDetailsModel, hasDay, nightIconCode
 	//excluding today's day - as we have a 24h chart for that. Ultimately we need 15 elements for the chart.
 	if(hasDay) {
 		if(day["num"] != 1) {
-			printDebug("DAILY MODEL: " + JSON.stringify(day));
+			printDebug("DAILY MODEL: " + JSON.stringify(day, null, 2), "api", "createDailyChartModel");
 			dailyChartModel.append(day);	
 		}
 	}
-	printDebug("DAILY MODEL: " + JSON.stringify(night));
+	printDebug("DAILY MODEL: " + JSON.stringify(night, null, 2), "api", "createDailyChartModel");
 	dailyChartModel.append(night);
 }
 

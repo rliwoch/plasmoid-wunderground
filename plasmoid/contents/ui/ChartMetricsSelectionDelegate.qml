@@ -46,7 +46,6 @@ import "../code/utils.js" as Utils
 
                             onEntered: {
                                 iconsListView.currentIndex = index
-                                //console.log(icon)
                             }
                             onPressed: {
                                 currentLegendText = availableReadings[index];

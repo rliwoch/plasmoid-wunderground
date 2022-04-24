@@ -43,7 +43,7 @@ Item {
         interval: 60 * 1000
         
         onTriggered: {
-            console.log("Updating SUN")
+            printDebug("Updating sun position", "DetailsItemAlt.qml", "Trigger")
             dayLength.text = Utils.getDayLength()
             dayLightCaption.text = Utils.remainingUntilSinceDaylight()
             circularSlider.value = Utils.calculateNeedlePosition(dayInfo["sunrise"],dayInfo["sunset"])
