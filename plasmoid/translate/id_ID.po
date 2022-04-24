@@ -28,47 +28,47 @@ msgstr "Wunderground PWS extended"
 
 #: ../contents/code/pws-api.js
 msgid "Request to %1 couldn't be sent %2. Manual refresh might help (top right corner)"
-msgstr ""
+msgstr "Permintaan ke %1 tidak dapat dikirim. Penyegaran manual mungkin membantu (pojok kanan atas)"
 
 #: ../contents/code/pws-api.js
 msgid "Station not found or station not active"
-msgstr ""
+msgstr "Stasiun tidak ditemukan atau stasiun tidak aktif"
 
 #: ../contents/code/pws-api.js
 msgid "Could not fetch forecast data"
-msgstr ""
+msgstr "Tidak dapat mengambil data prakiraan cuaca"
 
 #: ../contents/code/pws-api.js
 msgid "No active stations nearby - try selecting a different location in your proximity."
-msgstr ""
+msgstr "Tidak ada stasiun aktif di sekitar Anda - coba pilih lokasi lain di dekat Anda."
 
 #: ../contents/code/pws-api.js
 msgctxt "not applicable. KEEP SHORT"
 msgid "n/a"
-msgstr ""
+msgstr "n/a"
 
 #: ../contents/code/utils.js
 msgctxt "per hour, e.g. it will become mm/h. KEEP SHORT"
 msgid "h"
-msgstr ""
+msgstr "jam"
 
 #: ../contents/code/utils.js
 msgctxt "per day, e.g. it will become mm/day. KEEP SHORT"
 msgid "day"
-msgstr ""
+msgstr "hari"
 
 #: ../contents/code/utils.js
 msgid "To sunrise"
-msgstr ""
+msgstr "Menuju matahari terbit"
 
 #: ../contents/code/utils.js
 msgctxt "Daylight remaining time, keep short"
 msgid "Remaining"
-msgstr ""
+msgstr "Tersisa"
 
 #: ../contents/code/utils.js
 msgid "Since sunset"
-msgstr ""
+msgstr "Sejak matahari terbenam"
 
 #: ../contents/config/config.qml ../contents/ui/config/ConfigStation.qml
 msgid "Station"
@@ -121,16 +121,16 @@ msgstr "Ukuran teks dasar"
 #: ../contents/ui/config/ConfigAppearance.qml
 msgctxt "Details display style"
 msgid "Standard"
-msgstr ""
+msgstr "Standar"
 
 #: ../contents/ui/config/ConfigAppearance.qml
 msgctxt "Details display style"
 msgid "Alternative"
-msgstr ""
+msgstr "Alternatif"
 
 #: ../contents/ui/config/ConfigAppearance.qml
 msgid "Select `Weather Details` style:"
-msgstr ""
+msgstr "Pilih gaya `Detail Cuaca`:"
 
 #: ../contents/ui/config/ConfigAppearance.qml
 msgid "Icon styles"
@@ -189,6 +189,8 @@ msgid ""
 "Here you can either manually enter the weather station ID from https://www.wunderground.com/wundermap (search for a city that interests you, then on a map click on a location bubble and note down the station ID) or use the lookup tool and dropdowns to discover the weather station.\n"
 "You need to test the station every time you make changes. Some of them may be offline."
 msgstr ""
+"Di sini Anda dapat memasukkan ID stasiun cuaca secara manual dari https://www.wunderground.com/wundermap (cari kota yang Anda minati, lalu klik peta pada gelembung lokasi dan catat ID stasiun) atau gunakan alat pencarian dan dropdown untuk menemukan stasiun cuaca.\n"
+"Anda perlu menguji stasiun setiap kali Anda membuat perubahan. Beberapa di antaranya mungkin offline."
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Enter Station"
@@ -200,17 +202,17 @@ msgstr "ID Stasiun Cuaca:"
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Test station"
-msgstr ""
+msgstr "Tes stasiun"
 
 #: ../contents/ui/config/ConfigStation.qml
 msgctxt "Text shown until a station is chosen from the dropdown"
 msgid "Pending selection"
-msgstr ""
+msgstr "Pilih Stasiun"
 
 #: ../contents/ui/config/ConfigStation.qml
 msgctxt "Indicates if the station selected is active or not"
 msgid "Station status:"
-msgstr ""
+msgstr "Status stasiun:"
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Get Nearest Station"
@@ -218,7 +220,7 @@ msgstr "Cari Stasiun Terdekat"
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Look for location:"
-msgstr ""
+msgstr "Cari untuk lokasi:"
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Find Station"
@@ -226,63 +228,63 @@ msgstr "Temukan Stasiun"
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Select City:"
-msgstr ""
+msgstr "Pilih Kota:"
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Select Station:"
-msgstr ""
+msgstr "Pilih Stasiun:"
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Options"
-msgstr ""
+msgstr "Opsi"
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Current conditions refresh interval (s):"
-msgstr ""
+msgstr "Interval penyegaran kondisi saat ini (detik):"
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Forecast refresh interval (minutes):"
-msgstr ""
+msgstr "Interval penyegaran prakiraan (menit):"
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Location refresh interval (minutes):"
-msgstr ""
+msgstr "Interval penyegaran lokasi (menit):"
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Summary"
-msgstr ""
+msgstr "Ringkasan"
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Home Location"
-msgstr ""
+msgstr "Lokasi Rumah"
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Currently Used"
-msgstr ""
+msgstr "Digunakan Saat Ini"
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Latitude:"
-msgstr "Garis Lintang:"
+msgstr "Garis Lintang (Latitude):"
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Longitude"
-msgstr ""
+msgstr "Garis Bujur (Longtitude)"
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Location"
-msgstr ""
+msgstr "Lokasi"
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "When `I'm travelling`/tracking mode is enabled, the plasmoid will actively track your location and pick the nearest station near you. It does not collect any data about you, however it does use a public service ipinfo.io to obtain your public IP address and approximate location."
-msgstr ""
+msgstr "Saat mode "Mudik" diaktifkan, plasmoid akan secara aktif melacak lokasi Anda dan memilih stasiun terdekat di dekat Anda. Itu tidak mengumpulkan data apa pun tentang Anda, namun menggunakan layanan publik ipinfo.io untuk mendapatkan alamat IP publik dan perkiraan lokasi Anda."
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Station %1 is active and can be used"
-msgstr ""
+msgstr "Stasiun %1 aktif dan dapat digunakan"
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Station %1 is NOT active. Please select a different station."
-msgstr ""
+msgstr "Stasiun %1 TIDAK AKTIF. Silahkan pilih stasiun lain."
 
 #: ../contents/ui/config/ConfigUnits.qml
 msgctxt "The unit system"
@@ -314,7 +316,7 @@ msgstr "Format waktu"
 #: ../contents/ui/DayChartItem.qml ../contents/ui/WeekChartItem.qml
 msgctxt "per 12 hours, please keep it short"
 msgid "/12h"
-msgstr ""
+msgstr "/12j"
 
 #: ../contents/ui/DetailsItemAlt.qml ../contents/ui/DetailsItem.qml
 msgid "Feels like %1"
@@ -334,7 +336,7 @@ msgstr "Semua beres!"
 
 #: ../contents/ui/main.qml
 msgid "Temperature"
-msgstr "Temperatur"
+msgstr "Suhu"
 
 #: ../contents/ui/main.qml
 msgid "UV Index"
@@ -390,11 +392,11 @@ msgstr "Silakan Konfigurasi"
 
 #: ../contents/ui/main.qml
 msgid "Error..."
-msgstr "Ksealahan..."
+msgstr "Lagi Error..."
 
 #: ../contents/ui/main.qml
 msgid "Undefined Error..."
-msgstr "Kesalahan Tidak Terdefinisi..."
+msgstr "Undefined Error..."
 
 #: ../contents/ui/main.qml
 msgctxt "Please put your language code here"
@@ -431,24 +433,27 @@ msgid ""
 " Allows the widget to autodiscover your location based on your public IP address.\n"
 " The `Home` station will be ignored when this option is selected."
 msgstr ""
+"Mode \"Mudik\".\n"
+" Memungkinkan widget menemukan lokasi Anda secara otomatis berdasarkan alamat IP publik Anda.\n"
+" Stasiun `Rumah` akan diabaikan bila opsi ini dipilih."
 
 #: ../contents/ui/TopPanel.qml
 msgid "Info for nerds"
-msgstr ""
+msgstr "Info untuk ahli"
 
 #: ../contents/ui/TopPanel.qml
 msgid "Refresh all data"
-msgstr ""
+msgstr "Segarkan Semua Data"
 
 #: ../contents/ui/TopPanel.qml
 msgid "Keep Open"
-msgstr ""
+msgstr "Biarkan Terbuka"
 
 #~ msgid "Uses WGS84 geocode coordinates"
 #~ msgstr "Gunakan koordinat WGS84 geocode"
 
 #~ msgid "Longitude:"
-#~ msgstr "Garis Bujur:"
+#~ msgstr "Garis Bujur (Longtitude):"
 
 #~ msgid "Refresh period (s):"
 #~ msgstr "Periode penyegaran (detik):"
