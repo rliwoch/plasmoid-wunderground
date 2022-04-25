@@ -406,7 +406,7 @@ msgstr "Error..."
 
 #: ../contents/ui/main.qml
 msgid "Undefined Error..."
-msgstr "Error indefinido..."
+msgstr "Error indeterminado..."
 
 #: ../contents/ui/main.qml
 msgctxt "Please put your language code here"
@@ -443,9 +443,9 @@ msgid ""
 " Allows the widget to autodiscover your location based on your public IP address.\n"
 " The `Home` station will be ignored when this option is selected."
 msgstr ""
-" Modo \"Estoy viajando\".\n"
-" Permite que el widget autodescubra tu ubicación basándose en tu dirección IP pública.\n"
-" La estación «Casa» será ignorada cuando se seleccione esta opción."
+"Modo «Estoy viajando».\n"
+"Permite que el widget autodescubra tu ubicación basándose en tu dirección IP pública.\n"
+"La estación «Casa» será ignorada cuando se seleccione esta opción."
 
 #: ../contents/ui/TopPanel.qml
 msgid "Info for nerds"
