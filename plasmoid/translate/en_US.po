@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plasmoid-wunderground\n"
 "Report-Msgid-Bugs-To: https://github.com/rliwoch/plasmoid-wunderground-extended\n"
-"POT-Creation-Date: 2022-04-23 14:28+0200\n"
+"POT-Creation-Date: 2022-04-25 11:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Rafal (Raf) Liwoch <rafal.liwoch@gmail.com>\n"
 "Language-Team: ENGLISH (US) <LL@li.org>\n"
@@ -197,6 +197,11 @@ msgid "Enter Station"
 msgstr "Enter Station"
 
 #: ../contents/ui/config/ConfigStation.qml
+msgctxt "placeholder text alternatively 'example: IFRAUN2'"
+msgid "e.g. IFRAUN2"
+msgstr ""
+
+#: ../contents/ui/config/ConfigStation.qml
 msgid "Weatherstation ID:"
 msgstr "Weatherstation ID:"
 
@@ -217,6 +222,11 @@ msgstr "Station status:"
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Get Nearest Station"
 msgstr "Get Nearest Station"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgctxt "plaseholder text, example London"
+msgid "e.g. London"
+msgstr ""
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Look for location:"
