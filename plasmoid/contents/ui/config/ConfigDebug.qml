@@ -23,13 +23,14 @@ import org.kde.kirigami 2.4 as Kirigami
 import "../../code/pws-api.js" as API
 import "../lib"
 
-Item {
+ColumnLayout {
     id: debugConfig
 
     property alias cfg_logConsole: logConsole.checked
 
     Kirigami.FormLayout {
-        anchors.fill: parent
+        Layout.fillWidth: true
+        Layout.fillHeight: true
 
         CheckBox {
             id: logConsole
