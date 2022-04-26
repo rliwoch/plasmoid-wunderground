@@ -199,7 +199,7 @@ msgstr "Masukkan ID Stasiun"
 #: ../contents/ui/config/ConfigStation.qml
 msgctxt "placeholder text alternatively 'example: IFRAUN2'"
 msgid "e.g. IFRAUN2"
-msgstr ""
+msgstr "misal: ISEMAR1"
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Weatherstation ID:"
@@ -226,7 +226,7 @@ msgstr "Cari Stasiun Terdekat"
 #: ../contents/ui/config/ConfigStation.qml
 msgctxt "plaseholder text, example London"
 msgid "e.g. London"
-msgstr ""
+msgstr "misal: Demak"
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Look for location:"
