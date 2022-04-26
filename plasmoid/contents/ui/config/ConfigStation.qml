@@ -24,7 +24,7 @@ import org.kde.kirigami 2.4 as Kirigami
 import "../../code/pws-api.js" as API
 import "../lib"
 
-Item {
+ColumnLayout {
     id: stationConfig
 
     //vars only for settings 
@@ -63,26 +63,23 @@ Item {
     //     visible: false
     // }
 
-    PlasmaComponents.Label {
-        id: infoSettings
-        anchors {
-            horizontalCenter: form.horizontalCenter
-        }
 
-        width: parent.width
+    Kirigami.Heading {
+        id: infoSettings
+        level: 5
+
+        Layout.fillWidth: true
         wrapMode: Text.Wrap
         text: i18n("Here you can either manually enter the weather station ID from https://www.wunderground.com/wundermap (search for a city that interests you, then on a map click on a location bubble and note down the station ID) or use the lookup tool and dropdowns to discover the weather station.\nYou need to test the station every time you make changes. Some of them may be offline.")
     }
     Kirigami.FormLayout {
         id: form
-        anchors {
-            top: infoSettings.bottom
-            topMargin: 2 * units.smallSpacing
-            left: parent.left
-            right: parent.right
-        }
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
 
         Kirigami.Separator {
+            id: separator
             Kirigami.FormData.isSection: true
             Kirigami.FormData.label: i18n("Enter Station")
         }
@@ -250,18 +247,18 @@ Item {
             Kirigami.FormData.label: i18n("Summary")
         }
 
-
     }
     GridLayout {
         id: summary
         columns: 3
         rows: 5
+        visible: true
 
-        anchors {
-            top: form.bottom
-            topMargin: 4 * units.smallSpacing
-            horizontalCenter: form.horizontalCenter
-        }
+        Layout.fillWidth:true
+
+        Layout.topMargin: units.gridUnit
+        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+        
 
         PlasmaComponents.Label {
             Layout.minimumWidth: 150
@@ -344,36 +341,26 @@ Item {
             text:  plasmoid.configuration.isAutoLocation ? plasmoid.configuration.altLocation : plasmoid.configuration.location
         }
     }
-    PlasmaComponents.Label {
+    Kirigami.Heading { 
         id: infoLocation
-        anchors {
-            top: summary.bottom
-            topMargin: 4 * units.smallSpacing
-            horizontalCenter: form.horizontalCenter
-        }
+        level: 5
 
-        width: parent.width
+        Layout.topMargin: units.gridUnit
+        Layout.fillWidth: true
+        horizontalAlignment: Text.AlignHCenter
         wrapMode: Text.Wrap
         text: i18n("When `I'm travelling`/tracking mode is enabled, the plasmoid will actively track your location and pick the nearest station near you. It does not collect any data about you, however it does use a public service ipinfo.io to obtain your public IP address and approximate location.")
     }
-
-    PlasmaComponents.Label {
-        anchors {
-            top: infoLocation.bottom
-            topMargin: 4 * units.smallSpacing
-            horizontalCenter: form.horizontalCenter
-        }
+    Kirigami.Heading {
+        Layout.fillWidth: true
+        
+        Layout.topMargin: 2 * units.gridUnit
+        horizontalAlignment: Text.AlignHCenter
         text: "Version 0.7.0"
+        level: 4
     }
 
-    PlasmaComponents.Label {
-        anchors {
-            top: infoLocation.bottom
-            topMargin: 4 * units.smallSpacing
-            horizontalCenter: form.horizontalCenter
-        }
-        text: "Version 0.7.0"
-    }
+
     function validateWeatherStation(stationId, placeholderToUpdate, callback){
         
         API.isStationActive(stationId, function(isActive, stationId, fullDetails){

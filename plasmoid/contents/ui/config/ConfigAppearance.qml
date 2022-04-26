@@ -22,7 +22,7 @@ import QtQuick.Layouts 1.0
 import org.kde.plasma.components 2.0 as PlasmaComponents
 import org.kde.kirigami 2.4 as Kirigami
 
-Item {
+ColumnLayout {
     id: appearanceConfig
 
     property alias cfg_compactPointSize: compactPointSize.value
@@ -31,9 +31,12 @@ Item {
     property alias cfg_iconStyleChoice: iconStyleChoice.currentIndex
     property alias cfg_detailsStyle: detailsDisplayStyleChoice.currentIndex
     property alias cfg_compactShowConditions: compactShowConditions.checked
-
+    
     Kirigami.FormLayout {
-        anchors.fill: parent
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+
+        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
