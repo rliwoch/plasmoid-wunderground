@@ -377,6 +377,7 @@ Item {
             printDebug("Init grab location", "main", "timerGetStationIdent")
             if(currentStationId !== "") {
                 API.getStationIdent(currentStationId);
+                updateCurrentData();
             }
         }
     }
