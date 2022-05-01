@@ -286,7 +286,7 @@ msgstr "Lokasi"
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "When `I'm travelling`/tracking mode is enabled, the plasmoid will actively track your location and pick the nearest station near you. It does not collect any data about you, however it does use a public service ipinfo.io to obtain your public IP address and approximate location."
-msgstr "Saat mode \"Mudik\" diaktifkan, plasmoid akan secara aktif melacak lokasi Anda dan memilih stasiun terdekat di dekat Anda. Itu tidak mengumpulkan data apa pun tentang Anda, namun menggunakan layanan publik ipinfo.io untuk mendapatkan alamat IP publik dan perkiraan lokasi Anda."
+msgstr "Saat mode \"Mudik\" diaktifkan, plasmoid akan secara aktif melacak lokasi Anda dan memilih stasiun yang paling dekat dengan Anda. Itu tidak mengumpulkan data apa pun tentang Anda, karena menggunakan layanan publik ipinfo.io untuk mendapatkan alamat IP publik dan perkiraan lokasi Anda."
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Station %1 is active and can be used"
