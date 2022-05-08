@@ -37,7 +37,6 @@ Item {
 
     property bool isNarrativeForDay: true
 
-    property var weatherData: null
     property var flatWeatherData: {}
     property string applicationStateText: i18n("All set")
     property var currentDetailsModel: ListModel {}
@@ -147,7 +146,7 @@ Item {
             code: "windDirection",
             icon: "wi-storm-warning.svg",
             unit: ""
-        }                                      
+        }                                 
     })
 
     property var textSize: ({
@@ -213,8 +212,7 @@ Item {
 
     property ListModel forecastModel: ListModel {}
     property string errorStr: ""
-    property string iconCode: "32" // 32 = sunny
-    property string conditionNarrative: ""
+    
     property string narrativeText: ""
 
     // TODO: add option for showFORECAST and showFORECASTERROR
@@ -238,7 +236,9 @@ Item {
     property bool showForecast: false
 
     property string stationID: plasmoid.configuration.stationID
+    property string location: plasmoid.configuration.location
     property int unitsChoice: plasmoid.configuration.unitsChoice
+    property int weatherProvider: plasmoid.configuration.weatherProviderConfig
 
     property bool inTray: false
 
@@ -295,7 +295,6 @@ Item {
         onTriggered: {
             API.refreshIPandStation(function(result) {
                 if(result){
-                    API.getStationIdent(API.getDefaultParams().station);
                     updateWeatherData();
                     timer.interval = timer.tempInterval
                 } else {
@@ -310,48 +309,47 @@ Item {
     PlasmaNM.NetworkStatus {
         id: networkStatus
 
-        onActiveConnectionsChanged: {
-            if(plasmoid.configuration.isAutoLocation) {
-                printDebug("Connection changed")
-                API.refreshIPandStation(function(result) {
-                    if(result){
-                        API.getStationIdent(API.getDefaultParams().station);
-                        updateWeatherData();
-                    }
-                });
-            } else {
-                updateWeatherData();
-            }
-
-        }
+        onActiveConnectionsChanged: refreshData()
     }
 
     onUnitsChoiceChanged: {
         printDebug("Units changed")
 
-        // A user could configure units but not station id. This would trigger improper request.
-        if (stationID != "") {
-            // Show loading screen after units change
-            appState = showLOADING;
-            updateWeatherData();
-        }
+        refreshData();
+    }
+
+    onLocationChanged: {
+        refreshData();
     }
 
     onStationIDChanged: {
         printDebug("Station ID changed")
 
-        // Show loading screen after ID change
-        appState = showLOADING;
-
-        updateWeatherData();
+        refreshData();
     }
 
-    onWeatherDataChanged: {
+    onFlatWeatherDataChanged: {
         printDebug("Weather data changed")
     }
 
     onAppStateChanged: {
         printDebug("State is: " + appState)
+    }
+
+
+    function updateAppState() {
+        //TODO doesn't save weatherProviderConfig unit apply is pressed!!!!!!!!!
+        //for clarity using two ifs
+        var isStationDriven = plasmoid.configuration.weatherProviderConfig != 3
+        console.log(plasmoid.configuration.weatherProviderConfig)
+        if(isStationDriven && plasmoid.configuration.stationID !== "") {
+            appState = showLOADING;
+        } else if (!isStationDriven && plasmoid.configuration.location !== "") {
+            appState = showLOADING;
+        } else {
+            console.log(isStationDriven + " Location:" + plasmoid.configuration.location)
+            appState = showCONFIG;
+        }
     }
 
     Component.onCompleted: {
@@ -363,22 +361,19 @@ Item {
     }
 
     //run only once on widget start
-    Timer {
-        interval: 3000
-        repeat: false
-        onTriggered: updateCurrentData()
-    }
+    // Timer {
+    //     interval: 3000
+    //     repeat: false
+    //     onTriggered: refreshData()
+    // }
 
     Timer {
         interval: plasmoid.configuration.refreshPeriod * 1000
         running: appState != showCONFIG
         repeat: true
         onTriggered: {
-            printDebug("Init grab location", "main", "timerGetStationIdent")
-            if(currentStationId !== "") {
-                API.getStationIdent(currentStationId);
-                updateCurrentData();
-            }
+            printDebug("Refresh current data", "main", "currentDataTimer", true)
+            updateCurrentData();
         }
     }
 
@@ -387,8 +382,8 @@ Item {
         running: appState != showCONFIG
         repeat: true
         onTriggered: {
-            updateForecastData()
-            API.getStationIdent(API.getDefaultParams().station)
+            printDebug("Refresh all data data", "main", "allDataTimer", true)
+            refreshData();
         }
     }
     
@@ -403,6 +398,10 @@ Item {
         source: getTootipTemplate()
     }
 
+    Connections {
+        target: plasmoid.configuration
+        function onLocationConfigSignal() { console.log("SIGNAL SIGNAL SIGNAL") }
+    }
 
     function getTootipTemplate() {
         if (appState == showCONFIG) {
@@ -439,11 +438,14 @@ Item {
         }
     }
 
-    function printDebug(msg, file, func) {
+    function printDebug(msg, file, func, isInfo) {
         var fileName = (file === undefined ? "n/a" : file);
         var funcName = (func === undefined ? "n/a" : func);
+        var minimalLog = (isInfo === undefined || isInfo == false) ? false : true;
 
-        if (plasmoid.configuration.logConsole) {
+        if(minimalLog) {
+            console.log(`[${new Date()}] [${fileName}|${funcName}]: ${msg}`);
+        } else if (plasmoid.configuration.logConsole) {
             console.log(`[${new Date()}] [${fileName}|${funcName}]: ${msg}`);
         };
     }
@@ -455,6 +457,41 @@ Item {
         if (plasmoid.configuration.logConsole) {
             console.log(`[debug] [${fileName}|${funcName}]: ${JSON.stringify(json, null, 2)}`);
         }
+    }
+
+    function refreshData(currentOnly) {
+        var isOnlyCurrentData = currentOnly === undefined ? false : currentOnly
+        
+        updateAppState();
+
+        //don't update when not configuered
+        if(appState != showCONFIG) {
+            printDebug(`Refreshing data. Only current data refresh: ${isOnlyCurrentData}`, "main", "refreshData", true);
+            
+            //when auto-location is on we want to update the location first
+            if(plasmoid.configuration.isAutoLocation) {                
+                API.refreshIPandStation(function(result, newStationId) {
+                    if(result){
+                        isOnlyCurrentData ? updateCurrentData() : updateWeatherData();
+                    } else {
+                        printDebug("Data not refreshed - couldn't obrain IP and/or location", "main", "refreshData", true);
+                    }
+                });                
+            //when auto-location is off
+            } else {
+                //if it's location based go ahead - we assume the location hasn't changed - and is as per user's settings
+                if((plasmoid.configuration.weatherProviderConfig == 3)) {
+                    isOnlyCurrentData ? updateCurrentData() : updateWeatherData();
+                //if it's station based - let's refresh the station first
+                } else {
+                    API.getStationIdent(API.getDefaultParams().station);
+                    isOnlyCurrentData ? updateCurrentData() : updateWeatherData();
+                }                
+            }
+        } else {
+            printDebug("Widget not configured. Refresh STOPPED", "main", "refreshData", true);
+        }
+
     }
 
     Plasmoid.fullRepresentation: fr

@@ -74,19 +74,7 @@ Item {
             checked: plasmoid.configuration.isAutoLocation
             onCheckedChanged: { 
                 plasmoid.configuration.isAutoLocation = checked
-                if(!checked) {
-                    currentStationId = plasmoid.configuration.stationID;
-                    API.getStationIdent(API.getDefaultParams().station);
-                    updateWeatherData();
-                } else {
-                    API.refreshIPandStation(function(result, newStationId) {
-                        if(result){
-                            currentStationId = newStationId;
-                            API.getStationIdent(API.getDefaultParams().station);
-                            updateWeatherData();
-                        }
-                    });
-                }  
+                refreshData();
 
                 if(checked == false) {
                     plasmoid.configuration.altLatitude = "";
@@ -97,7 +85,7 @@ Item {
             }
             tooltip: i18n("\"I'm travelling\" mode.\n Allows the widget to autodiscover your location based on your public IP address.\n The `Home` station will be ignored when this option is selected.")
         }
-
+        
         PlasmaComponents.ToolButton {
             visible: false
             id: infoBtn
@@ -120,20 +108,7 @@ Item {
             height: width
             checkable: false
             iconSource: "view-refresh"
-            onClicked: {
-                if(plasmoid.configuration.isAutoLocation) {
-                    API.refreshIPandStation(function(result, newStationId) {
-                        if(result){
-                            API.getStationIdent(API.getDefaultParams().station);
-                            currentStationId = newStationId;
-                            updateWeatherData();
-                        }
-                    });
-                } else {
-                    API.getStationIdent(API.getDefaultParams().station);
-                    updateWeatherData();
-                }
-            }
+            onClicked: refreshData();
             tooltip: i18n("Refresh all data")
         }
         // Allows the user to keep the plasmoid open for reference

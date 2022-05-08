@@ -34,6 +34,8 @@ Item {
         id: stationElement
         opacity: bottomOpacity
 
+        visible: plasmoid.configuration.weatherProviderConfig != 3 && !plasmoid.configuration.isAutoLocation
+
         anchors {
             left: parent.left
             leftMargin: 2 * units.smallSpacing
@@ -87,7 +89,7 @@ Item {
                 }
 
                 icon.name: "draw-arrow"
-                onClicked: Qt.openUrlExternally("https://www.wunderground.com/dashboard/pws/" + weatherData["stationID"]);
+                onClicked: Qt.openUrlExternally("https://www.wunderground.com/dashboard/pws/" + flatWeatherData["stationID"]);
             }
         }
         
@@ -149,6 +151,9 @@ Item {
     }
 
     Item {
+        //if autolocation is turned off and when plugin uses station
+        visible: plasmoid.configuration.weatherProviderConfig != 3 && !plasmoid.configuration.isAutoLocation
+
         id: altitudeElement
         opacity: bottomOpacity
 
@@ -190,7 +195,7 @@ Item {
                 font {
                     pointSize: textSize.small
                 }
-                text: Utils.currentElevUnit(weatherData["details"]["elev"])
+                text: Utils.currentElevUnit(flatWeatherData["elev"])
             }
         }
     }

@@ -21,8 +21,13 @@ import org.kde.plasma.configuration 2.0
 ConfigModel {
     ConfigCategory {
         name: i18n("Station")
-        icon: "flag"
+        icon: "mark-location"
         source: "config/ConfigStation.qml"
+    }
+    ConfigCategory {
+        name: i18n("Options")
+        icon: "configuration"
+        source: "config/ConfigOptions.qml"
     }
     ConfigCategory {
         name: i18n("Appearance")
@@ -31,7 +36,7 @@ ConfigModel {
     }
     ConfigCategory {
         name: i18n("Units")
-        icon: "configuration"
+        icon: "measure"
         source: "config/ConfigUnits.qml"
     }
     ConfigCategory {

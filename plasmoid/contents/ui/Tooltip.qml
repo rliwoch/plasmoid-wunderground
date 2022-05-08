@@ -46,7 +46,7 @@ Item {
                 Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
                 svg: PlasmaCore.Svg {
                 id: tooltipIcon
-                imagePath: iconCode !== null ? plasmoid.file("", Utils.getIconForCodeAndStyle(iconCode, plasmoid.configuration.iconStyleChoice)) : plasmoid.file("", "icons/wi-na.svg")
+                imagePath: flatWeatherData.iconCode !== null ? plasmoid.file("", Utils.getIconForCodeAndStyle(flatWeatherData.iconCode, plasmoid.configuration.iconStyleChoice)) : plasmoid.file("", "icons/wi-na.svg")
             }
 
             implicitWidth: units.iconSizes.medium
@@ -62,7 +62,7 @@ Item {
                 Layout.minimumWidth: Math.min(implicitWidth, preferredTextWidth)
                 Layout.maximumWidth: preferredTextWidth
                 elide: Text.ElideRight
-                text: conditionNarrative
+                text: flatWeatherData["wxPhraseLong"]
             }
 
             PlasmaComponents.Label {
@@ -87,7 +87,7 @@ Item {
                 PlasmaComponents.Label {
                     id: metric
                     wrapMode: Text.NoWrap
-                    text: `${dictVals[name].name}: ${Utils.getValue(name, val, val2)}`
+                    text: `${dictVals[name].name}: ${Utils.getValueForObj(model)}`
                     height: paintedHeight
                     elide: Text.ElideNone
                     opacity: 0.6

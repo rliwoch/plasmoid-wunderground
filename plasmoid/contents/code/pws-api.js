@@ -126,7 +126,7 @@ function getApiUrlForTypeAndPeriod(type, period, params) {
 }
 
 function getForUrl(url, isAsync, callback) {
-	printDebug(`URL: ${url}`, "api", "getForUrl");
+	printDebug(`Will be getting URL: ${url}`, "api", "getForUrl", true);
 
 	var req = new XMLHttpRequest();
 	req.open("GET", url, isAsync);
@@ -171,71 +171,157 @@ function handleError(url, req) {
 	errorStr = i18n("Request to %1 couldn't be sent %2. Manual refresh might help (top right corner)", url, req.responseText);
 	appState = showERROR;
 
-	printDebug(`ERROR: ${errorStr} status: ${req.status}`, "api", "getForUrl");
+	printDebug(`ERROR: ${errorStr} status: ${req.status}`, "api", "getForUrl", true);
 }
 
 function getCurrentData() {
-	var url = getApiUrlForTypeAndPeriod("current");
-	printDebug(`URL: ${url}`, "api", "getCurrentData");
+	//for station or for location
+	var isRequestForStation = plasmoid.configuration.weatherProviderConfig != 3 
 
-	//todo add second par to callback
-	getForUrl(url, true, function (res, status) {
-		if (status == 200) {
-			var sectionName = "";
+	if(isRequestForStation && !plasmoid.configuration.isAutoLocation) {	
+		var url = getApiUrlForTypeAndPeriod("current")
+		printDebug(`Getting Current Weather Data for Station ID`, "api", "getCurrentData", true);
 
-			//todo
-			if (unitsChoice === 0) {
-				sectionName = "metric";
-			} else if (unitsChoice === 1) {
-				sectionName = "imperial";
+		getForUrl(url, true, function (res, status) {
+			if (status == 200) {
+
+				flattenResponse(res, function(flatWeatherDataTmp){
+					flatWeatherData = flatWeatherDataTmp;
+
+					currentDetailsModel.clear()
+					currentDetailsModel.append({ name: "windDirection", val: flatWeatherData["winddir"], val2: flatWeatherData["windSpeed"]});
+					currentDetailsModel.append({ name: "wind", val: flatWeatherData["windSpeed"], val2: flatWeatherData["windGust"] });
+					currentDetailsModel.append({ name: "dewPoint", val: flatWeatherData["dewpt"] });
+					currentDetailsModel.append({ name: "precipitationRate", val: flatWeatherData["precipRate"] });
+					currentDetailsModel.append({ name: "pressure", val: flatWeatherData["pressure"] });
+					currentDetailsModel.append({ name: "humidity", val: flatWeatherData["humidity"] });
+					currentDetailsModel.append({ name: "precipitationAcc", val: flatWeatherData["precipTotal"] });
+					currentDetailsModel.append({ name: "uvIndex", val: flatWeatherData["uv"] });
+
+					//getCurrentDataV3();
+					appState = showDATA;
+					printDebug(`Current Weather Data updated`, "api", "getCurrentData", true);
+				});
+				
+
+			} else if (status == 204) {
+				errorStr = i18n("Station not found or station not active");
+				printDebug(`ERROR: ${errorStr}`, "api", "getCurrentData");
 			} else {
-				sectionName = "uk_hybrid";
+				//todo
+				printDebug(`Current Weather Data update problem`, "api", "getCurrentData", true);
 			}
+		});
+	} else {
+		var url = getApiUrlForTypeAndPeriod("current-v3");
+		printDebug(`Getting Current Weather Data for Location`, "api", "getCurrentData", true);
+		
+		getForUrl(url, true, function (res, status) {
+			if (status == 200) {
 
-			//TODO
-			var tmp = {};
-			var tmp = res["observations"][0];
+				flatWeatherData = {
+					"stationID": "n/a",
+					"obsTimeUtc": new Date(res["validTimeLocal"]),
+					"obsTimeLocal": new Date(res["validTimeUtc"]),
+					//"neighborhood": "n/a",
+					//"softwareType": "n/a",
+					//"country": "n/a",
+					//"solarRadiation": "n/a",
+					//"lon": 11.995,
+					//"realtimeFrequency": null,
+					//"epoch": 1651146095,
+					//"lat": 48.379,
+					"uv": res["uvIndex"],
+					"winddir": res["windDirection"],
+					"humidity": res["relativeHumidity"],
+					//"qcStatus": 1,
+					"temp": res["temperature"],
+					"heatIndex": res["temperatureHeatIndex"],
+					"dewpt": res["temperatureDewPoint"],
+					"windChill": res["temperatureWindChill"],
+					"windSpeed": res["windSpeed"],
+					"windGust": res["windGust"],
+					"pressure": res["pressureAltimeter"],
+					"precipRate": res["precip1Hour"],
+					"precipTotal": res["precip24Hour"],
+					"elev": "n/a",
+					"iconCode": res["iconCode"],
+					"wxPhraseLong": res["wxPhraseLong"],
+					//only new API below
+					"windDirCardinal": res["windDirectionCardinal"], 
+					"visibility": res["visibility"],
+					"tempMax": res["temperatureMax24Hour"],
+					"tempMin": res["temperatureMin24Hour"],
+					"uvDesc":  res["uvDescription"],
+					"pressureTendencyCode": res["pressureTendencyCode"],
+					"pressureTendency": res["pressureTendencyTrend"]
+				  }
+				printDebug(`flatWeatherData is ${JSON.stringify(flatWeatherData)}`, "api", "getCurrentData");
+				
+				currentDetailsModel.clear()
+				currentDetailsModel.append({ name: "windDirection", val: flatWeatherData["winddir"], val2: flatWeatherData["windSpeed"], val3: flatWeatherData["windDirCardinal"]});
+				currentDetailsModel.append({ name: "wind", val: flatWeatherData["windSpeed"], val2: flatWeatherData["windGust"] === null ? 0 : flatWeatherData["windGust"] });
+				currentDetailsModel.append({ name: "dewPoint", val: flatWeatherData["dewpt"] });
+				currentDetailsModel.append({ name: "precipitationRate", val: flatWeatherData["precipRate"] });
+				currentDetailsModel.append({ name: "pressure", val: flatWeatherData["pressure"], val2: flatWeatherData["pressureTendencyCode"] });
+				currentDetailsModel.append({ name: "humidity", val: flatWeatherData["humidity"] });
+				currentDetailsModel.append({ name: "precipitationAcc", val: flatWeatherData["precipTotal"] });
+				currentDetailsModel.append({ name: "uvIndex", val: flatWeatherData["uv"], val3: flatWeatherData["uvDesc"] });
 
-			var details = res["observations"][0][sectionName];
+				appState = showDATA;
+				printDebug(`Current Weather Data updated`, "api", "getCurrentData", true);
+			} else if (status == 204) {
+				errorStr = i18n("Station not found or station not active");
+				printDebug(`ERROR: ${errorStr}`, "api", "getCurrentData");
+			} else {
+				printDebug(`Current Weather Data update problem`, "api", "getCurrentData", true);
+				//todo
+			}
+		});
+	}
 
-			var flatWeatherDataTmp = res["observations"][0];
-			delete flatWeatherDataTmp[sectionName];
-			Object.entries(details).forEach(entry => {
-				var [key, value] = entry;
-				flatWeatherDataTmp[key] = value;
-			});
-			flatWeatherData = flatWeatherDataTmp;
-			printDebug(JSON.stringify(flatWeatherDataTmp, null, 2), "api", "getCurrentData");
-
-
-			tmp["details"] = details;
-			weatherData = tmp;
-
-			currentDetailsModel.clear()
-			currentDetailsModel.append({ name: "windDirection", val: flatWeatherData["winddir"], val2: flatWeatherData["windSpeed"] });
-			currentDetailsModel.append({ name: "wind", val: flatWeatherData["windSpeed"], val2: flatWeatherData["windGust"] });
-			currentDetailsModel.append({ name: "dewPoint", val: flatWeatherData["dewpt"] });
-			currentDetailsModel.append({ name: "precipitationRate", val: flatWeatherData["precipRate"] });
-			currentDetailsModel.append({ name: "pressure", val: flatWeatherData["pressure"] });
-			currentDetailsModel.append({ name: "humidity", val: flatWeatherData["humidity"] });
-			currentDetailsModel.append({ name: "precipitationAcc", val: flatWeatherData["precipTotal"] });
-			currentDetailsModel.append({ name: "uvIndex", val: flatWeatherData["uv"] });
-
-			printDebug("Got new current data", "api", "getCurrentData");
-			printDebug("Finding Icon...", "api", "getCurrentData");
-
-			getCurrentDataV3();
-			appState = showDATA;
-		} else if (status == 204) {
-			errorStr = i18n("Station not found or station not active");
-			printDebug(`ERROR: ${errorStr}`, "api", "getCurrentData");
-		} else {
-			//todo
-		}
-	});
 }
 
-function getCurrentDataV3() {
+function flattenResponse(apiResponse, callback) {
+	var sectionName = "";
+
+	if (unitsChoice === 0) {
+		sectionName = "metric";
+	} else if (unitsChoice === 1) {
+		sectionName = "imperial";
+	} else {
+		sectionName = "uk_hybrid";
+	}
+
+	var details = apiResponse["observations"][0][sectionName];
+
+	var flatWeatherDataTmp = apiResponse["observations"][0];
+	delete flatWeatherDataTmp[sectionName];
+	Object.entries(details).forEach(entry => {
+		var [key, value] = entry;
+		flatWeatherDataTmp[key] = value;
+	});
+	
+	printDebug(JSON.stringify(flatWeatherDataTmp, null, 2), "api", "flattenResponse");
+
+	getCurrentDataV3(function(res){
+		printDebug(JSON.stringify("Augmenting flat weather structure", null, 2), "api", "flattenResponse", true);
+		flatWeatherDataTmp["iconCode"] = res["iconCode"];
+		flatWeatherDataTmp["wxPhraseLong"] = res["wxPhraseLong"];
+
+		//new vals
+		flatWeatherDataTmp["visibility"] = res["visibility"];
+		flatWeatherDataTmp["tempMax"] = res["temperatureMax24Hour"];
+		flatWeatherDataTmp["tempMin"] = res["temperatureMin24Hour"];
+		flatWeatherDataTmp["uvDesc"] = res["uvDescription"];
+		printDebug(`After augmentation, flatWeatherDataTmp is: ${JSON.stringify(flatWeatherDataTmp, null, 2)}`, "api", "flattenResponse");
+
+		callback(flatWeatherDataTmp);
+	});
+	
+}
+
+function getCurrentDataV3(callback) {
 	printDebug(`STARTED`, "api", "getCurrentDataV3");
 
 	var url = getApiUrlForTypeAndPeriod("current-v3");
@@ -243,8 +329,9 @@ function getCurrentDataV3() {
 
 	getForUrl(url, true, function (res, status) {
 		if (status == 200) {
-			iconCode = res["iconCode"];
-			conditionNarrative = res["wxPhraseLong"];
+			//iconCode = res["iconCode"];
+			//conditionNarrative = res["wxPhraseLong"];
+			callback(res);
 		}
 	});
 }
@@ -257,11 +344,12 @@ function getCurrentDataV3() {
  */
 function getForecastData(periodInterval, periodLength) {
 	var url = getApiUrlForTypeAndPeriod(periodInterval, periodLength);
+	printDebug(`Updating Forecast data`, "api", "getForecastData", true);
 
 	getForUrl(url, true, function (res, status) {
 		if (status == 200) {
 			var forecasts = res["forecasts"];
-			printDebug(`Processing ${periodInterval} forecasts`, "api", "getForecastData");
+			printDebug(`Processing ${periodInterval} forecasts`, "api", "getForecastData", true);
 
 			if (periodInterval === "daily") {
 				processDailyForecasts(forecasts)
@@ -338,14 +426,23 @@ function refreshIPandStation(callback) {
 	var url = "https://ipinfo.io/json"
 	printDebug(`URL: ${url}`, "api", "refreshIPandStation");
 
+	printDebug("Refreshing public IP and getting location", "api", "refreshIPandStation", true)
+
 	getForUrl(url, true, function (res, status) {
 		if (status == 200) {
 			printDebug(`Returned body: ${JSON.stringify(res, null, 2)}`, "api", "refreshIPandStation");
 
 			var location = res["loc"].split(",")
 
-			getNearestStation({ lat: location[0], long: location[1] }, callback);
+			//getNearestStation({ lat: location[0], long: location[1] }, callback);
+			plasmoid.configuration.altLatitude = location[0];
+			plasmoid.configuration.altLongitude = location[1];
+			plasmoid.configuration.altLocation = `${res["city"]}, ${res["region"]}, ${res["country"]}`
+
+			printDebug(`Location established ${res["city"]},${res["country"]}`, "api", "refreshIPandStation", true)
+			callback(true);
 		} else {
+			printDebug("There was an issue in obtaining your location", "api", "refreshIPandStation", true)
 			if (callback) { callback(false) };
 		}
 	});
@@ -371,6 +468,8 @@ function findFirstActiveStation(id, stationsArr, callback) {
 }
 
 function getStationIdent(tempStationId, callback) {
+	printDebug("Getting Station Identification now", "api", "getStationIdent", true)
+
 	var url = getApiUrlForTypeAndPeriod("identity", null, { station: tempStationId });
 	printDebug(`URL: ${url}`, "api", "getStationIdent");
 
@@ -390,18 +489,19 @@ function getStationIdent(tempStationId, callback) {
 	});
 }
 
-function getLocations(cityLookupPhrase) {
+function getLocations(cityLookupPhrase, model) {
+	printDebug("Getting Locations now", "api", "getLocations", true)
+
 	var url = getApiUrlForTypeAndPeriod("location", null, { location: cityLookupPhrase });
 	printDebug(`URL: ${url}`, "api", "getLocation");
 
 	getForUrl(url, true, function (res, status) {
 		if (status == 200) {
 			var loc = res["location"];
-			locationsModel.clear();
-			stationsModel.clear();
+			model.clear();
 
 			loc["address"].forEach((address, index) => {
-				locationsModel.append({
+				model.append({
 					address: address,
 					adminDistrict: loc["adminDistrict"][index],
 					city: loc["city"][index],
@@ -412,6 +512,7 @@ function getLocations(cityLookupPhrase) {
 					longitude: loc["longitude"][index]
 				})
 			})
+			printDebug("Locations have been updated", "api", "getLocations", true)
 		}
 	});
 }
@@ -434,19 +535,21 @@ function isStationActive(id, callback) {
 	});
 }
 
-function getNearestStationsForConfig(coord) {
+function getNearestStationsForConfig(coord, model) {
+	printDebug("Finding nearest station now", "api", "getNearestStationsForConfig", true)
+
 	printDebug(`coordinates received: ${coord}`, "api", "getNearestStationsForConfig");
 	getNearestStations(coord, function (stationsPayload) {
-		stationsModel.clear();
+		model.clear();
 		stationsPayload["stationId"].forEach((stationCode, index) => {
-
-			stationsModel.append({
+			model.append({
 				text: stationCode + " - " + stationsPayload["stationName"][index],
 				stationName: stationsPayload["stationName"][index],
 				stationId: stationCode,
 				latitude: stationsPayload["latitude"][index],
 				longitude: stationsPayload["longitude"][index]
 			})
+			printDebug("Nearest station found and added to model", "api", "getNearestStationsForConfig", true)
 		});
 	})
 }
@@ -458,6 +561,8 @@ function processDailyForecasts(forecasts) {
 	forecastModel.clear();
 	forecastDetailsModel.clear();
 	dailyChartModel.clear();
+
+	printDebug("Processing daily forecasts now", "api", "processDailyForecasts", true)
 
 	forecasts.forEach((f,i) => {
 		createDailyDetailModel(f)
@@ -510,7 +615,7 @@ function processDailyForecasts(forecasts) {
 	singleDayModel.clear()
 	singleDayModel.append(Object.values(forecastDetailsModel.get(0)))
 
-	printDebug("[pws-api.js] Got new forecast data");
+	printDebug("Daily forecasts have been processed", "api", "processDailyForecasts", true)
 
 	showForecast = true;
 	printDebug("------------- DAILY FORECASTS FINISHED ---------------");
@@ -558,6 +663,7 @@ function handleMissingData(timeOfDay, dataPoint) {
 }
 
 function createHourlyChartModel(forecasts) {
+	printDebug("Processing hourly forecasts now", "api", "createHourlyChartModel", true)
 	printDebug("------------- PROCESSING HOURLY FORECASTS ---------------", "api", "createHourlyChartModel");
 	hourlyChartModel.clear()
 
@@ -585,6 +691,8 @@ function createHourlyChartModel(forecasts) {
 			hourlyChartModel.append(hourModel);
 		}
 	});
+
+	printDebug("Hourly forecasts have been processed", "api", "createHourlyChartModel", true)
 	printDebug("------------- HOURLY FORECASTS FINISHED ---------------", "api", "createHourlyChartModel");
 }
 

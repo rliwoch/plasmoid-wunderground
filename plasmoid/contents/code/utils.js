@@ -428,7 +428,43 @@ function displayUnits(data, units, dataPointName) {
 	}
 }
 
+function getValueForObj(modelObj) {
+	//console.log("-MODEL- " + JSON.stringify(modelObj.name) + " - " +  modelObj.val + " - " + modelObj.val2 + " - " +  modelObj.val3)
+	var metricName = modelObj.name;
+	
+	switch (metricName) {
+		case "windDirection": 
+			if(modelObj.val3 !== undefined) {
+				return modelObj.val3
+			} else{
+				return Utils.windDirToCard(modelObj.val)
+			}
+		case "pressure":
+			var baseText =  `${modelObj.val} ${dictVals[metricName].unit}`
+			if(modelObj.val2 != undefined) {
+				baseText += " " + getPressureTendencyArrow(modelObj.val2);
+			}
+			return baseText;
+		case "wind":
+			if(modelObj.val2 == 0) {
+				return `${modelObj.val} ${dictVals[metricName].unit}`
+			} else {
+				return `${modelObj.val}/${modelObj.val2} ${dictVals[metricName].unit}`	
+			}
+		case "precipitationRate":
+			return `${modelObj.val} ${dictVals[metricName].unit}/${i18nc("per hour, e.g. it will become mm/h. KEEP SHORT", "h")}`
+		case "precipitationAcc":
+			return `${modelObj.val} ${dictVals[metricName].unit}/${i18nc("per day, e.g. it will become mm/day. KEEP SHORT", "day")}`
+		default:
+			var baseText =  `${modelObj.val} ${dictVals[metricName].unit}`
+			if(modelObj.val3 !== undefined) {
+				baseText += ` (${modelObj.val3})`;
+			}
+			return baseText;
+		}
+}
 
+//unused
 function getValue(metricName, val, val2){
 	if(metricName ==="windDirection") {
 		return Utils.windDirToCard(val)
@@ -530,4 +566,16 @@ function remainingUntilSinceDaylight() {
 	}
 	
 	return timeSunlight;
+}
+
+function getPressureTendencyArrow(pressureCode) {
+	if(pressureCode == 0) {
+		return "↔"
+	} else if (pressureCode == 1) {
+		return "↗"
+	} else if (pressureCode == 2) {
+		return "↘"
+	} else {
+		return "";
+	}
 }

@@ -32,6 +32,16 @@ ColumnLayout {
 
     spacing: units.smallSpacing
 
+    TopPanel {
+        id: topPanel
+
+        //visible: appState == showDATA
+
+        Layout.fillWidth: true
+        Layout.alignment: Qt.AlignTop
+    }
+
+    
     ConfigBtn {
         id: configBtn
 
@@ -73,14 +83,6 @@ ColumnLayout {
         Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
     }
 
-    TopPanel {
-        id: topPanel
-
-        //visible: appState == showDATA
-
-        Layout.fillWidth: true
-        Layout.alignment: Qt.AlignTop
-    }
 
     SwitchPanel {
         visible: appState == showDATA

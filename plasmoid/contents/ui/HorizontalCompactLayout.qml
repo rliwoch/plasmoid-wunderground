@@ -49,7 +49,7 @@ RowLayout {
 
         svg: PlasmaCore.Svg {
             id: svg
-            imagePath: plasmoid.file("", Utils.getIconForCodeAndStyle(iconCode, plasmoid.configuration.iconStyleChoice))
+            imagePath: plasmoid.file("", Utils.getIconForCodeAndStyle(flatWeatherData.iconCode, plasmoid.configuration.iconStyleChoice))
         }
     }
 
@@ -74,7 +74,7 @@ RowLayout {
 
         smooth: true
 
-        text: conditionNarrative ? conditionNarrative + "," : i18n("Loading...")
+        text: flatWeatherData !== undefined ? flatWeatherData.wxPhraseLong + "," : i18n("Loading...")
     }
 
     PlasmaComponents.Label {
@@ -98,7 +98,7 @@ RowLayout {
 
         smooth: true
 
-        text: appState == showDATA ? Utils.currentTempUnit(weatherData["details"]["temp"].toFixed(1)) : "---.-° X"
+        text: appState == showDATA ? Utils.currentTempUnit(flatWeatherData["temp"].toFixed(1)) : "---.-° X"
     }
 
     PlasmaComponents.Label {

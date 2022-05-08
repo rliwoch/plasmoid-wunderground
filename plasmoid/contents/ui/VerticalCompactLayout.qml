@@ -39,7 +39,7 @@ ColumnLayout {
 
         svg: PlasmaCore.Svg {
             id: svg
-            imagePath: plasmoid.file("", Utils.getIconForCodeAndStyle(iconCode, plasmoid.configuration.iconStyleChoice))
+            imagePath: plasmoid.file("", Utils.getIconForCodeAndStyle(flatWeatherData.iconCode, plasmoid.configuration.iconStyleChoice))
         }
     }
 }

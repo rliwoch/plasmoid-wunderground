@@ -103,7 +103,7 @@ Item {
                     Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
                     svg: PlasmaCore.Svg {
                         id: temperatureIconSvg
-                        imagePath: plasmoid.file("", Utils.getIconForCodeAndStyle(iconCode, plasmoid.configuration.iconStyleChoice))
+                        imagePath: plasmoid.file("", Utils.getIconForCodeAndStyle(flatWeatherData.iconCode, plasmoid.configuration.iconStyleChoice))
                     }
         
                     Layout.minimumWidth: units.iconSizes.huge
@@ -116,18 +116,18 @@ Item {
                     PlasmaComponents.Label {
                         id: temp
                         Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                        text: Utils.currentTempUnit(weatherData["details"]["temp"])
+                        text: Utils.currentTempUnit(flatWeatherData["temp"])
                         font {
                             pointSize: plasmoid.configuration.propPointSize * 3
                         }
-                        color: Utils.heatColor(weatherData["details"]["temp"])
+                        color: Utils.heatColor(flatWeatherData["temp"])
                     }
         
         
                     PlasmaComponents.Label {
                         id: feelsLike
                         Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                        text: i18n("Feels like %1", Utils.currentTempUnit(Math.round(Utils.feelsLike(weatherData["details"]["temp"], weatherData["humidity"], weatherData["details"]["windSpeed"]))))
+                        text: i18n("Feels like %1", Utils.currentTempUnit(Math.round(Utils.feelsLike(flatWeatherData["temp"], flatWeatherData["humidity"], flatWeatherData["windSpeed"]))))
                         font {
                             weight: Font.Bold
                             pointSize: plasmoid.configuration.propPointSize
@@ -138,7 +138,7 @@ Item {
                         id: currStation
                         Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
                         
-                        text: conditionNarrative ? conditionNarrative : i18n("Loading...")
+                        text: flatWeatherData.wxPhraseLong
         
                         font {
                             pointSize: plasmoid.configuration.propPointSize
@@ -553,7 +553,7 @@ Item {
                 Layout.fillWidth: true
                 Layout.fillHeight: true            
                 horizontalAlignment: Text.AlignHCenter
-                text: (val2 !== null ? Utils.getValue(name, val, val2) : Utils.getValue(name, val))
+                text: Utils.getValueForObj(model)
                 font {
                     weight: Font.Bold
                     pointSize: plasmoid.configuration.propPointSize
