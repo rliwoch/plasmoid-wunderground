@@ -189,8 +189,8 @@ msgid ""
 "Here you can either manually enter the weather station ID from https://www.wunderground.com/wundermap (search for a city that interests you, then on a map click on a location bubble and note down the station ID) or use the lookup tool and dropdowns to discover the weather station.\n"
 "You need to test the station every time you make changes. Some of them may be offline."
 msgstr ""
-"Di sini Anda dapat memasukkan ID stasiun cuaca secara manual dari https://www.wunderground.com/wundermap (cari kota yang Anda minati, lalu klik peta pada gelembung lokasi dan catat ID stasiun) atau gunakan alat pencarian dan dropdown untuk menemukan stasiun cuaca.\n"
-"Anda perlu menguji stasiun setiap kali Anda membuat perubahan. Beberapa di antaranya mungkin offline."
+"Di sini kamu dapat memasukkan ID stasiun cuaca secara manual dari https://www.wunderground.com/wundermap (cari kota yang kamu minati, lalu klik peta pada gelembung lokasi dan catat ID stasiun) atau gunakan alat pencarian dan dropdown untuk menemukan stasiun cuaca.\n"
+"Kamu perlu menguji stasiun setiap kali kamu membuat perubahan. Beberapa di antaranya mungkin offline."
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Enter Station"
@@ -226,7 +226,7 @@ msgstr "Cari Stasiun Terdekat"
 #: ../contents/ui/config/ConfigStation.qml
 msgctxt "plaseholder text, example London"
 msgid "e.g. London"
-msgstr "misal: Demak"
+msgstr "misal: Semarang"
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Look for location:"
@@ -286,7 +286,7 @@ msgstr "Lokasi"
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "When `I'm travelling`/tracking mode is enabled, the plasmoid will actively track your location and pick the nearest station near you. It does not collect any data about you, however it does use a public service ipinfo.io to obtain your public IP address and approximate location."
-msgstr "Saat mode \"Mudik\" diaktifkan, plasmoid akan secara aktif melacak lokasi Anda dan memilih stasiun yang paling dekat dengan Anda. Itu tidak mengumpulkan data apa pun tentang Anda, karena menggunakan layanan publik ipinfo.io untuk mendapatkan alamat IP publik dan perkiraan lokasi Anda."
+msgstr "Saat mode \"Mudik\" diaktifkan, plasmoid akan secara aktif melacak lokasimu dan memilih stasiun yang paling dekat denganmu. Mode ini tidak mengumpulkan data apa pun tentang kamu, karena menggunakan layanan publik ipinfo.io untuk mendapatkan alamat IP publik dan perkiraan lokasi kamu."
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Station %1 is active and can be used"
@@ -402,7 +402,7 @@ msgstr "Silakan Konfigurasi"
 
 #: ../contents/ui/main.qml
 msgid "Error..."
-msgstr "Lagi Error..."
+msgstr "Galat..."
 
 #: ../contents/ui/main.qml
 msgid "Undefined Error..."
@@ -444,7 +444,7 @@ msgid ""
 " The `Home` station will be ignored when this option is selected."
 msgstr ""
 "Mode \"Mudik\".\n"
-" Memungkinkan widget menemukan lokasi Anda secara otomatis berdasarkan alamat IP publik Anda.\n"
+" Memungkinkan widget menemukan lokasi Anda secara otomatis berdasarkan alamat IP publik kamu.\n"
 " Stasiun `Rumah` akan diabaikan bila opsi ini dipilih."
 
 #: ../contents/ui/TopPanel.qml
