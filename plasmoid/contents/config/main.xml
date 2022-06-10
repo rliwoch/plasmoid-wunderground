@@ -63,6 +63,9 @@
         <entry name="compactShowConditions" type="Bool">
             <default>false</default>
         </entry>
+        <entry name="compactRoundTemperature" type="Bool">
+            <default>false</default>
+        </entry>        
         <entry name="propPointSize" type="Int">
             <default>10</default>
         </entry>

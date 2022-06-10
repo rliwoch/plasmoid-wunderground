@@ -31,6 +31,7 @@ Item {
     property alias cfg_iconStyleChoice: iconStyleChoice.currentIndex
     property alias cfg_detailsStyle: detailsDisplayStyleChoice.currentIndex
     property alias cfg_compactShowConditions: compactShowConditions.checked
+    property alias cfg_compactRoundTemperature: compactRoundTemperature.checked
 
     Kirigami.FormLayout {
         anchors.fill: parent

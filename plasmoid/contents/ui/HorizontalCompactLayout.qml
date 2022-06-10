@@ -98,7 +98,19 @@ RowLayout {
 
         smooth: true
 
-        text: appState == showDATA ? Utils.currentTempUnit(weatherData["details"]["temp"].toFixed(1)) : "---.-° X"
+        text: getTemperatureForTaskbar()
+
+        function getTemperatureForTaskbar() {
+            var isRoundingEnabled = plasmoid.configuration.compactRoundTemperature;
+
+            if(appState == showDATA && isRoundingEnabled) {
+                return Utils.currentTempUnit(Math.round(weatherData["details"]["temp"].toFixed(1)));
+            } else if (appState == showDATA && !isRoundingEnabled) {
+                return Utils.currentTempUnit(weatherData["details"]["temp"].toFixed(1));
+            } else {
+                return "---.-° X"  
+            } 
+        }
     }
 
     PlasmaComponents.Label {
