@@ -1,0 +1,464 @@
+# Translation of plasmoid-wunderground-extended in LANGUAGE
+# Copyright (C) 2022
+# This file is distributed under the same license as the plasmoid-wunderground-extended package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#: ../contents/ui/TopPanel.qml
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: plasmoid-wunderground-extended\n"
+"Report-Msgid-Bugs-To: https://github.com/rliwoch/plasmoid-wunderground-extended\n"
+"POT-Creation-Date: 2022-04-25 11:19+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../metadata.desktop
+msgid "Wunderground Extended"
+msgstr "Wunderground Extended"
+
+#: ../metadata.desktop
+msgid "Wunderground PWS extended"
+msgstr "Wunderground PWS extended"
+
+#: ../contents/code/pws-api.js
+msgid "Request to %1 couldn't be sent %2. Manual refresh might help (top right corner)"
+msgstr "無法向 %1 傳送連線要求 %2。手動重新整理可能可以解決此問題 (右上角)"
+
+#: ../contents/code/pws-api.js
+msgid "Station not found or station not active"
+msgstr "無此站台或站台未啟用"
+
+#: ../contents/code/pws-api.js
+msgid "Could not fetch forecast data"
+msgstr "無法取得預報資料"
+
+#: ../contents/code/pws-api.js
+msgid "No active stations nearby - try selecting a different location in your proximity."
+msgstr "附近沒有上線的站台 - 試著選擇您附近的其他位置。"
+
+#: ../contents/code/pws-api.js
+msgctxt "not applicable. KEEP SHORT"
+msgid "n/a"
+msgstr "不適用"
+
+#: ../contents/code/utils.js
+msgctxt "per hour, e.g. it will become mm/h. KEEP SHORT"
+msgid "h"
+msgstr "小時"
+
+#: ../contents/code/utils.js
+msgctxt "per day, e.g. it will become mm/day. KEEP SHORT"
+msgid "day"
+msgstr "天"
+
+#: ../contents/code/utils.js
+msgid "To sunrise"
+msgstr "至日出還剩"
+
+#: ../contents/code/utils.js
+msgctxt "Daylight remaining time, keep short"
+msgid "Remaining"
+msgstr "至日落還剩"
+
+#: ../contents/code/utils.js
+msgid "Since sunset"
+msgstr "自日落已過"
+
+#: ../contents/config/config.qml ../contents/ui/config/ConfigStation.qml
+msgid "Station"
+msgstr "站台"
+
+#: ../contents/config/config.qml
+msgid "Appearance"
+msgstr "外觀"
+
+#: ../contents/config/config.qml
+msgid "Units"
+msgstr "單位"
+
+#: ../contents/config/config.qml
+msgid "Debug"
+msgstr "除錯"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Compact Representation"
+msgstr "縮小形式"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Font"
+msgstr "字體"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Icon size (0 = default)"
+msgstr "圖示大小 (0 = 預設)"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Font size (0px=scale to widget)"
+msgstr "字體大小 (0px = 跟隨元件大小)"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Font styles"
+msgstr "字體樣式"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Display narrative in taskbar"
+msgstr "在工作列中顯示文字敘述"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Full Representation"
+msgstr "完整形式"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Property text size"
+msgstr "內容文字大小"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Details display style"
+msgid "Standard"
+msgstr "標準"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Details display style"
+msgid "Alternative"
+msgstr "替換"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Select `Weather Details` style:"
+msgstr "選擇「天氣詳情」樣式:"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Icon styles"
+msgstr "圖示樣式"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Icon style"
+msgid "Legacy"
+msgstr "傳統"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Icon style"
+msgid "WeatherUnderground - White with colour"
+msgstr "WeatherUnderground - 白和裝飾色"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Icon style"
+msgid "WeatherUnderground - White"
+msgstr "WeatherUnderground - 白"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Icon style"
+msgid "WeatherUnderground - Black"
+msgstr "WeatherUnderground - 黑"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Icon style"
+msgid "WeatherUnderground - Black with colour"
+msgstr "WeatherUnderground - 黑和裝飾色"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Icon style"
+msgid "DEFAULT monochrome by Erik Flowers"
+msgstr "預設單色 (來自 Erik Flowers)"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Icon style"
+msgid "WeatherNOW Colour"
+msgstr "WeatherNOW 彩色"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Select icon style:"
+msgstr "選擇圖示樣式:"
+
+#: ../contents/ui/config/ConfigDebug.qml
+msgid "Write to console.log:"
+msgstr "寫入至 console.log:"
+
+#: ../contents/ui/config/ConfigFontFamily.qml
+msgctxt "Use default font"
+msgid "Default"
+msgstr "預設"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid ""
+"Here you can either manually enter the weather station ID from https://www.wunderground.com/wundermap (search for a city that interests you, then on a map click on a location bubble and note down "
+"the station ID) or use the lookup tool and dropdowns to discover the weather station.\n"
+"You need to test the station every time you make changes. Some of them may be offline."
+msgstr "" 
+"您可以手動輸入來自 https://www.wunderground.com/wundermap 的站台 ID (搜尋您感興趣的城市，接著在地圖上點選並記錄站台 ID)，"
+"或是使用搜尋工具和下拉式選單尋找天氣站台。\n"
+"某些站台可能處於離線狀態。每次進行變更後，請記得對站台進行測試。"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Enter Station"
+msgstr "輸入站台"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgctxt "placeholder text alternatively 'example: IFRAUN2'"
+msgid "e.g. IFRAUN2"
+msgstr "例如: IFRAUN2"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Weatherstation ID:"
+msgstr "Weatherstation ID:"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Test station"
+msgstr "測試站台"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgctxt "Text shown until a station is chosen from the dropdown"
+msgid "Pending selection"
+msgstr "待選"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgctxt "Indicates if the station selected is active or not"
+msgid "Station status:"
+msgstr "站台狀態:"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Get Nearest Station"
+msgstr "取得最近的站台"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgctxt "plaseholder text, example London"
+msgid "e.g. London"
+msgstr "例如: 倫敦"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Look for location:"
+msgstr "尋找位置:"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Find Station"
+msgstr "尋找站台"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Select City:"
+msgstr "選擇城市:"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Select Station:"
+msgstr "選擇站台:"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Options"
+msgstr "選項"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Current conditions refresh interval (s):"
+msgstr "目前狀況重新整理間隔 (秒):"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Forecast refresh interval (minutes):"
+msgstr "預報重新整理間隔 (分鐘)"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Location refresh interval (minutes):"
+msgstr "位置重新整理間隔 (分鐘)"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Summary"
+msgstr "摘要"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Home Location"
+msgstr "住家位置"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Currently Used"
+msgstr "正在使用"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Latitude:"
+msgstr "緯度:"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Longitude"
+msgstr "經度:"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Location"
+msgstr "位置"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid ""
+"When `I'm travelling`/tracking mode is enabled, the plasmoid will actively track your location and pick the nearest station near you. It does not collect any data about you, however it does use a "
+"public service ipinfo.io to obtain your public IP address and approximate location."
+msgstr "啟用「我在旅行」追蹤模式時，此元件會持續追蹤並自動挑選您附近的站台。"
+"此元件不會收集您的資料，但會透過 ipinfo.io 取得您的公共 IP 地址和概略位置。"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Station %1 is active and can be used"
+msgstr "站台 %1 上線中且可以被使用"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Station %1 is NOT active. Please select a different station."
+msgstr "站台 %1 未上線。請選擇另一個站台。"
+
+#: ../contents/ui/config/ConfigUnits.qml
+msgctxt "The unit system"
+msgid "Metric"
+msgstr "公制"
+
+#: ../contents/ui/config/ConfigUnits.qml
+msgctxt "The unit system"
+msgid "Imperial"
+msgstr "英制"
+
+#: ../contents/ui/config/ConfigUnits.qml
+msgctxt "The unit system"
+msgid "Hybrid (UK)"
+msgstr "混合 (UK)"
+
+#: ../contents/ui/config/ConfigUnits.qml
+msgid "Choose:"
+msgstr "選擇:"
+
+#: ../contents/ui/config/ConfigUnits.qml
+msgid "Date format:"
+msgstr "日期格式:"
+
+#: ../contents/ui/config/ConfigUnits.qml
+msgid "Time format:"
+msgstr "時間格式:"
+
+#: ../contents/ui/DayChartItem.qml ../contents/ui/WeekChartItem.qml
+msgctxt "per 12 hours, please keep it short"
+msgid "/12h"
+msgstr "/12 小時"
+
+#: ../contents/ui/DetailsItemAlt.qml ../contents/ui/DetailsItem.qml
+msgid "Feels like %1"
+msgstr "體感溫度 %1"
+
+#: ../contents/ui/DetailsItemAlt.qml ../contents/ui/DetailsItem.qml ../contents/ui/HorizontalCompactLayout.qml ../contents/ui/main.qml
+msgid "Loading..."
+msgstr "正在讀取..."
+
+#: ../contents/ui/FullRepresentation.qml
+msgid "Loading data..."
+msgstr "正在讀取資料..."
+
+#: ../contents/ui/main.qml
+msgid "All set"
+msgstr "設置完成"
+
+#: ../contents/ui/main.qml
+msgid "Temperature"
+msgstr "溫度"
+
+#: ../contents/ui/main.qml
+msgid "UV Index"
+msgstr "紫外線指數"
+
+#: ../contents/ui/main.qml
+msgid "Pressure"
+msgstr "氣壓"
+
+#: ../contents/ui/main.qml
+msgid "Cloud Cover"
+msgstr "雲量"
+
+#: ../contents/ui/main.qml
+msgid "Humidity"
+msgstr "濕度"
+
+#: ../contents/ui/main.qml
+msgid "Precipitation Chance"
+msgstr "降水機率"
+
+#: ../contents/ui/main.qml
+msgid "Precipitation Rate"
+msgstr "降水率"
+
+#: ../contents/ui/main.qml
+msgid "Snow Precipitation Rate"
+msgstr "降雪率"
+
+#: ../contents/ui/main.qml
+msgid "Wind / Gust"
+msgstr "風速 / 陣風"
+
+#: ../contents/ui/main.qml
+msgid "Precipitation Accumulation"
+msgstr "累積降水"
+
+#: ../contents/ui/main.qml
+msgid "Dew Point"
+msgstr "露點"
+
+#: ../contents/ui/main.qml
+msgid "Wind Direction"
+msgstr "風向"
+
+#: ../contents/ui/main.qml
+msgid "Set the weather station to pull data from."
+msgstr "設置天氣站台以取得資料。"
+
+#: ../contents/ui/main.qml
+msgid "Please Configure"
+msgstr "請設置"
+
+#: ../contents/ui/main.qml
+msgid "Error..."
+msgstr "錯誤..."
+
+#: ../contents/ui/main.qml
+msgid "Undefined Error..."
+msgstr "未定義的錯誤..."
+
+#: ../contents/ui/main.qml
+msgctxt "Please put your language code here"
+msgid "en-US"
+msgstr "zh-TW"
+
+#: ../contents/ui/SwitchPanel.qml
+msgid "Weather Details"
+msgstr "天氣詳情"
+
+#: ../contents/ui/SwitchPanel.qml
+msgid "Day Chart"
+msgstr "本日圖表"
+
+#: ../contents/ui/SwitchPanel.qml
+msgid "Forecast"
+msgstr "預報"
+
+#: ../contents/ui/SwitchPanel.qml
+msgid "Week Chart"
+msgstr "本週圖表"
+
+#: ../contents/ui/Tooltip.qml
+msgid "Real feel"
+msgstr "體感溫度"
+
+#: ../contents/ui/TopPanel.qml
+msgid "High: %1 Low: %2"
+msgstr "高溫: %1 低溫: %2"
+
+#: ../contents/ui/TopPanel.qml
+msgid ""
+"\"I'm travelling\" mode.\n"
+" Allows the widget to autodiscover your location based on your public IP address.\n"
+" The `Home` station will be ignored when this option is selected."
+msgstr "「我在旅行」模式。\n"
+" 允許元件根據您的公共 IP 地址自動偵測您的位置。\n"
+" 啟用此選項時，「住家」站台會被忽略。"
+
+#: ../contents/ui/TopPanel.qml
+msgid "Info for nerds"
+msgstr "書呆子資訊"
+
+#: ../contents/ui/TopPanel.qml
+msgid "Refresh all data"
+msgstr "重新整理所有資料"
+
+#: ../contents/ui/TopPanel.qml
+msgid "Keep Open"
+msgstr "保持開啟"
