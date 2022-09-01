@@ -1,0 +1,464 @@
+# Translation of plasmoid-wunderground-extended in LANGUAGE
+# Copyright (C) 2022
+# This file is distributed under the same license as the plasmoid-wunderground-extended package.
+# Gustavo Kureck Piccoli, <gustavokpiccoli@gmail.com>, 2022.
+#
+#: ../contents/ui/TopPanel.qml
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: plasmoid-wunderground-extended\n"
+"Report-Msgid-Bugs-To: https://github.com/rliwoch/plasmoid-wunderground-extended\n"
+"POT-Creation-Date: 2022-04-25 11:19+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Gustavo Kureck Piccoli, <gustavokpiccoli@gmail.com>\n"
+"Language-Team: PORTUGUESE (BR) <LL@li.org>\n"
+"Language: pt-BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../metadata.desktop
+msgid "Wunderground Extended"
+msgstr "Wunderground Extended"
+
+#: ../metadata.desktop
+msgid "Wunderground PWS extended"
+msgstr "Wunderground PWS extendido"
+
+#: ../contents/code/pws-api.js
+msgid "Request to %1 couldn't be sent %2. Manual refresh might help (top right corner)"
+msgstr "A requisição para %1 não pode ser enviada %2. Tente atualizar manualmente (canto superior direito)"
+
+#: ../contents/code/pws-api.js
+msgid "Station not found or station not active"
+msgstr "Estação não encontrada ou inativa"
+
+#: ../contents/code/pws-api.js
+msgid "Could not fetch forecast data"
+msgstr "Não foi possível encontrar os dados da previsão"
+
+#: ../contents/code/pws-api.js
+msgid "No active stations nearby - try selecting a different location in your proximity."
+msgstr "Sem estações ativas próximas - tente selecionar uma localização diferente em suas proximidades"
+
+#: ../contents/code/pws-api.js
+msgctxt "not applicable. KEEP SHORT"
+msgid "n/a"
+msgstr "n/a"
+
+#: ../contents/code/utils.js
+msgctxt "per hour, e.g. it will become mm/h. KEEP SHORT"
+msgid "h"
+msgstr "h"
+
+#: ../contents/code/utils.js
+msgctxt "per day, e.g. it will become mm/day. KEEP SHORT"
+msgid "day"
+msgstr "dia"
+
+#: ../contents/code/utils.js
+msgid "To sunrise"
+msgstr "Até ao amanhecer"
+
+#: ../contents/code/utils.js
+msgctxt "Daylight remaining time, keep short"
+msgid "Remaining"
+msgstr "Restante"
+
+#: ../contents/code/utils.js
+msgid "Since sunset"
+msgstr "Até o pôr do sol"
+
+#: ../contents/config/config.qml ../contents/ui/config/ConfigStation.qml
+msgid "Station"
+msgstr "Estação"
+
+#: ../contents/config/config.qml
+msgid "Appearance"
+msgstr "Aparência"
+
+#: ../contents/config/config.qml
+msgid "Units"
+msgstr "Unidades"
+
+#: ../contents/config/config.qml
+msgid "Debug"
+msgstr "Depurar"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Compact Representation"
+msgstr "Representação Compacta"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Font"
+msgstr "Fonte"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Icon size (0 = default)"
+msgstr "Tamanho do ícone (0 = padrão)"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Font size (0px=scale to widget)"
+msgstr "Tamanho da fonte (0px=escala para o widget)"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Font styles"
+msgstr "Estilos de fonte"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Display narrative in taskbar"
+msgstr "Exibir na barra de tarefas"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Full Representation"
+msgstr "Apresentação Completa"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Property text size"
+msgstr "Tamanho do texto"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Details display style"
+msgid "Standard"
+msgstr "Padrão"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Details display style"
+msgid "Alternative"
+msgstr "Alternativo"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Select `Weather Details` style:"
+msgstr "Selecione o estilo dos `Detalhes da Previsão`:"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Icon styles"
+msgstr "Estilos de ícone"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Icon style"
+msgid "Legacy"
+msgstr "Legado"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Icon style"
+msgid "WeatherUnderground - White with colour"
+msgstr "WeatherUnderground - Branco com cor"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Icon style"
+msgid "WeatherUnderground - White"
+msgstr "WeatherUnderground - Branco"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Icon style"
+msgid "WeatherUnderground - Black"
+msgstr "WeatherUnderground - Preto"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Icon style"
+msgid "WeatherUnderground - Black with colour"
+msgstr "WeatherUnderground - Preto com cor"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Icon style"
+msgid "DEFAULT monochrome by Erik Flowers"
+msgstr "Monocromático padrão por Erik Flowers"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "Icon style"
+msgid "WeatherNOW Colour"
+msgstr "Cor WeatherNOW"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Select icon style:"
+msgstr "Selecionar o estilo do ícone:"
+
+#: ../contents/ui/config/ConfigDebug.qml
+msgid "Write to console.log:"
+msgstr "Escreva em console.log"
+
+#: ../contents/ui/config/ConfigFontFamily.qml
+msgctxt "Use default font"
+msgid "Default"
+msgstr "Padrão"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid ""
+"Here you can either manually enter the weather station ID from https://www.wunderground.com/wundermap (search for a city that interests you, then on a map click on a location bubble and note down "
+"the station ID) or use the lookup tool and dropdowns to discover the weather station.\n"
+"You need to test the station every time you make changes. Some of them may be offline."
+msgstr ""
+"Você também pode inserir manualmente a ID da estação metereológica pelo site https://www.wunderground.com/wundermap (busque pela sua cidade de interesse, no mapa, clique na bolha de localização e anote o ID da estação) ou use a ferramenta de pesquisa para descobrir a sua estação metereológica.\n"
+"Você precisa testar a estação toda vez que fazer alguma mudança, algumas localizações podem estar sem conexão."
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Enter Station"
+msgstr "Inserir Estação"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgctxt "placeholder text alternatively 'example: IFRAUN2'"
+msgid "e.g. IFRAUN2"
+msgstr "ex: IFRAUN2"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Weatherstation ID:"
+msgstr "ID da Estação Metereológica:"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Test station"
+msgstr "Testar Estação"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgctxt "Text shown until a station is chosen from the dropdown"
+msgid "Pending selection"
+msgstr "Opção pendente"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgctxt "Indicates if the station selected is active or not"
+msgid "Station status:"
+msgstr "Estado da Estação:"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Get Nearest Station"
+msgstr "Obter estação mais próxima"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgctxt "plaseholder text, example London"
+msgid "e.g. London"
+msgstr "ex: Londres"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Look for location:"
+msgstr "Buscar por localização"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Find Station"
+msgstr "Encontrar Estação"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Select City:"
+msgstr "Selecionar a Cidade:"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Select Station:"
+msgstr "Selecionar a Estação:"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Options"
+msgstr "Opções"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Current conditions refresh interval (s):"
+msgstr "Intervalo de atualização das condições atuais (s):"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Forecast refresh interval (minutes):"
+msgstr "Intervalo de atualização da previsão (minutos):"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Location refresh interval (minutes):"
+msgstr "Intervalo de atualização do local (minutos):"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Summary"
+msgstr "Resumo"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Home Location"
+msgstr "Minha Localização"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Currently Used"
+msgstr "Atualmente Usada"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Latitude:"
+msgstr "Latitude:"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Longitude"
+msgstr "Longitude:"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Location"
+msgstr "Localização:"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid ""
+"When `I'm travelling`/tracking mode is enabled, the plasmoid will actively track your location and pick the nearest station near you. It does not collect any data about you, however it does use a "
+"public service ipinfo.io to obtain your public IP address and approximate location."
+msgstr ""
+"Ao habilitar o `Modo Viagem` o rastreio é ativado. O Plasma rastreará ativamente a sua localização mais próxima. Isso não coleta nenhum dado sobre você, apenas utiliza um serviço público chamado ipinfo.io para obter o seu IP público e sua localização aproximada."
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Station %1 is active and can be used"
+msgstr "A estação %1 está ativa e pode ser utilizada"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Station %1 is NOT active. Please select a different station."
+msgstr "A estação %1 NÃO está ativa. Selecione outra localização."
+
+#: ../contents/ui/config/ConfigUnits.qml
+msgctxt "The unit system"
+msgid "Metric"
+msgstr "Métrico"
+
+#: ../contents/ui/config/ConfigUnits.qml
+msgctxt "The unit system"
+msgid "Imperial"
+msgstr "Imperial"
+
+#: ../contents/ui/config/ConfigUnits.qml
+msgctxt "The unit system"
+msgid "Hybrid (UK)"
+msgstr "Híbrido (Reino Unido)"
+
+#: ../contents/ui/config/ConfigUnits.qml
+msgid "Choose:"
+msgstr "Selecione:"
+
+#: ../contents/ui/config/ConfigUnits.qml
+msgid "Date format:"
+msgstr "Formato da data"
+
+#: ../contents/ui/config/ConfigUnits.qml
+msgid "Time format:"
+msgstr "Formato do tempo"
+
+#: ../contents/ui/DayChartItem.qml ../contents/ui/WeekChartItem.qml
+msgctxt "per 12 hours, please keep it short"
+msgid "/12h"
+msgstr "/12h"
+
+#: ../contents/ui/DetailsItemAlt.qml ../contents/ui/DetailsItem.qml
+msgid "Feels like %1"
+msgstr "Sensação de %1"
+
+#: ../contents/ui/DetailsItemAlt.qml ../contents/ui/DetailsItem.qml ../contents/ui/HorizontalCompactLayout.qml ../contents/ui/main.qml
+msgid "Loading..."
+msgstr "Carregando..."
+
+#: ../contents/ui/FullRepresentation.qml
+msgid "Loading data..."
+msgstr "Carregando dados..."
+
+#: ../contents/ui/main.qml
+msgid "All set"
+msgstr "Tudo pronto"
+
+#: ../contents/ui/main.qml
+msgid "Temperature"
+msgstr "Temperatura"
+
+#: ../contents/ui/main.qml
+msgid "UV Index"
+msgstr "Índice UV"
+
+#: ../contents/ui/main.qml
+msgid "Pressure"
+msgstr "Pressão"
+
+#: ../contents/ui/main.qml
+msgid "Cloud Cover"
+msgstr "Nublado"
+
+#: ../contents/ui/main.qml
+msgid "Humidity"
+msgstr "Humidade"
+
+#: ../contents/ui/main.qml
+msgid "Precipitation Chance"
+msgstr "Probabilidade de Precipitação"
+
+#: ../contents/ui/main.qml
+msgid "Precipitation Rate"
+msgstr "Taxa de precipitação"
+
+#: ../contents/ui/main.qml
+msgid "Snow Precipitation Rate"
+msgstr "Taxa de precipitação de neve"
+
+#: ../contents/ui/main.qml
+msgid "Wind / Gust"
+msgstr "Rajadas de vento"
+
+#: ../contents/ui/main.qml
+msgid "Precipitation Accumulation"
+msgstr "Acúmulo de precipitação"
+
+#: ../contents/ui/main.qml
+msgid "Dew Point"
+msgstr "Orvalho"
+
+#: ../contents/ui/main.qml
+msgid "Wind Direction"
+msgstr "Direção do vento"
+
+#: ../contents/ui/main.qml
+msgid "Set the weather station to pull data from."
+msgstr "Defina a estação metereológica para extrair os dados."
+
+#: ../contents/ui/main.qml
+msgid "Please Configure"
+msgstr "Por favor, configure"
+
+#: ../contents/ui/main.qml
+msgid "Error..."
+msgstr "Erro..."
+
+#: ../contents/ui/main.qml
+msgid "Undefined Error..."
+msgstr "Erro indefinido..."
+
+#: ../contents/ui/main.qml
+msgctxt "Please put your language code here"
+msgid "en-US"
+msgstr "pt-BR"
+
+#: ../contents/ui/SwitchPanel.qml
+msgid "Weather Details"
+msgstr "Detalhes da previsão"
+
+#: ../contents/ui/SwitchPanel.qml
+msgid "Day Chart"
+msgstr "Gráfico do dia"
+
+#: ../contents/ui/SwitchPanel.qml
+msgid "Forecast"
+msgstr "Previsão"
+
+#: ../contents/ui/SwitchPanel.qml
+msgid "Week Chart"
+msgstr "Gráfico semanal"
+
+#: ../contents/ui/Tooltip.qml
+msgid "Real feel"
+msgstr "Sensação térmica"
+
+#: ../contents/ui/TopPanel.qml
+msgid "High: %1 Low: %2"
+msgstr "Máxima: %1 Mínima: %2"
+
+#: ../contents/ui/TopPanel.qml
+msgid ""
+"\"I'm travelling\" mode.\n"
+" Allows the widget to autodiscover your location based on your public IP address.\n"
+" The `Home` station will be ignored when this option is selected."
+msgstr ""
+"`Modo Viagem` \n"
+" Permite que o widget encontre a sua localização atual baseado em seu IP público. \n" 
+" A estação `Casa` será ignorada quando esta opção estiver selecionada"
+
+#: ../contents/ui/TopPanel.qml
+msgid "Info for nerds"
+msgstr "Informações para nerds"
+
+#: ../contents/ui/TopPanel.qml
+msgid "Refresh all data"
+msgstr "Atualizar todos os dados"
+
+#: ../contents/ui/TopPanel.qml
+msgid "Keep Open"
+msgstr "Manter aberto"
